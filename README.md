@@ -1,20 +1,34 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Introduction
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+This repository holds the generalized abstractions constituting "The Infrastructure".
+Within this you'll find reusable components, libraries, helpers and solutions that are
+cross cutting. Its goal is to provide developers with a productivity suite.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Prerequisites
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+This repository requires the following:
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+- [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0)
+- [Docker](https://docs.docker.com/get-docker/)
+
+## Build and Test
+
+All C# based projects are added to the solution file at the root level, you can therefor
+build it quite easily from root:
+
+```shell
+$ dotnet build
+```
+
+Similarly with the specifications you can do:
+
+```shell
+$ dotnet test
+```
+
+If you're using an IDE such as Visual Studio, Rider or similar - open the [Infrastructure.sln](./Infrastructure.sln)
+file and do the build / test run from within the IDE.
+
+## Contribute
+
+** TODO **
