@@ -15,7 +15,28 @@ namespace Aksio.BDD
         /// <typeparam name="T">Type of element.</typeparam>
         public static void ShouldContainOnly<T>(this IEnumerable<T> collection, IEnumerable<T> expected)
         {
-            Assert.True(collection.SequenceEqual(expected), $"Collection '{collection}' is not equal to '{expected}'");
+            var source = new List<T>(collection);
+            var noContain = new List<T>();
+
+            foreach (var item in expected)
+            {
+                if (!source.Contains<T>(item))
+                {
+                    noContain.Add(item);
+                }
+                else
+                {
+                    source.Remove(item);
+                }
+            }
+
+            if( noContain.Count > 0 || source.Count > 0)
+            {
+                var sourceItems = string.Join(",", collection);
+                var expectedItems = string.Join(",", expected);
+
+                Assert.True(false, $"Collection '{sourceItems}' does not only contain '{expectedItems}'");
+            }
         }
 
         /// <summary>
@@ -27,6 +48,28 @@ namespace Aksio.BDD
         public static void ShouldContainOnly<T>(this IEnumerable<T> collection, params T[] expected)
         {
             collection.ShouldContainOnly(expected as IEnumerable<T>);
+        }
+
+        /// <summary>
+        /// Assert that a collection contains exactly only the expected elements in the same sequence.
+        /// </summary>
+        /// <param name="collection">Collection to assert.</param>
+        /// <param name="expected">Expected values.</param>
+        /// <typeparam name="T">Type of element.</typeparam>
+        public static void ShouldEqual<T>(this IEnumerable<T> collection, IEnumerable<T> expected)
+        {
+            Assert.True(collection.SequenceEqual(expected), $"Collection '{collection}' is not equal to '{expected}'");
+        }
+
+        /// <summary>
+        /// Assert that a collection contains exactly only the expected elements in the same sequence - based on params.
+        /// </summary>
+        /// <param name="collection">Collection to assert.</param>
+        /// <param name="expected">Expected values.</param>
+        /// <typeparam name="T">Type of element.</typeparam>
+        public static void ShouldEqual<T>(this IEnumerable<T> collection, params T[] expected)
+        {
+            collection.ShouldEqual(expected as IEnumerable<T>);
         }
 
         /// <summary>
