@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Aksio.Collections.Specs</AssemblyName>
+        <RootNamespace>Aksio.Collections</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../../../Source/Fundamentals/Collections/Collections.csproj"/>
+    </ItemGroup>
+
+</Project>

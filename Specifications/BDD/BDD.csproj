@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Aksio.BDD</AssemblyName>
+        <RootNamespace>Aksio.BDD</RootNamespace>
+    </PropertyGroup>
+</Project>
