@@ -1,7 +1,7 @@
 ﻿
 namespace Aksio.Collections.for_CollectionExtensions
 {
-    public class when_combining_no_lookups : some_context
+    public class when_combining_no_lookups : Specification
     {
         static IEnumerable<ILookup<string, int>> lookups;
         static ILookup<string, int> result;
