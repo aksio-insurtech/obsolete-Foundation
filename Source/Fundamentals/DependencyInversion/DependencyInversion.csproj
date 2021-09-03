@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Aksio.DependencyInversion</AssemblyName>
+        <RootNamespace>Aksio.DependencyInversion</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="Autofac" Version="$(Autofac)" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../Types/Types.csproj"/>
+    </ItemGroup>
+</Project>
