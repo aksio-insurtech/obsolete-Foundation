@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
+        <IsTestProject>false</IsTestProject>
         <AssemblyName>Aksio.BDD</AssemblyName>
         <RootNamespace>Aksio.BDD</RootNamespace>
     </PropertyGroup>
