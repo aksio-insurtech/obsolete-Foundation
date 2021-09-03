@@ -24,5 +24,15 @@ namespace Aksio.BDD
         {
             Assert.IsAssignableFrom(expected, actual);
         }
+
+        /// <summary>
+        /// Assert that an object is of an exact type.
+        /// </summary>
+        /// <param name="actual">Object to assert.</param>
+        /// <typeparam name="T">Type it should be.</typeparam>
+        public static void ShouldBeOfExactType<T>(this object actual)
+        {
+            Assert.IsType<T>(actual);
+        }
     }
 }
