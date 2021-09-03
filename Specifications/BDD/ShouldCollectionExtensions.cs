@@ -15,7 +15,7 @@ namespace Aksio.BDD
         /// <typeparam name="T">Type of element.</typeparam>
         public static void ShouldContainOnly<T>(this IEnumerable<T> collection, IEnumerable<T> expected)
         {
-            Assert.Empty(collection.Select(_ => !expected.Contains(_)));
+            Assert.True(collection.SequenceEqual(expected), $"Collection '{collection}' is not equal to '{expected}'");
         }
 
         /// <summary>
