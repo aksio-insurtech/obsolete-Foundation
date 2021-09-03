@@ -19,6 +19,17 @@ namespace Aksio.BDD
         }
 
         /// <summary>
+        /// Assert that a collection only contains the expected elements - based on params.
+        /// </summary>
+        /// <param name="collection">Collection to assert.</param>
+        /// <param name="expected">Expected values.</param>
+        /// <typeparam name="T">Type of element.</typeparam>
+        public static void ShouldContainOnly<T>(this IEnumerable<T> collection, params T[] expected)
+        {
+            collection.ShouldContainOnly(expected as IEnumerable<T>);
+        }
+
+        /// <summary>
         /// Assert that a collection contains all the expected elements.
         /// </summary>
         /// <param name="collection">Collection to assert.</param>
