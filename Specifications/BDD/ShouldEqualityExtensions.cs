@@ -6,6 +6,24 @@ namespace Aksio.BDD
     public static class ShouldEqualityExtensions
     {
         /// <summary>
+        /// Assert that an object is null.
+        /// </summary>
+        /// <param name="actual">Actual value.</param>
+        public static void ShouldBeNull(this object actual)
+        {
+            Assert.Null(actual);
+        }
+
+        /// <summary>
+        /// Assert that an object is not null.
+        /// </summary>
+        /// <param name="actual">Actual value.</param>
+        public static void ShouldNotBeNull(this object actual)
+        {
+            Assert.NotNull(actual);
+        }
+
+        /// <summary>
         /// Assert that a boolean is false.
         /// </summary>
         /// <param name="actual">Actual value.</param>
