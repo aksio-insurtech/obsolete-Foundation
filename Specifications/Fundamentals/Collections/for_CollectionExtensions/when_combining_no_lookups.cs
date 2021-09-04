@@ -1,5 +1,4 @@
-﻿
-namespace Aksio.Collections.for_CollectionExtensions
+﻿namespace Aksio.Collections.for_CollectionExtensions
 {
     public class when_combining_no_lookups : Specification
     {
@@ -10,6 +9,6 @@ namespace Aksio.Collections.for_CollectionExtensions
 
         void Because() => result = lookups.Combine();
 
-        [Fact] void it_should_be_empty() => result.Count.ShouldEqual(0);
+        [Fact] void should_be_empty() => result.Count.ShouldEqual(0);
     }
 }

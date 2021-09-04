@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Aksio.Reflection.Specs</AssemblyName>
+        <RootNamespace>Aksio.Reflection</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../../../Source/Fundamentals/Reflection/Reflection.csproj"/>
+    </ItemGroup>
+
+</Project>

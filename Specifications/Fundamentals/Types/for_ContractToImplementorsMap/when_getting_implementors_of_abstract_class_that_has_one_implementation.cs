@@ -1,0 +1,13 @@
+﻿namespace Aksio.Types.for_ContractToImplementorsMap
+{
+    public class when_getting_implementors_of_abstract_class_that_has_one_implementation : given.an_empty_map
+    {
+        IEnumerable<Type> result;
+
+        void Establish() => map.Feed(new[] { typeof(ImplementationOfAbstractClass) });
+
+        void Because() => result = map.GetImplementorsFor(typeof(AbstractClass));
+
+        [Fact] void should_have_the_implementation_only() => result.ShouldContainOnly(typeof(ImplementationOfAbstractClass));
+    }
+}
