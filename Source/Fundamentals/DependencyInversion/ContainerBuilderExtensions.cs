@@ -8,12 +8,12 @@ namespace Aksio.DependencyInversion
     /// </summary>
     public static class ContainerBuilderExtensions
     {
-        internal static ITypes Types;
-        internal static IContainer Container;
-        public static IServiceProvider ServiceProvider { get; set; }
+        internal static ITypes? Types;
+        internal static IContainer? Container;
+        public static IServiceProvider? ServiceProvider { get; set; }
 
         /// <summary>
-        /// Register default Aksio conventions and registrations into the Autofac container.
+        /// Register default Cratis conventions and registrations into the Autofac container.
         /// </summary>
         /// <param name="containerBuilder"><see cref="ContainerBuilder"/> to register into.</param>
         /// <param name="types"><see cref="ITypes"/> for type discovery.</param>
@@ -24,16 +24,15 @@ namespace Aksio.DependencyInversion
             containerBuilder.RegisterInstance(types).As<ITypes>();
             foreach (var moduleType in types.FindMultiple<Module>())
             {
-                containerBuilder.RegisterModule(Activator.CreateInstance(moduleType) as Module);
+                containerBuilder.RegisterModule((Module)Activator.CreateInstance(moduleType)!);
             }
 
             containerBuilder.RegisterSource<SelfBindingRegistrationSource>();
-            containerBuilder.Register(_ => Container).As<IContainer>().SingleInstance();
-            containerBuilder.RegisterBuildCallback(_ => Container = _ as IContainer);
+            containerBuilder.Register(_ => Container!).As<IContainer>().SingleInstance();
+            containerBuilder.RegisterBuildCallback(_ => Container = (IContainer)_!);
 
             containerBuilder.RegisterSource(new ProviderForRegistrationSource());
 
             return containerBuilder;
         }
-    }
-}
+    }}

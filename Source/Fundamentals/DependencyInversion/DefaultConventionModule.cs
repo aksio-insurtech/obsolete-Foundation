@@ -11,7 +11,7 @@ namespace Aksio.DependencyInversion
         /// <inheritdoc/>
         protected override void Load(ContainerBuilder builder)
         {
-            var conventionBasedTypes = ContainerBuilderExtensions.Types.All.Where(_ =>
+            var conventionBasedTypes = ContainerBuilderExtensions.Types!.All.Where(_ =>
             {
                 var interfaces = _.GetInterfaces();
                 if (interfaces.Length > 0) return interfaces.Any(i => i.Namespace == _.Namespace && i.Name == $"I{_.Name}");

@@ -11,7 +11,7 @@ namespace Aksio.DependencyInversion
     public class ProviderForRegistrationSource : IRegistrationSource
     {
         readonly MethodInfo _provideMethod = typeof(ProviderForRegistrationSource)
-                                                .GetMethod(nameof(ProviderForRegistrationSource.Provide), BindingFlags.Static | BindingFlags.NonPublic);
+                                                .GetMethod(nameof(ProviderForRegistrationSource.Provide), BindingFlags.Static | BindingFlags.NonPublic)!;
 
         /// <inheritdoc/>
         public bool IsAdapterForIndividualComponents => false;
@@ -19,8 +19,8 @@ namespace Aksio.DependencyInversion
         /// <inheritdoc/>
         public IEnumerable<IComponentRegistration> RegistrationsFor(Service service, Func<Service, IEnumerable<ServiceRegistration>> registrationAccessor)
         {
-            var serviceWithType = service as IServiceWithType;
             if (!(service is IServiceWithType) ||
+                service is not IServiceWithType serviceWithType ||
                 !serviceWithType.ServiceType.IsGenericType ||
                 serviceWithType.ServiceType != typeof(ProviderFor<>).MakeGenericType(serviceWithType.ServiceType.GetGenericArguments()[0]))
             {
@@ -37,8 +37,8 @@ namespace Aksio.DependencyInversion
         }
 
         static T Provide<T>()
+            where T : notnull
         {
-            return ContainerBuilderExtensions.Container.Resolve<T>();
+            return ContainerBuilderExtensions.Container!.Resolve<T>();
         }
-    }
-}
+    }}
