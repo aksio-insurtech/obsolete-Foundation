@@ -14,9 +14,9 @@ namespace Aksio.Reflection
         public static Func<Expression, MemberExpression> Unwrap { get; } = toUnwrap =>
                                                                             {
                                                                                 if (toUnwrap is UnaryExpression unwrap)
-                                                                                    return unwrap.Operand as MemberExpression;
+                                                                                    return (MemberExpression)unwrap.Operand!;
 
-                                                                                return toUnwrap as MemberExpression;
+                                                                                return (MemberExpression)toUnwrap!;
                                                                             };
 
         /// <summary>
@@ -30,10 +30,10 @@ namespace Aksio.Reflection
                 lambda.Body is MethodCallExpression)
             {
                 var methodCall = lambda.Body as MethodCallExpression;
-                return methodCall.Method;
+                return methodCall!.Method;
             }
 
-            return null;
+            return null!;
         }
 
         /// <summary>
@@ -49,10 +49,10 @@ namespace Aksio.Reflection
                 var methodCall = lambda.Body as MethodCallExpression;
                 var arguments = new List<object>();
 
-                foreach (var argument in methodCall.Arguments)
+                foreach (var argument in methodCall!.Arguments)
                 {
                     var member = argument as MemberExpression;
-                    var value = member.GetInstance();
+                    var value = member!.GetInstance();
                     arguments.Add(value);
                 }
 
@@ -70,13 +70,13 @@ namespace Aksio.Reflection
         public static MemberExpression GetMemberExpression(this Expression expression)
         {
             var lambda = expression as LambdaExpression;
-            if (lambda.Body is UnaryExpression)
+            if (lambda?.Body is UnaryExpression)
             {
                 var unaryExpression = lambda.Body as UnaryExpression;
-                return unaryExpression.Operand as MemberExpression;
+                return (MemberExpression)unaryExpression!.Operand!;
             }
 
-            return lambda.Body as MemberExpression;
+            return (MemberExpression)lambda?.Body!;
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Aksio.Reflection
         public static FieldInfo GetFieldInfo(this Expression expression)
         {
             var memberExpression = GetMemberExpression(expression);
-            return memberExpression.Member as FieldInfo;
+            return (FieldInfo)memberExpression.Member!;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Aksio.Reflection
         public static PropertyInfo GetPropertyInfo(this Expression expression)
         {
             var memberExpression = GetMemberExpression(expression);
-            return memberExpression.Member as PropertyInfo;
+            return (PropertyInfo)memberExpression.Member!;
         }
 
         /// <summary>
@@ -128,11 +128,11 @@ namespace Aksio.Reflection
             if (!(memberExpression.Expression is ConstantExpression constantExpression))
             {
                 var innerMember = memberExpression.Expression as MemberExpression;
-                if (innerMember.Member is FieldInfo info)
-                    return info.GetValue(null);
+                if (innerMember!.Member is FieldInfo info)
+                    return info.GetValue(null)!;
 
-                constantExpression = innerMember.Expression as ConstantExpression;
-                return GetValue(innerMember, constantExpression);
+                constantExpression = (ConstantExpression)innerMember!.Expression!;
+                return GetValue(innerMember, constantExpression!)!;
             }
 
             return GetValue(memberExpression, constantExpression);
@@ -141,12 +141,12 @@ namespace Aksio.Reflection
         static object GetValue(MemberExpression memberExpression, ConstantExpression constantExpression)
         {
             if (memberExpression.Member is PropertyInfo propertyInfo)
-                return propertyInfo.GetValue(constantExpression.Value, null);
+                return propertyInfo.GetValue(constantExpression.Value, null)!;
 
             if (memberExpression.Member is FieldInfo fieldInfo)
-                return fieldInfo.GetValue(constantExpression.Value);
+                return fieldInfo.GetValue(constantExpression.Value)!;
 
-            return constantExpression.Value;
+            return constantExpression.Value!;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Aksio.Reflection
     public static class MethodCalls
     {
         /// <summary>
-        /// Call generic method method.
+        /// Call generic method.
         /// </summary>
         /// <param name="target">Target to call method on.</param>
         /// <param name="method">Signature of the method.</param>
@@ -25,11 +25,11 @@ namespace Aksio.Reflection
         /// <returns>The result from the method call.</returns>
         public static TOut CallGenericMethod<TOut, T, T1, T2, T3>(this T target, Expression<Func<T, Func<T1, T2, T3, TOut>>> method, T1 param1, T2 param2, T3 param3, params Type[] genericArguments)
         {
-            return CallGenericMethod<T, TOut>(target, method, new object[] { param1, param2, param3 }, genericArguments);
+            return CallGenericMethod<T, TOut>(target, method, new object[] { param1!, param2!, param3! }, genericArguments);
         }
 
         /// <summary>
-        /// Call generic method method.
+        /// Call generic method.
         /// </summary>
         /// <param name="target">Target to call method on.</param>
         /// <param name="method">Signature of the method.</param>
@@ -43,11 +43,11 @@ namespace Aksio.Reflection
         /// <returns>The result from the method call.</returns>
         public static TOut CallGenericMethod<TOut, T, T1, T2>(this T target, Expression<Func<T, Func<T1, T2, TOut>>> method, T1 param1, T2 param2, params Type[] genericArguments)
         {
-            return CallGenericMethod<T, TOut>(target, method, new object[] { param1, param2 }, genericArguments);
+            return CallGenericMethod<T, TOut>(target, method, new object[] { param1!, param2! }, genericArguments);
         }
 
         /// <summary>
-        /// Call generic method method.
+        /// Call generic method.
         /// </summary>
         /// <param name="target">Target to call method on.</param>
         /// <param name="method">Signature of the method.</param>
@@ -59,11 +59,11 @@ namespace Aksio.Reflection
         /// <returns>The result from the method call.</returns>
         public static TOut CallGenericMethod<TOut, T, T1>(this T target, Expression<Func<T, Func<T1, TOut>>> method, T1 param, params Type[] genericArguments)
         {
-            return CallGenericMethod<T, TOut>(target, method, new object[] { param }, genericArguments);
+            return CallGenericMethod<T, TOut>(target, method, new object[] { param! }, genericArguments);
         }
 
         /// <summary>
-        /// Call generic method method.
+        /// Call generic method.
         /// </summary>
         /// <param name="target">Target to call method on.</param>
         /// <param name="method">Signature of the method.</param>
@@ -79,17 +79,17 @@ namespace Aksio.Reflection
         static TOut CallGenericMethod<T, TOut>(this T target, Expression method, object[] parameters, Type[] genericArguments)
         {
             var lambda = method as LambdaExpression;
-            var unary = lambda.Body as UnaryExpression;
-            var methodCall = unary.Operand as MethodCallExpression;
-            var constant = methodCall.Object as ConstantExpression;
+            var unary = lambda!.Body as UnaryExpression;
+            var methodCall = unary!.Operand as MethodCallExpression;
+            var constant = methodCall!.Object as ConstantExpression;
 
-            var methodInfo = constant.Value as MethodInfo;
-            var genericMethodDefinition = methodInfo.GetGenericMethodDefinition();
+            var methodInfo = constant!.Value as MethodInfo;
+            var genericMethodDefinition = methodInfo!.GetGenericMethodDefinition();
 
             var genericMethod = genericMethodDefinition.MakeGenericMethod(genericArguments);
 
             var result = genericMethod.Invoke(target, parameters);
-            return (TOut)result;
+            return (TOut)result!;
         }
     }
 }

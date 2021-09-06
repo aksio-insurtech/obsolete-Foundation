@@ -74,7 +74,7 @@ namespace Aksio.Reflection
         public static bool IsNumericType(this Type type)
         {
             return _numericTypes.Contains(type) ||
-                   _numericTypes.Contains(Nullable.GetUnderlyingType(type));
+                   _numericTypes.Contains(Nullable.GetUnderlyingType(type)!);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Aksio.Reflection
         {
             if (enumerableType.IsArray)
             {
-                return enumerableType.GetElementType();
+                return enumerableType.GetElementType()!;
             }
             else if (enumerableType.IsGenericType && enumerableType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
@@ -181,7 +181,7 @@ namespace Aksio.Reflection
                 return enumerableType.GetInterfaces()
                     .Where(t => t.IsGenericType &&
                         t.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-                    .Select(t => t.GenericTypeArguments[0]).FirstOrDefault();
+                    .Select(t => t.GenericTypeArguments[0]).FirstOrDefault()!;
             }
         }
 
@@ -298,7 +298,7 @@ namespace Aksio.Reflection
         {
             var typeInfoType = typeof(TypeInfo<>).MakeGenericType(type);
             var instanceField = typeInfoType.GetTypeInfo().GetField("Instance", BindingFlags.Public | BindingFlags.Static);
-            return instanceField.GetValue(null) as ITypeInfo;
+            return (ITypeInfo)instanceField!.GetValue(null)!;
         }
 
         static IEnumerable<Type> BaseTypes(this Type type)

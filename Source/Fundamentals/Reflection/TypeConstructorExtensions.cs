@@ -56,7 +56,7 @@ namespace Aksio.Reflection
         /// <returns>The <see cref="ConstructorInfo"/> for the constructor.</returns>
         public static ConstructorInfo GetNonDefaultConstructor(this Type type, Type[] parameterTypes)
         {
-            return type.GetTypeInfo().GetConstructor(parameterTypes);
+            return type.GetTypeInfo().GetConstructor(parameterTypes)!;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Aksio.Reflection
             return type.GetTypeInfo()
                             .DeclaredConstructors.Where(c => c.GetParameters().Length > 0)
                             .OrderByDescending((t) => t.GetParameters().Length)
-                            .FirstOrDefault();
+                            .FirstOrDefault()!;
         }
     }
 }
