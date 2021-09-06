@@ -16,7 +16,7 @@ namespace Aksio.Types
         /// </summary>
         public Types()
         {
-            Populate();
+            All = DiscoverAllTypes();
             _contractToImplementorsMap.Feed(All);
         }
 
@@ -24,7 +24,7 @@ namespace Aksio.Types
         public IEnumerable<Assembly> Assemblies => _assemblies;
 
         /// <inheritdoc/>
-        public IEnumerable<Type> All { get; private set; }
+        public IEnumerable<Type> All { get; }
 
         /// <inheritdoc/>
         public Type FindSingle<T>() => FindSingle(typeof(T));
@@ -37,7 +37,7 @@ namespace Aksio.Types
         {
             var typesFound = _contractToImplementorsMap.GetImplementorsFor(type);
             ThrowIfMultipleTypesFound(type, typesFound);
-            return typesFound.SingleOrDefault();
+            return typesFound.SingleOrDefault()!;
         }
 
         /// <inheritdoc/>
@@ -48,8 +48,8 @@ namespace Aksio.Types
         public Type FindTypeByFullName(string fullName)
         {
             var typeFound = _contractToImplementorsMap.All.SingleOrDefault(t => t.FullName == fullName);
-            ThrowIfTypeNotFound(fullName, typeFound);
-            return typeFound;
+            ThrowIfTypeNotFound(fullName, typeFound!);
+            return typeFound!;
         }
 
         void ThrowIfMultipleTypesFound(Type type, IEnumerable<Type> typesFound)
@@ -63,7 +63,7 @@ namespace Aksio.Types
             if (typeFound == null) throw new UnableToResolveTypeByName(fullName);
         }
 
-        void Populate()
+        IEnumerable<Type> DiscoverAllTypes()
         {
             var entryAssembly = Assembly.GetEntryAssembly();
             var dependencyModel = DependencyContext.Load(entryAssembly);
@@ -78,8 +78,7 @@ namespace Aksio.Types
             {
                 types.AddRange(assembly.DefinedTypes);
             }
-
-            All = types;
+            return types;
         }
     }
 }

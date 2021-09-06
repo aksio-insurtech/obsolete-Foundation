@@ -26,7 +26,7 @@ namespace Aksio.Types
         /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (var type in _types) yield return _serviceProvider.GetService(type) as T;
+            foreach (var type in _types) yield return (T)_serviceProvider.GetService(type)!;
         }
 
         /// <inheritdoc/>
