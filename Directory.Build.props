@@ -5,6 +5,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>CS1591;RCS1090;CA2252;CS8632;RCS1217</NoWarn>
         <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <!-- Package versions -->
