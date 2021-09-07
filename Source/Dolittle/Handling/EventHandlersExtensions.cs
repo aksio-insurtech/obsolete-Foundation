@@ -2,6 +2,7 @@ using System.Reflection;
 using Aksio.Dolittle.Handling;
 using Aksio.Reflection;
 using Aksio.Types;
+using Dolittle.SDK.Events.Handling.Builder;
 
 namespace Dolittle.SDK.Events.Handling
 {
@@ -30,8 +31,17 @@ namespace Dolittle.SDK.Events.Handling
 
                     foreach ((var eventType, var method) in methodsByEventTypeId)
                     {
-                        _.CreateEventHandler(eventHandler.Identifier)
-                            .Partitioned()
+                        var eventHandlerBuilder = _.CreateEventHandler(eventHandler.Identifier);
+                        if (eventHandler.Scope != ScopeId.Default)
+                        {
+                            eventHandlerBuilder = eventHandlerBuilder.InScope(eventHandler.Scope);
+                        }
+
+                        EventHandlerMethodsBuilder eventHandlerMethodsBuilder;
+                        if (eventHandler.Partitioned) eventHandlerMethodsBuilder = eventHandlerBuilder.Partitioned();
+                        else eventHandlerMethodsBuilder = eventHandlerBuilder.Unpartitioned();
+
+                        eventHandlerMethodsBuilder = eventHandlerMethodsBuilder
                             .Handle(eventTypes[eventType], (@event, context) =>
                             {
                                 var handlerInstance = Activator.CreateInstance(handler);
