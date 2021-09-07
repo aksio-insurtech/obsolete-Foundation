@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Aksio.Dolittle.Specs</AssemblyName>
+        <RootNamespace>Aksio.Dolittle</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../../Source/Dolittle/Dolittle.csproj"/>
+    </ItemGroup>
+
+</Project>

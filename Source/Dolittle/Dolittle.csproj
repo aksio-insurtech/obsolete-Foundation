@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Aksio.Dolittle</AssemblyName>
+        <RootNamespace>Aksio.Dolittle</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../Fundamentals/Reflection/Reflection.csproj" />
+        <ProjectReference Include="../Fundamentals/Types/Types.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dolittle.SDK" Version="9.1.0" />
+    </ItemGroup>
+</Project>
