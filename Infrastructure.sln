@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Events", "Specifications\Ev
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging", "Source\Logging\Logging.csproj", "{5379CC07-707D-4485-AFA6-1711A612857C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{DBBD10B6-6AC3-4CBC-8ADE-F52F59CDE039}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{5379CC07-707D-4485-AFA6-1711A612857C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5379CC07-707D-4485-AFA6-1711A612857C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5379CC07-707D-4485-AFA6-1711A612857C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBBD10B6-6AC3-4CBC-8ADE-F52F59CDE039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBBD10B6-6AC3-4CBC-8ADE-F52F59CDE039}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBBD10B6-6AC3-4CBC-8ADE-F52F59CDE039}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBBD10B6-6AC3-4CBC-8ADE-F52F59CDE039}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{05B6C270-1650-4980-A6E1-DE271A7ED5C9} = {BD8E680F-4C51-4D15-8E3F-FE0C20980966}
