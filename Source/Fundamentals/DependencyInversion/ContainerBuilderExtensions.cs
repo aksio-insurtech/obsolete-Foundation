@@ -1,7 +1,7 @@
-using Autofac;
+using Aksio.DependencyInversion;
 using Aksio.Types;
 
-namespace Aksio.DependencyInversion
+namespace Autofac
 {
     /// <summary>
     /// Represents extension methods for the Autofac <see cref="ContainerBuilder"/>.
@@ -13,7 +13,7 @@ namespace Aksio.DependencyInversion
         public static IServiceProvider? ServiceProvider { get; set; }
 
         /// <summary>
-        /// Register default Cratis conventions and registrations into the Autofac container.
+        /// Register default Aksio conventions and registrations into the Autofac container.
         /// </summary>
         /// <param name="containerBuilder"><see cref="ContainerBuilder"/> to register into.</param>
         /// <param name="types"><see cref="ITypes"/> for type discovery.</param>
