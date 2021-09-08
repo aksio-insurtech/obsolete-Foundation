@@ -1,5 +1,5 @@
 using System.Reflection;
-using Aksio.Dolittle.Handling;
+using Aksio.Events.Handling;
 using Aksio.Reflection;
 using Aksio.Types;
 using Dolittle.SDK.Events.Handling.Builder;

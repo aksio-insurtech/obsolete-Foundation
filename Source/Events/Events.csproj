@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <AssemblyName>Aksio.Dolittle</AssemblyName>
-        <RootNamespace>Aksio.Dolittle</RootNamespace>
+        <AssemblyName>Aksio.Events</AssemblyName>
+        <RootNamespace>Aksio.Events</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

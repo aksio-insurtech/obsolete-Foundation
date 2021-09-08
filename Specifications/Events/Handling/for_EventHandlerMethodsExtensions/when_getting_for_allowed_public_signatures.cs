@@ -1,9 +1,9 @@
 using System.Reflection;
 using Dolittle.SDK.Events;
 
-namespace Aksio.Dolittle.Handling.for_EventHandlerMethodsExtensions
+namespace Aksio.Events.Handling.for_EventHandlerMethodsExtensions
 {
-    public class when_getting_for_allowed_private_signatures : Specification
+    public class when_getting_for_allowed_public_signatures : Specification
     {
         record FirstEvent();
         record SecondEvent();
@@ -12,10 +12,10 @@ namespace Aksio.Dolittle.Handling.for_EventHandlerMethodsExtensions
 
         class handler
         {
-            Task FirstHappened(FirstEvent @event) => Task.CompletedTask;
-            void ForTheSecond(SecondEvent @event) {}
-            Task ThirdTimeIsACharm(ThirdEvent @event, EventContext context) => Task.CompletedTask;
-            void MayTheForth(ForthEvent @event, EventContext context) {}
+            public Task FirstHappened(FirstEvent @event) => Task.CompletedTask;
+            public void ForTheSecond(SecondEvent @event) {}
+            public Task ThirdTimeIsACharm(ThirdEvent @event, EventContext context) => Task.CompletedTask;
+            public void MayTheForth(ForthEvent @event, EventContext context) {}
         }
 
         IDictionary<Type, MethodInfo> methods;

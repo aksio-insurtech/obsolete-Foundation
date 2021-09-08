@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Aksio.Events.Specs</AssemblyName>
+        <RootNamespace>Aksio.Events</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../../Source/Events/Events.csproj"/>
+    </ItemGroup>
+
+</Project>

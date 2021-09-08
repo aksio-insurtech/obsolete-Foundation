@@ -1,7 +1,7 @@
 using System.Reflection;
 using Dolittle.SDK.Events;
 
-namespace Aksio.Dolittle.Handling
+namespace Aksio.Events.Handling
 {
     public static class EventHandlerMethodsExtensions
     {
