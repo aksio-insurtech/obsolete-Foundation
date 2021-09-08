@@ -1,26 +1,16 @@
-using Aksio.Types;
-using Autofac;
-
 namespace Sample
 {
     public class Startup
     {
-        readonly ITypes _types;
         readonly IWebHostEnvironment _environment;
 
         public Startup(IWebHostEnvironment environment)
         {
             _environment = environment;
-            _types = new Types();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-        }
-
-        public void ConfigureContainer(ContainerBuilder containerBuilder)
-        {
-            containerBuilder.RegisterDefaults(_types);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
