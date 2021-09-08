@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+	<ItemGroup>
+		<ProjectReference Include="../Source/Fundamentals/DependencyInversion/DependencyInversion.csproj" />
+		<ProjectReference Include="../Source/Events/Events.csproj" />
+		<ProjectReference Include="../Source/Logging/Logging.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+	</ItemGroup>
+</Project>
