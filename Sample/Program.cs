@@ -1,5 +1,6 @@
 using Autofac.Extensions.DependencyInjection;
 using Serilog;
+using Sample;
 
 var configuration = new ConfigurationBuilder()
       .SetBasePath(Directory.GetCurrentDirectory())

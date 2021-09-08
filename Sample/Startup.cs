@@ -1,36 +1,39 @@
 using Aksio.Types;
 using Autofac;
 
-public class Startup
+namespace Sample
 {
-    readonly ITypes _types;
-    readonly IWebHostEnvironment _environment;
-
-    public Startup(IWebHostEnvironment environment)
+    public class Startup
     {
-        _environment = environment;
-        _types = new Types();
-    }
+        readonly ITypes _types;
+        readonly IWebHostEnvironment _environment;
 
-    public void ConfigureServices(IServiceCollection services)
-    {
-    }
-
-    public void ConfigureContainer(ContainerBuilder containerBuilder)
-    {
-        containerBuilder.RegisterDefaults(_types);
-    }
-
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    {
-        app.UseHttpLogging();
-
-        if (env.IsDevelopment())
+        public Startup(IWebHostEnvironment environment)
         {
-            app.UseDeveloperExceptionPage();
+            _environment = environment;
+            _types = new Types();
         }
 
-        app.UseRouting();
-        app.UseEndpoints(endpoints => endpoints.MapGet("/", () => "Hello World!"));
+        public void ConfigureServices(IServiceCollection services)
+        {
+        }
+
+        public void ConfigureContainer(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterDefaults(_types);
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseHttpLogging();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseRouting();
+            app.UseEndpoints(endpoints => endpoints.MapGet("/", () => "Hello World!"));
+        }
     }
 }
