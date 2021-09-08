@@ -11,5 +11,7 @@
 
     <ItemGroup>
       <PackageReference Include="Dolittle.SDK" Version="9.1.0" />
+      <PackageReference Include="Grpc.Core" Version="2.39.1" />
+      <PackageReference Include="Contrib.Grpc.Core.M1" Version="2.39.1" />
     </ItemGroup>
 </Project>
