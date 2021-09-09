@@ -11,6 +11,7 @@ namespace Microsoft.Extensions.Hosting
                 .CreateLogger();
 
             builder.UseSerilog();
+
             return builder;
         }
     }

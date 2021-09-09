@@ -5,6 +5,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="../Fundamentals/DependencyInversion/DependencyInversion.csproj" />
 		<ProjectReference Include="../Events/Events.csproj" />
     </ItemGroup>

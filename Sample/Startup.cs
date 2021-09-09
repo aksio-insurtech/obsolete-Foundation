@@ -15,12 +15,7 @@ namespace Sample
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseHttpLogging();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseAksio();
 
             app.UseRouting();
             app.UseEndpoints(endpoints => endpoints.MapGet("/", () => "Hello World!"));
