@@ -1,4 +1,4 @@
-namespace Microsoft.AspNetCore.Builder
+namespace Aksio.Application
 {
     /// <summary>
     /// Represents helpers for getting details about the Runtime environment.

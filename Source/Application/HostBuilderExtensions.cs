@@ -14,7 +14,8 @@ namespace Microsoft.Extensions.Hosting
             builder
                 .UseDefaultConfiguration()
                 .UseDefaultLogging()
-                .UseDefaultDependencyInversion(types);
+                .UseDefaultDependencyInversion(types)
+                .UseExecutionContext();
 
             return builder;
         }
