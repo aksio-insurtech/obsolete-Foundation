@@ -4,8 +4,17 @@ using Autofac.Extensions.DependencyInjection;
 
 namespace Microsoft.Extensions.Hosting
 {
+    /// <summary>
+    /// Extension methods for working with dependency inversion.
+    /// </summary>
     public static class DependencyInversionHostBuilderExtensions
     {
+        /// <summary>
+        /// Use the default dependency inversion setup.
+        /// </summary>
+        /// <param name="builder"><see cref="IHostBuilder"/> to use with.</param>
+        /// <param name="types"><see cref="ITypes"/> for type discovery.</param>
+        /// <returns><see cref="IHostBuilder"/> for continuation.</returns>
         public static IHostBuilder UseDefaultDependencyInversion(this IHostBuilder builder, ITypes types)
         {
             builder.UseServiceProviderFactory(new AutofacServiceProviderFactory());

@@ -3,11 +3,18 @@ using Dolittle.SDK.Tenancy;
 
 namespace Microsoft.AspNetCore.Builder
 {
+    /// <summary>
+    /// Extension methods for setting up execution context.
+    /// </summary>
     public static class ExecutionContextAppBuilderExtensions
     {
         const string TenantIdHeaderKey = "Tenant-ID";
 
-        public static void UseExecutionContext(this IApplicationBuilder app)
+        /// <summary>
+        /// Add a middleware for handling the Dolittle execution context automatically.
+        /// </summary>
+        /// <param name="app"><see cref="IApplicationBuilder"/> to extend.</param>
+        public static IApplicationBuilder UseExecutionContext(this IApplicationBuilder app)
         {
             app.Use(async (context, next) =>
             {
@@ -22,6 +29,8 @@ namespace Microsoft.AspNetCore.Builder
                 executionContextManager!.Establish(tenantId, Guid.NewGuid());
                 await next.Invoke();
             });
+
+            return app;
         }
     }
 }
