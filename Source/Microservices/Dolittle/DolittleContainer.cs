@@ -1,4 +1,3 @@
-using Aksio.Microservices.Execution;
 using ExecutionContext = Dolittle.SDK.Execution.ExecutionContext;
 
 namespace Aksio.Microservices.Dolittle

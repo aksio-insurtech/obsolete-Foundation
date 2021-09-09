@@ -1,6 +1,6 @@
 using ExecutionContext = Dolittle.SDK.Execution.ExecutionContext;
 
-namespace Aksio.Microservices.Execution
+namespace Aksio.Microservices.Dolittle
 {
     /// <summary>
     /// Exception that gets thrown when the ExecutionContext is not set.
