@@ -1,5 +1,6 @@
 namespace Sample
 {
+
     public class Startup
     {
         readonly IWebHostEnvironment _environment;

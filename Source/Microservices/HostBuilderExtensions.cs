@@ -13,6 +13,7 @@ namespace Microsoft.Extensions.Hosting
 
             builder
                 .UseDefaultConfiguration()
+                .UseConfigurationObjects(types, "data")
                 .UseDefaultLogging()
                 .UseDefaultDependencyInversion(types)
                 .UseExecutionContext();

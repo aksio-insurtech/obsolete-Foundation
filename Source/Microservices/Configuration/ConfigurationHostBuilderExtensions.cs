@@ -1,4 +1,9 @@
+using System.Reflection;
+using Aksio.Reflection;
+using Aksio.Types;
+using Aksio.Microservices.Configuration;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Extensions.Hosting
 {
@@ -30,6 +35,32 @@ namespace Microsoft.Extensions.Hosting
                 _.Sources.Clear();
                 _.AddConfiguration(Configuration);
             });
+
+            return builder;
+        }
+
+        /// <summary>
+        /// Use configuration objects through discovery based on objects adorned with <see cref="ConfigurationAttribute"/>.
+        /// </summary>
+        /// <param name="builder"><see cref="IHostBuilder"/> to use with.</param>
+        /// <param name="types"><see cref="ITypes"/> for type discovery.</param>
+        /// <param name="baseRelativePath">Optional base relative path, relative to the current running directory.</param>
+        /// <returns><see cref="IHostBuilder"/> for continuation.</returns>
+        public static IHostBuilder UseConfigurationObjects(this IHostBuilder builder, ITypes types, string baseRelativePath = "")
+        {
+            foreach (var configurationObject in types.All.Where(_ => _.HasAttribute<ConfigurationAttribute>()))
+            {
+                var attribute = configurationObject.GetCustomAttribute<ConfigurationAttribute>()!;
+
+                var fileName = Path.HasExtension(attribute.FileName) ? attribute.FileName : $"{attribute.FileName}.json";
+                var configuration = new ConfigurationBuilder()
+                    .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), baseRelativePath))
+                    .AddJsonFile(fileName, attribute.Optional)
+                    .Build();
+
+                var configurationInstance = configuration.Get(configurationObject);
+                builder.ConfigureServices(_ => _.AddSingleton(configurationInstance));
+            }
 
             return builder;
         }
