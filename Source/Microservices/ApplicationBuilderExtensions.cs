@@ -6,6 +6,7 @@ namespace Microsoft.AspNetCore.Builder
     {
         public  static IApplicationBuilder UseAksio(this IApplicationBuilder app)
         {
+            app.UseExecutionContext();
             app.UseDefaultLogging();
 
             if (RuntimeEnvironment.IsDevelopment)
