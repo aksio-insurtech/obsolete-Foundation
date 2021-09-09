@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <AssemblyName>Aksio.Configuration</AssemblyName>
-        <RootNamespace>Aksio.Configuration</RootNamespace>
+        <AssemblyName>Aksio.Microservices</AssemblyName>
+        <RootNamespace>Aksio.Microservices</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

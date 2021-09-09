@@ -1,4 +1,4 @@
-namespace Aksio.Application
+namespace Aksio.Microservices
 {
     /// <summary>
     /// Represents helpers for getting details about the Runtime environment.
