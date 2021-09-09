@@ -2,6 +2,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Extensions.Hosting
 {
+    /// <summary>
+    /// Extension methods for setting up configuration for host.
+    /// </summary>
     public static class ConfigurationHostBuilderExtensions
     {
         internal static IConfiguration Configuration { get; }
@@ -15,6 +18,11 @@ namespace Microsoft.Extensions.Hosting
                   .Build();
         }
 
+        /// <summary>
+        /// Use default configuration.
+        /// </summary>
+        /// <param name="builder"><see cref="IHostBuilder"/> to use with.</param>
+        /// <returns><see cref="IHostBuilder"/> for continuation.</returns>
         public static IHostBuilder UseDefaultConfiguration(this IHostBuilder builder)
         {
             builder.ConfigureAppConfiguration(_ =>
