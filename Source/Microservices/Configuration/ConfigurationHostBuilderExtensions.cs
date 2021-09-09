@@ -1,9 +1,10 @@
 using System.Reflection;
+using Aksio.Microservices.Configuration;
 using Aksio.Reflection;
 using Aksio.Types;
-using Aksio.Microservices.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.Hosting
 {
@@ -59,7 +60,13 @@ namespace Microsoft.Extensions.Hosting
                     .Build();
 
                 var configurationInstance = configuration.Get(configurationObject);
-                builder.ConfigureServices(_ => _.AddSingleton(configurationInstance));
+                builder.ConfigureServices(_ =>
+                {
+                    _.AddSingleton(configurationInstance);
+
+                    var optionsType = typeof(IOptions<>).MakeGenericType(configurationObject);
+                    _.AddSingleton(optionsType);
+                });
             }
 
             return builder;
