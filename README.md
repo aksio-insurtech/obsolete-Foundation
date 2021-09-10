@@ -1,6 +1,6 @@
 # Introduction
 
-This repository holds the generalized abstractions constituting "The Infrastructure".
+This repository holds the generalized abstractions constituting foundation of solutions built @ Aksio.
 Within this you'll find reusable components, libraries, helpers and solutions that are
 cross cutting. Its goal is to provide developers with a productivity suite.
 
@@ -26,7 +26,7 @@ Similarly with the specifications you can do:
 $ dotnet test
 ```
 
-If you're using an IDE such as Visual Studio, Rider or similar - open the [Infrastructure.sln](./Infrastructure.sln)
+If you're using an IDE such as Visual Studio, Rider or similar - open the [Foundation.sln](./Foundation.sln)
 file and do the build / test run from within the IDE.
 
 ## Contribute
