@@ -1,5 +1,7 @@
 # Introduction
 
+[![Build](https://github.com/aksio-system/Foundation/actions/workflows/build.yml/badge.svg)](https://github.com/aksio-system/Foundation/actions/workflows/build.yml)
+
 This repository holds the generalized abstractions constituting foundation of solutions built @ Aksio.
 Within this you'll find reusable components, libraries, helpers and solutions that are
 cross cutting. Its goal is to provide developers with a productivity suite.
