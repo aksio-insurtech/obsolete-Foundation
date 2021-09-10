@@ -41,4 +41,5 @@ namespace Aksio.DependencyInversion
         {
             return ContainerBuilderExtensions.Container!.Resolve<T>();
         }
-    }}
+    }
+}

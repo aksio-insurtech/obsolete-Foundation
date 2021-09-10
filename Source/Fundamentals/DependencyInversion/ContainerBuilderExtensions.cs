@@ -35,4 +35,5 @@ namespace Autofac
 
             return containerBuilder;
         }
-    }}
+    }
+}
