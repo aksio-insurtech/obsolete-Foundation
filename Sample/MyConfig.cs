@@ -8,6 +8,6 @@ namespace Sample
     public class MyConfig
     {
         public string SomeString { get; init; }
-        public int SomeInteger { get; init; }
+        public int SomeInteger { get; init; }
     }
 }
