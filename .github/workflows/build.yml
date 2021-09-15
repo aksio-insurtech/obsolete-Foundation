@@ -6,6 +6,12 @@ on:
       - "**"
     paths:
       - "**/*.cs"
+  pull_request:
+    branches:
+      - "**"
+    paths:
+      - "Source/**"
+
 
 jobs:
   build:
