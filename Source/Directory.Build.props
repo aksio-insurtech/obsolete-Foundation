@@ -14,6 +14,11 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
+    <ItemGroup>
+        <Content Include="$(MSBuildThisFileDirectory)../README.md" PackagePath="/" />
+    </ItemGroup>
+
+
     <!-- Package versions -->
     <PropertyGroup>
         <NewtonsoftJson>13.0.1</NewtonsoftJson>
