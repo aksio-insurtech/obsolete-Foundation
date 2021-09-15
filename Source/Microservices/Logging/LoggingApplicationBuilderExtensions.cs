@@ -10,7 +10,7 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="app"><see cref="IApplicationBuilder"/> to use it with.</param>
         /// <returns><see cref="IApplicationBuilder"/> for continuation.</returns>
-        public  static IApplicationBuilder UseDefaultLogging(this IApplicationBuilder app)
+        public static IApplicationBuilder UseDefaultLogging(this IApplicationBuilder app)
         {
             app.UseHttpLogging();
 

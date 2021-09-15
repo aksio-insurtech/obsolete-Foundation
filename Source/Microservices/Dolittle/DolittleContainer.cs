@@ -11,7 +11,7 @@ namespace Aksio.Microservices.Dolittle
         readonly IExecutionContextManager _executionContextManager;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="DolittleContainer"/>.
+        /// Initializes a new instance of the <see cref="DolittleContainer"/> class.
         /// </summary>
         /// <param name="serviceProvider"><see cref="IServiceProvider"/> to use.</param>
         /// <param name="executionContextManager"><see cref="IExecutionContextManager"/> to use.</param>
@@ -29,7 +29,8 @@ namespace Aksio.Microservices.Dolittle
         }
 
         /// <inheritdoc/>
-        public T Get<T>(ExecutionContext context) where T : class
+        public T Get<T>(ExecutionContext context)
+            where T : class
         {
             _executionContextManager.SetCurrent(context);
             return (T)_serviceProvider.GetService(typeof(T))!;

@@ -9,7 +9,7 @@ namespace Aksio.Reflection
     public static class ExpressionExtensions
     {
         /// <summary>
-        /// A Func to extract a member expression from an Expression.
+        /// Gets a func to extract a member expression from an Expression.
         /// </summary>
         public static Func<Expression, MemberExpression> Unwrap { get; } = toUnwrap =>
                                                                             {
@@ -129,10 +129,12 @@ namespace Aksio.Reflection
             {
                 var innerMember = memberExpression.Expression as MemberExpression;
                 if (innerMember!.Member is FieldInfo info)
-                    return info.GetValue(null)!;
+                {
+                    return info.GetValue(null) !;
+                }
 
                 constantExpression = (ConstantExpression)innerMember!.Expression!;
-                return GetValue(innerMember, constantExpression!)!;
+                return GetValue(innerMember, constantExpression!) !;
             }
 
             return GetValue(memberExpression, constantExpression);
@@ -141,10 +143,10 @@ namespace Aksio.Reflection
         static object GetValue(MemberExpression memberExpression, ConstantExpression constantExpression)
         {
             if (memberExpression.Member is PropertyInfo propertyInfo)
-                return propertyInfo.GetValue(constantExpression.Value, null)!;
+                return propertyInfo.GetValue(constantExpression.Value, null) !;
 
             if (memberExpression.Member is FieldInfo fieldInfo)
-                return fieldInfo.GetValue(constantExpression.Value)!;
+                return fieldInfo.GetValue(constantExpression.Value) !;
 
             return constantExpression.Value!;
         }

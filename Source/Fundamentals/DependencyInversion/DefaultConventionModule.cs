@@ -1,5 +1,5 @@
-using Autofac;
 using Aksio.Reflection;
+using Autofac;
 
 namespace Aksio.DependencyInversion
 {

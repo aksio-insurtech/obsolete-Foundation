@@ -3,8 +3,14 @@
         <TargetFramework>net6.0</TargetFramework>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <NoWarn>CS1591;RCS1090;CA2252;CS8632;RCS1217</NoWarn>
+        
         <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+        <IsPackable>true</IsPackable>
+        <RepositoryUrl>https://github.com/aksio-system/Foundation</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/aksio-system/Foundation</PackageProjectUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
@@ -15,4 +21,8 @@
         <AutofacExtensions>7.1.0</AutofacExtensions>
         <MongoDB>2.13.1</MongoDB>
     </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Aksio.Defaults" Version="1.*" PrivateAssets="All" />
+	</ItemGroup>
 </Project>

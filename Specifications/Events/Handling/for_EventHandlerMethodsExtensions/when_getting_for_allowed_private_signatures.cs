@@ -13,14 +13,15 @@ namespace Aksio.Events.Handling.for_EventHandlerMethodsExtensions
         class handler
         {
             Task FirstHappened(FirstEvent @event) => Task.CompletedTask;
-            void ForTheSecond(SecondEvent @event) {}
+            void ForTheSecond(SecondEvent @event) { }
             Task ThirdTimeIsACharm(ThirdEvent @event, EventContext context) => Task.CompletedTask;
-            void MayTheForth(ForthEvent @event, EventContext context) {}
+            void MayTheForth(ForthEvent @event, EventContext context) { }
         }
 
         IDictionary<Type, MethodInfo> methods;
 
-        void Because() => methods = typeof(handler).GetHandleMethods(new Dictionary<Type, EventTypeId> {
+        void Because() => methods = typeof(handler).GetHandleMethods(new Dictionary<Type, EventTypeId>
+        {
             { typeof(FirstEvent), Guid.NewGuid() },
             { typeof(SecondEvent), Guid.NewGuid() },
             { typeof(ThirdEvent), Guid.NewGuid() },

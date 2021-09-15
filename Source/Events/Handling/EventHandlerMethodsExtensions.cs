@@ -3,6 +3,9 @@ using Dolittle.SDK.Events;
 
 namespace Aksio.Events.Handling
 {
+    /// <summary>
+    /// Provides a set of extension methods for working with event handler methods.
+    /// </summary>
     public static class EventHandlerMethodsExtensions
     {
         /// <summary>
@@ -34,6 +37,7 @@ namespace Aksio.Events.Handling
                 {
                     isHandleMethod = false;
                 }
+
                 return isHandleMethod;
             }
 

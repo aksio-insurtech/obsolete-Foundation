@@ -59,7 +59,7 @@ namespace Aksio.Reflection
         /// <summary>
         /// Get the underlying nullable type.
         /// </summary>
-        /// <param name="type"><see cref="Type"/> to get from</param>
+        /// <param name="type"><see cref="Type"/> to get from.</param>
         /// <returns>Underlying nullable type.</returns>
         public static Type GetNullableType(this Type type)
         {

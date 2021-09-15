@@ -6,7 +6,7 @@ namespace Microsoft.AspNetCore.Builder
     /// <summary>
     /// Extension methods for setting up execution context.
     /// </summary>
-    public static class ExecutionContextAppBuilderExtensions
+    public static class ExecutionContextApplicationBuilderExtensions
     {
         const string TenantIdHeaderKey = "Tenant-ID";
 
@@ -14,6 +14,7 @@ namespace Microsoft.AspNetCore.Builder
         /// Add a middleware for handling the Dolittle execution context automatically.
         /// </summary>
         /// <param name="app"><see cref="IApplicationBuilder"/> to extend.</param>
+        /// <returns><see cref="IApplicationBuilder"/> for continuation.</returns>
         public static IApplicationBuilder UseExecutionContext(this IApplicationBuilder app)
         {
             app.Use(async (context, next) =>
@@ -27,7 +28,7 @@ namespace Microsoft.AspNetCore.Builder
 
                 var executionContextManager = app.ApplicationServices.GetService(typeof(IExecutionContextManager)) as IExecutionContextManager;
                 executionContextManager!.Establish(tenantId, Guid.NewGuid());
-                await next.Invoke();
+                await next.Invoke().ConfigureAwait(false);
             });
 
             return app;

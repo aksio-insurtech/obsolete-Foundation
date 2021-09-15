@@ -10,7 +10,6 @@ namespace Autofac
     {
         internal static ITypes? Types;
         internal static IContainer? Container;
-        public static IServiceProvider? ServiceProvider { get; set; }
 
         /// <summary>
         /// Register default Aksio conventions and registrations into the Autofac container.
@@ -24,7 +23,7 @@ namespace Autofac
             containerBuilder.RegisterInstance(types).As<ITypes>();
             foreach (var moduleType in types.FindMultiple<Module>())
             {
-                containerBuilder.RegisterModule((Module)Activator.CreateInstance(moduleType)!);
+                containerBuilder.RegisterModule((Module)Activator.CreateInstance(moduleType) !);
             }
 
             containerBuilder.RegisterSource<SelfBindingRegistrationSource>();
