@@ -10,14 +10,8 @@
         <IsPackable>true</IsPackable>
         <RepositoryUrl>https://github.com/aksio-system/Foundation</RepositoryUrl>
         <PackageProjectUrl>https://github.com/aksio-system/Foundation</PackageProjectUrl>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
-
-    <ItemGroup>
-        <Content Include="$(MSBuildThisFileDirectory)../README.md" PackagePath="/" />
-    </ItemGroup>
-
 
     <!-- Package versions -->
     <PropertyGroup>

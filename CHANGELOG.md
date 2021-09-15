@@ -1,3 +1,7 @@
+# [v1.0.0] - 2021-9-15 [PR: #3](https://github.com/aksio-system/Foundation/pull/3)
+
+Initial release.
+
 # [v2.0.0] - 2021-9-15 [PR: #2](https://github.com/aksio-system/Foundation/pull/2)
 
 Initial release.
