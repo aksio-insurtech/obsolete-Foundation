@@ -6,13 +6,16 @@ using Dolittle.SDK.Events.Handling.Builder;
 
 namespace Dolittle.SDK.Events.Handling
 {
+    /// <summary>
+    /// Provides a set of extensions for working with event handlers.
+    /// </summary>
     public static class EventHandlersExtensions
     {
         /// <summary>
         /// Hook up event handlers by convention through discovery.
         /// </summary>
         /// <param name="clientBuilder">The Dolittle <see cref="ClientBuilder"/>.</param>
-        /// <param name="types"><see cref="ITypes"/> for type discovery,</param>
+        /// <param name="types"><see cref="ITypes"/> for type discovery.</param>
         /// <returns><see cref="ClientBuilder"/> for continuation.</returns>
         public static ClientBuilder WithAutoDiscoveredEventHandlers(this ClientBuilder clientBuilder, ITypes types)
         {

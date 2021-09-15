@@ -5,12 +5,12 @@ using ExecutionContext = Dolittle.SDK.Execution.ExecutionContext;
 namespace Aksio.Microservices.Dolittle
 {
     /// <summary>
-    /// Defines a system for working with <see cref="ExecutionContext"/>
+    /// Defines a system for working with <see cref="ExecutionContext"/>.
     /// </summary>
     public interface IExecutionContextManager
     {
         /// <summary>
-        /// Get the current <see cref="ExecutionContext"/> for the current call path.
+        /// Gets the current <see cref="ExecutionContext"/> for the current call path.
         /// </summary>
         ExecutionContext Current { get; }
 

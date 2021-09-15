@@ -6,12 +6,12 @@ namespace Aksio.Reflection
     /// Represents an implementation of <see cref="ITypeInfo"/>.
     /// </summary>
     /// <typeparam name="T">Type it holds info for.</typeparam>
-    public sealed class TypeInfo<T> : ITypeInfo
+    public class TypeInfo<T> : ITypeInfo
     {
         /// <summary>
         /// Gets a singleton instance of the TypeInfo.
         /// </summary>
-        public static readonly TypeInfo<T> Instance = new();
+        public static readonly TypeInfo<T> Instance = new ();
 
         TypeInfo()
         {

@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyModel;
 namespace Aksio.Types
 {
     /// <summary>
-    /// Represents an implementation of <see cref="ITypes"/>
+    /// Represents an implementation of <see cref="ITypes"/>.
     /// </summary>
     public class Types : ITypes
     {
@@ -12,7 +12,7 @@ namespace Aksio.Types
         readonly List<Assembly> _assemblies = new();
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Types"/>
+        /// Initializes a new instance of the <see cref="Types"/> class.
         /// </summary>
         public Types()
         {
@@ -78,6 +78,7 @@ namespace Aksio.Types
             {
                 types.AddRange(assembly.DefinedTypes);
             }
+
             return types;
         }
     }

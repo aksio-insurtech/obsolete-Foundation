@@ -9,8 +9,8 @@ namespace Aksio.Types
     /// </summary>
     public class ContractToImplementorsMap : IContractToImplementorsMap
     {
-        readonly ConcurrentDictionary<Type, ConcurrentBag<Type>> _contractsAndImplementors = new();
-        readonly ConcurrentDictionary<Type, Type> _allTypes = new();
+        readonly ConcurrentDictionary<Type, ConcurrentBag<Type>> _contractsAndImplementors = new ();
+        readonly ConcurrentDictionary<Type, Type> _allTypes = new ();
 
         /// <inheritdoc/>
         public IDictionary<Type, IEnumerable<Type>> ContractsAndImplementors => _contractsAndImplementors.ToDictionary(_ => _.Key, _ => _.Value.AsEnumerable());

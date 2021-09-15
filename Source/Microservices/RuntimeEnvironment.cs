@@ -5,14 +5,14 @@ namespace Aksio.Microservices
     /// </summary>
     public static class RuntimeEnvironment
     {
-        static RuntimeEnvironment()
-        {
-            IsDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
-        }
-
         /// <summary>
         /// Gets whether or not we're running in development or not.
         /// </summary>
         public static readonly bool IsDevelopment;
+
+        static RuntimeEnvironment()
+        {
+            IsDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+        }
     }
 }

@@ -1,6 +1,6 @@
 namespace Aksio.Collections.for_CollectionExtensions
 {
-    public class when_walking_enumerable_with_for_each  : Specification
+    public class when_walking_enumerable_with_for_each : Specification
     {
         IEnumerable<string> enumerable;
         string[] actual_enumerable = new[]

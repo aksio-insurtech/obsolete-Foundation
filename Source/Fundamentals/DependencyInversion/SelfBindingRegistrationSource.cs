@@ -1,7 +1,7 @@
 using System.Reflection;
+using Aksio.Reflection;
 using Autofac.Builder;
 using Autofac.Core;
-using Aksio.Reflection;
 
 namespace Aksio.DependencyInversion
 {

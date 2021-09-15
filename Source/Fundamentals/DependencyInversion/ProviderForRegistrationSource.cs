@@ -11,7 +11,7 @@ namespace Aksio.DependencyInversion
     public class ProviderForRegistrationSource : IRegistrationSource
     {
         readonly MethodInfo _provideMethod = typeof(ProviderForRegistrationSource)
-                                                .GetMethod(nameof(ProviderForRegistrationSource.Provide), BindingFlags.Static | BindingFlags.NonPublic)!;
+                                                .GetMethod(nameof(ProviderForRegistrationSource.Provide), BindingFlags.Static | BindingFlags.NonPublic) !;
 
         /// <inheritdoc/>
         public bool IsAdapterForIndividualComponents => false;
@@ -28,7 +28,8 @@ namespace Aksio.DependencyInversion
             }
 
             var method = _provideMethod.MakeGenericMethod(serviceWithType.ServiceType.GetGenericArguments()[0]);
-            var registration = RegistrationBuilder.ForDelegate(serviceWithType.ServiceType,
+            var registration = RegistrationBuilder.ForDelegate(
+                serviceWithType.ServiceType,
                 (_, __) => method.CreateDelegate(serviceWithType.ServiceType))
                 .As(serviceWithType.ServiceType)
                 .CreateRegistration();

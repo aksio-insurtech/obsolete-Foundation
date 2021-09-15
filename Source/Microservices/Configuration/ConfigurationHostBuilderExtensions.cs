@@ -13,8 +13,6 @@ namespace Microsoft.Extensions.Hosting
     /// </summary>
     public static class ConfigurationHostBuilderExtensions
     {
-        internal static IConfiguration Configuration { get; }
-
         static ConfigurationHostBuilderExtensions()
         {
             Configuration = new ConfigurationBuilder()
@@ -23,6 +21,8 @@ namespace Microsoft.Extensions.Hosting
                   .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true, reloadOnChange: true)
                   .Build();
         }
+
+        internal static IConfiguration Configuration { get; }
 
         /// <summary>
         /// Use default configuration.
