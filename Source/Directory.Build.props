@@ -11,6 +11,8 @@
         <RepositoryUrl>https://github.com/aksio-system/Foundation</RepositoryUrl>
         <PackageProjectUrl>https://github.com/aksio-system/Foundation</PackageProjectUrl>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+        <ImplicitUsings>true</ImplicitUsings>
     </PropertyGroup>
 
     <!-- Package versions -->

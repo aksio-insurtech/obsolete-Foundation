@@ -6,6 +6,8 @@
         <NoWarn>$(NoWarn),CS8019</NoWarn>
 
         <IsPackable>false</IsPackable>
+
+        <ImplicitUsings>true</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>
