@@ -3,6 +3,7 @@ using Aksio.Events.Handling;
 using Aksio.Reflection;
 using Aksio.Types;
 using Dolittle.SDK.Events.Handling.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Dolittle.SDK.Events.Handling
 {
@@ -15,10 +16,14 @@ namespace Dolittle.SDK.Events.Handling
         /// Hook up event handlers by convention through discovery.
         /// </summary>
         /// <param name="clientBuilder">The Dolittle <see cref="ClientBuilder"/>.</param>
+        /// <param name="services"><see cref="IServiceCollection"/> for registering services.</param>
         /// <param name="types"><see cref="ITypes"/> for type discovery.</param>
         /// <returns><see cref="ClientBuilder"/> for continuation.</returns>
-        public static ClientBuilder WithAutoDiscoveredEventHandlers(this ClientBuilder clientBuilder, ITypes types)
+        public static ClientBuilder WithAutoDiscoveredEventHandlers(this ClientBuilder clientBuilder, IServiceCollection services, ITypes types)
         {
+            var eventHandlers = new EventHandlers();
+            services.AddSingleton<IEventHandlers>(eventHandlers);
+
             var handlers = types.All.Where(_ => _.HasAttribute<EventHandlerAttribute>());
             var eventTypes = types.All.Where(_ => _.HasAttribute<EventTypeAttribute>()).ToDictionary(
                 _ => _,
@@ -44,18 +49,15 @@ namespace Dolittle.SDK.Events.Handling
                         if (eventHandler.Partitioned) eventHandlerMethodsBuilder = eventHandlerBuilder.Partitioned();
                         else eventHandlerMethodsBuilder = eventHandlerBuilder.Unpartitioned();
 
+                        var eventHandlerMethod = eventHandlers.Register(
+                            eventHandler.Identifier,
+                            eventType,
+                            eventTypes[eventType],
+                            handler,
+                            method);
+
                         eventHandlerMethodsBuilder = eventHandlerMethodsBuilder
-                            .Handle(eventTypes[eventType], (@event, context) =>
-                            {
-                                var handlerInstance = Activator.CreateInstance(handler);
-
-                                if (method.GetParameters().Length == 2)
-                                {
-                                    return method.Invoke(handlerInstance, new object[] { @event, context }) as Task;
-                                }
-
-                                return method.Invoke(handlerInstance, new object[] { @event }) as Task;
-                            });
+                            .Handle(eventTypes[eventType], (@event, context) => eventHandlerMethod.Invoke(@event, context));
                     }
                 }
             });

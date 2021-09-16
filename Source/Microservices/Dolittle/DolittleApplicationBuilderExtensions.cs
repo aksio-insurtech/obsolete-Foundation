@@ -1,3 +1,4 @@
+using Aksio.Events.Handling;
 using Aksio.Microservices.Dolittle;
 using Dolittle.SDK;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +20,11 @@ namespace Microsoft.AspNetCore.Builder
             var client = applicationBuilder.ApplicationServices.GetService<Client>();
             var executionContextManager = applicationBuilder.ApplicationServices.GetService<IExecutionContextManager>();
 
-            client!.WithContainer(new DolittleContainer(applicationBuilder.ApplicationServices, executionContextManager!)).Start();
+            if (client != null)
+            {
+                client.WithContainer(new DolittleContainer(applicationBuilder.ApplicationServices, executionContextManager!)).Start();
+                EventHandlers.ServiceProvider = applicationBuilder.ApplicationServices;
+            }
 
             return applicationBuilder;
         }

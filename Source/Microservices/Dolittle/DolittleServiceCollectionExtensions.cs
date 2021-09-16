@@ -2,6 +2,8 @@ using Aksio.Events.Types;
 using Aksio.Types;
 using Dolittle.SDK;
 using Dolittle.SDK.Events.Handling;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -20,7 +22,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var clientBuilder = Client
                 .ForMicroservice(Guid.Empty)
-                .WithAutoDiscoveredEventHandlers(types)
+                .WithLogging(new LoggerFactory().AddSerilog(Log.Logger))
+                .WithAutoDiscoveredEventHandlers(services, types)
                 .WithAutoDiscoveredEventTypes(types);
 
             var client = clientBuilder.Build();
