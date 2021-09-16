@@ -1,5 +1,6 @@
 using Aksio.Microservices.Dolittle;
 using Dolittle.SDK.Tenancy;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -26,7 +27,7 @@ namespace Microsoft.AspNetCore.Builder
                     tenantId = context.Request.Headers[TenantIdHeaderKey].First();
                 }
 
-                var executionContextManager = app.ApplicationServices.GetService(typeof(IExecutionContextManager)) as IExecutionContextManager;
+                var executionContextManager = app.ApplicationServices.GetService<IExecutionContextManager>();
                 executionContextManager!.Establish(tenantId, Guid.NewGuid());
                 await next.Invoke().ConfigureAwait(false);
             });

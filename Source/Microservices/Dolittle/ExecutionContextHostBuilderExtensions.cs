@@ -7,7 +7,7 @@ namespace Microsoft.Extensions.Hosting
     /// <summary>
     /// Provides extension methods for <see cref="IHostBuilder"/>.
     /// </summary>
-    public static class ExecutionHostBuilderExtensions
+    public static class ExecutionContextHostBuilderExtensions
     {
         /// <summary>
         /// Use execution context with the host.
