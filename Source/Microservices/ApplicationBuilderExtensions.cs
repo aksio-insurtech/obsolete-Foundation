@@ -16,6 +16,7 @@ namespace Microsoft.AspNetCore.Builder
         {
             app.UseExecutionContext();
             app.UseDefaultLogging();
+            app.UseDolittle();
 
             if (RuntimeEnvironment.IsDevelopment)
             {

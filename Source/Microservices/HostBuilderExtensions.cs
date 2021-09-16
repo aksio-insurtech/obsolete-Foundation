@@ -17,7 +17,9 @@ namespace Microsoft.Extensions.Hosting
         {
             var types = new Types();
 
-            builder.ConfigureServices(_ => _.AddSingleton<ITypes>(types));
+            builder.ConfigureServices(_ => _
+                .AddSingleton<ITypes>(types)
+                .AddDolittle(types));
 
             builder
                 .UseDefaultConfiguration()
