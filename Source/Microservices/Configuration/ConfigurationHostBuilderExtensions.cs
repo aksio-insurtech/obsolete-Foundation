@@ -65,7 +65,10 @@ namespace Microsoft.Extensions.Hosting
                     _.AddSingleton(configurationInstance);
 
                     var optionsType = typeof(IOptions<>).MakeGenericType(configurationObject);
-                    _.AddSingleton(optionsType);
+                    var optionsWrapperType = typeof(OptionsWrapper<>).MakeGenericType(configurationObject);
+                    var optionsWrapperInstance = Activator.CreateInstance(optionsWrapperType, new[] { configurationInstance });
+
+                    _.AddSingleton(optionsType, optionsWrapperInstance!);
                 });
             }
 
