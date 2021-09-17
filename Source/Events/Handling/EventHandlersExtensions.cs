@@ -1,3 +1,4 @@
+using Aksio.DependencyInversion;
 using Aksio.Events.Handling;
 using Aksio.Types;
 using Dolittle.SDK.Events.Handling.Builder;
@@ -16,12 +17,13 @@ namespace Dolittle.SDK.Events.Handling
         /// <param name="clientBuilder">The Dolittle <see cref="ClientBuilder"/>.</param>
         /// <param name="services"><see cref="IServiceCollection"/> for registering services.</param>
         /// <param name="types"><see cref="ITypes"/> for type discovery.</param>
+        /// <param name="serviceProviderProvider">Provider for providing <see cref="IServiceProvider"/>.</param>
         /// <returns><see cref="ClientBuilder"/> for continuation.</returns>
-        public static ClientBuilder WithAutoDiscoveredEventHandlers(this ClientBuilder clientBuilder, IServiceCollection services, ITypes types)
+        public static ClientBuilder WithAutoDiscoveredEventHandlers(this ClientBuilder clientBuilder, IServiceCollection services, ITypes types, ProviderFor<IServiceProvider> serviceProviderProvider)
         {
-            var middlewares = new EventHandlerMiddlewares(types);
+            var middlewares = new EventHandlerMiddlewares(types, serviceProviderProvider);
             services.AddSingleton<IEventHandlerMiddlewares>(middlewares);
-            var eventHandlers = new EventHandlers(types);
+            var eventHandlers = new EventHandlers(types, serviceProviderProvider);
             services.AddSingleton<IEventHandlers>(eventHandlers);
 
             clientBuilder.WithEventHandlers(_ =>

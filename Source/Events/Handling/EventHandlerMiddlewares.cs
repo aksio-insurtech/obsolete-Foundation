@@ -1,3 +1,4 @@
+using Aksio.DependencyInversion;
 using Aksio.Types;
 using Dolittle.SDK.Events.Handling.Builder;
 
@@ -12,9 +13,10 @@ namespace Aksio.Events.Handling
         /// Initializes a new instance of the <see cref="EventHandlerMiddlewares"/> class.
         /// </summary>
         /// <param name="types"><see cref="ITypes"/> for type discovery.</param>
-        public EventHandlerMiddlewares(ITypes types)
+        /// <param name="serviceProviderProvider">Provider for providing <see cref="IServiceProvider"/>.</param>
+        public EventHandlerMiddlewares(ITypes types, ProviderFor<IServiceProvider> serviceProviderProvider)
         {
-            All = types.FindMultiple<IEventHandlerMiddleware>().Select(_ => (IEventHandlerMiddleware)EventHandlers.ServiceProvider!.GetService(_)!);
+            All = types.FindMultiple<IEventHandlerMiddleware>().Select(_ => (IEventHandlerMiddleware)serviceProviderProvider()!.GetService(_)!);
         }
 
         /// <inheritdoc/>

@@ -1,4 +1,3 @@
-using Aksio.Events.Handling;
 using Aksio.Microservices.Dolittle;
 using Dolittle.SDK;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +22,6 @@ namespace Microsoft.AspNetCore.Builder
             if (client != null)
             {
                 client.WithContainer(new DolittleContainer(applicationBuilder.ApplicationServices, executionContextManager!)).Start();
-                EventHandlers.ServiceProvider = applicationBuilder.ApplicationServices;
             }
 
             return applicationBuilder;

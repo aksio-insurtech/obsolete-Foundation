@@ -1,4 +1,5 @@
 using System.Reflection;
+using Aksio.DependencyInversion;
 using Dolittle.SDK.Events;
 
 namespace Aksio.Events.Handling
@@ -9,6 +10,7 @@ namespace Aksio.Events.Handling
     public class EventHandlerMethod
     {
         readonly bool _needsContext;
+        readonly ProviderFor<IServiceProvider> _serviceProviderProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EventHandlerMethod"/> class.
@@ -16,11 +18,13 @@ namespace Aksio.Events.Handling
         /// <param name="eventType">The <see cref="EventType"/> for the method.</param>
         /// <param name="clrEventType">The CLR <see cref="Type"/> representing the event type.</param>
         /// <param name="method">The actual <see cref="MethodInfo"/>.</param>
-        public EventHandlerMethod(EventType eventType, Type clrEventType, MethodInfo method)
+        /// <param name="serviceProviderProvider">Provider for providing <see cref="IServiceProvider"/>.</param>
+        public EventHandlerMethod(EventType eventType, Type clrEventType, MethodInfo method, ProviderFor<IServiceProvider> serviceProviderProvider)
         {
             EventType = eventType;
             ClrEventType = clrEventType;
             Method = method;
+            _serviceProviderProvider = serviceProviderProvider;
             _needsContext = method.GetParameters().Length == 2;
         }
 
@@ -48,7 +52,7 @@ namespace Aksio.Events.Handling
         public Task Invoke(object @event, EventContext context)
         {
             object returnValue;
-            var handlerInstance = EventHandlers.ServiceProvider?.GetService(Method.DeclaringType!) ?? Activator.CreateInstance(Method.DeclaringType!);
+            var handlerInstance = _serviceProviderProvider()?.GetService(Method.DeclaringType!) ?? Activator.CreateInstance(Method.DeclaringType!);
             if (_needsContext)
             {
                 returnValue = Method.Invoke(handlerInstance, new object[] { @event, context })!;

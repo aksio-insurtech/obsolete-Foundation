@@ -1,4 +1,5 @@
 using System.Reflection;
+using Aksio.DependencyInversion;
 using Aksio.Reflection;
 using Aksio.Types;
 using Dolittle.SDK.Events;
@@ -11,20 +12,19 @@ namespace Aksio.Events.Handling
     /// </summary>
     public class EventHandlers : IEventHandlers
     {
-        /// <summary>
-        /// Gets or sets the <see cref="IServiceProvider"/> to use.
-        /// </summary>
-        public static IServiceProvider? ServiceProvider;
         readonly ITypes _types;
+        readonly ProviderFor<IServiceProvider> _serviceProviderProvider;
         readonly List<EventHandler> _eventHandlers = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EventHandlers"/> class.
         /// </summary>
         /// <param name="types"><see cref="ITypes"/> for type discovery.</param>
-        public EventHandlers(ITypes types)
+        /// <param name="serviceProviderProvider">Provider for providing <see cref="IServiceProvider"/>.</param>
+        public EventHandlers(ITypes types, ProviderFor<IServiceProvider> serviceProviderProvider)
         {
             _types = types;
+            _serviceProviderProvider = serviceProviderProvider;
             Populate();
         }
 
@@ -42,7 +42,7 @@ namespace Aksio.Events.Handling
             {
                 var methodsByEventTypeId = handler.GetHandleMethods(eventTypes);
                 var eventHandler = handler.GetCustomAttribute<EventHandlerAttribute>()!;
-                var eventHandlerMethods = methodsByEventTypeId.Select(_ => new EventHandlerMethod(eventTypes[_.Key], _.Key, _.Value));
+                var eventHandlerMethods = methodsByEventTypeId.Select(_ => new EventHandlerMethod(eventTypes[_.Key], _.Key, _.Value, _serviceProviderProvider));
                 _eventHandlers.Add(new EventHandler(eventHandler.Identifier, eventHandler.Partitioned, eventHandler.Scope, handler, eventHandlerMethods));
             }
         }

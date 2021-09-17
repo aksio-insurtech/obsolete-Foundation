@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="../Fundamentals/DependencyInversion/DependencyInversion.csproj" />
         <ProjectReference Include="../Fundamentals/Reflection/Reflection.csproj" />
         <ProjectReference Include="../Fundamentals/Types/Types.csproj" />
     </ItemGroup>

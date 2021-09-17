@@ -1,3 +1,5 @@
+using Aksio.DependencyInversion;
+using Aksio.Microservices;
 using Aksio.Types;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,7 +21,8 @@ namespace Microsoft.Extensions.Hosting
 
             builder.ConfigureServices(_ => _
                 .AddSingleton<ITypes>(types)
-                .AddDolittle(types));
+                .AddSingleton<ProviderFor<IServiceProvider>>(() => Internals.ServiceProvider!)
+                .AddDolittle(types, () => Internals.ServiceProvider!));
 
             builder
                 .UseDefaultConfiguration()

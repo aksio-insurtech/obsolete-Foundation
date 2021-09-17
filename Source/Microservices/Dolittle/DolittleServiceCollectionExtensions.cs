@@ -1,3 +1,4 @@
+using Aksio.DependencyInversion;
 using Aksio.Events.Types;
 using Aksio.Types;
 using Dolittle.SDK;
@@ -17,13 +18,14 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services"><see cref="IServiceCollection"/> to add to.</param>
         /// <param name="types"><see cref="ITypes"/> for discovery.</param>
+        /// <param name="serviceProviderProvider">Provider for providing <see cref="IServiceProvider"/>.</param>
         /// <returns><see cref="IServiceCollection"/> for continuation.</returns>
-        public static IServiceCollection AddDolittle(this IServiceCollection services, ITypes types)
+        public static IServiceCollection AddDolittle(this IServiceCollection services, ITypes types, ProviderFor<IServiceProvider> serviceProviderProvider)
         {
             var clientBuilder = Client
                 .ForMicroservice(Guid.Empty)
                 .WithLogging(new LoggerFactory().AddSerilog(Log.Logger))
-                .WithAutoDiscoveredEventHandlers(services, types)
+                .WithAutoDiscoveredEventHandlers(services, types, serviceProviderProvider)
                 .WithAutoDiscoveredEventTypes(types);
 
             var client = clientBuilder.Build();

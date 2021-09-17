@@ -14,6 +14,8 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns><see cref="IApplicationBuilder"/> for continuation.</returns>
         public static IApplicationBuilder UseAksio(this IApplicationBuilder app)
         {
+            Internals.ServiceProvider = app.ApplicationServices;
+
             app.UseExecutionContext();
             app.UseDefaultLogging();
             app.UseDolittle();
