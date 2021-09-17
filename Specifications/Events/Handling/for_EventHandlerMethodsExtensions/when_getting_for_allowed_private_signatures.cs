@@ -20,12 +20,12 @@ namespace Aksio.Events.Handling.for_EventHandlerMethodsExtensions
 
         IDictionary<Type, MethodInfo> methods;
 
-        void Because() => methods = typeof(handler).GetHandleMethods(new Dictionary<Type, EventTypeId>
+        void Because() => methods = typeof(handler).GetHandleMethods(new Dictionary<Type, EventType>
         {
-            { typeof(FirstEvent), Guid.NewGuid() },
-            { typeof(SecondEvent), Guid.NewGuid() },
-            { typeof(ThirdEvent), Guid.NewGuid() },
-            { typeof(ForthEvent), Guid.NewGuid() }
+            { typeof(FirstEvent), new EventType(Guid.NewGuid(), 0) },
+            { typeof(SecondEvent), new EventType(Guid.NewGuid(), 0) },
+            { typeof(ThirdEvent), new EventType(Guid.NewGuid(), 0) },
+            { typeof(ForthEvent), new EventType(Guid.NewGuid(), 0) }
         });
 
         [Fact] void should_contain_first_handler() => methods.Values.Count(_ => _.Name == "FirstHappened").ShouldEqual(1);

@@ -14,14 +14,14 @@ namespace Aksio.Events.Handling
         /// <param name="type">The <see cref="Type"/> to get handle methods from.</param>
         /// <param name="eventTypesMap">Map of CLR type to <see cref="EventTypeId"/>.</param>
         /// <returns>Map of CLR type to <see cref="MethodInfo">handle method</see>.</returns>
-        public static IDictionary<Type, MethodInfo> GetHandleMethods(this Type type, IDictionary<Type, EventTypeId> eventTypesMap)
+        public static IDictionary<Type, MethodInfo> GetHandleMethods(this Type type, IDictionary<Type, EventType> eventTypesMap)
         {
             return type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                                             .Where(_ => IsHandleMethod(eventTypesMap, _))
                                             .ToDictionary(_ => _.GetParameters()[0].ParameterType, _ => _);
         }
 
-        static bool IsHandleMethod(IDictionary<Type, EventTypeId> eventTypes, MethodInfo methodInfo)
+        static bool IsHandleMethod(IDictionary<Type, EventType> eventTypes, MethodInfo methodInfo)
         {
             var isHandleMethod = methodInfo.ReturnType.IsAssignableTo(typeof(Task)) || methodInfo.ReturnType == typeof(void);
             if (!isHandleMethod) return false;

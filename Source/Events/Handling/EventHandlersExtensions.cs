@@ -1,6 +1,4 @@
-using System.Reflection;
 using Aksio.Events.Handling;
-using Aksio.Reflection;
 using Aksio.Types;
 using Dolittle.SDK.Events.Handling.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,16 +19,33 @@ namespace Dolittle.SDK.Events.Handling
         /// <returns><see cref="ClientBuilder"/> for continuation.</returns>
         public static ClientBuilder WithAutoDiscoveredEventHandlers(this ClientBuilder clientBuilder, IServiceCollection services, ITypes types)
         {
-            var eventHandlers = new EventHandlers();
+            var middlewares = new EventHandlerMiddlewares(types);
+            services.AddSingleton<IEventHandlerMiddlewares>(middlewares);
+            var eventHandlers = new EventHandlers(types);
             services.AddSingleton<IEventHandlers>(eventHandlers);
-
-            var handlers = types.All.Where(_ => _.HasAttribute<EventHandlerAttribute>());
-            var eventTypes = types.All.Where(_ => _.HasAttribute<EventTypeAttribute>()).ToDictionary(
-                _ => _,
-                _ => _.GetCustomAttribute<EventTypeAttribute>()!.EventType.Id);
 
             clientBuilder.WithEventHandlers(_ =>
             {
+                foreach (var eventHandler in eventHandlers.All)
+                {
+                    var eventHandlerBuilder = _.CreateEventHandler(eventHandler.Id);
+                    if (eventHandler.Scope != ScopeId.Default)
+                    {
+                        eventHandlerBuilder = eventHandlerBuilder.InScope(eventHandler.Scope);
+                    }
+
+                    EventHandlerMethodsBuilder eventHandlerMethodsBuilder;
+                    if (eventHandler.Partitioned) eventHandlerMethodsBuilder = eventHandlerBuilder.Partitioned();
+                    else eventHandlerMethodsBuilder = eventHandlerBuilder.Unpartitioned();
+
+                    foreach (var method in eventHandler.Methods)
+                    {
+                        eventHandlerMethodsBuilder = eventHandlerMethodsBuilder
+                             .Handle(method.EventType, middlewares.CreateInvokerFor(method));
+                    }
+                }
+
+                /*
                 foreach (var handler in handlers)
                 {
                     var methodsByEventTypeId = handler.GetHandleMethods(eventTypes);
@@ -59,7 +74,7 @@ namespace Dolittle.SDK.Events.Handling
                         eventHandlerMethodsBuilder = eventHandlerMethodsBuilder
                             .Handle(eventTypes[eventType], (@event, context) => eventHandlerMethod.Invoke(@event, context));
                     }
-                }
+                }*/
             });
 
             return clientBuilder;
