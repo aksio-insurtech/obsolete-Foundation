@@ -44,37 +44,6 @@ namespace Dolittle.SDK.Events.Handling
                              .Handle(method.EventType, middlewares.CreateInvokerFor(method));
                     }
                 }
-
-                /*
-                foreach (var handler in handlers)
-                {
-                    var methodsByEventTypeId = handler.GetHandleMethods(eventTypes);
-
-                    var eventHandler = handler.GetCustomAttribute<EventHandlerAttribute>()!;
-
-                    foreach ((var eventType, var method) in methodsByEventTypeId)
-                    {
-                        var eventHandlerBuilder = _.CreateEventHandler(eventHandler.Identifier);
-                        if (eventHandler.Scope != ScopeId.Default)
-                        {
-                            eventHandlerBuilder = eventHandlerBuilder.InScope(eventHandler.Scope);
-                        }
-
-                        EventHandlerMethodsBuilder eventHandlerMethodsBuilder;
-                        if (eventHandler.Partitioned) eventHandlerMethodsBuilder = eventHandlerBuilder.Partitioned();
-                        else eventHandlerMethodsBuilder = eventHandlerBuilder.Unpartitioned();
-
-                        var eventHandlerMethod = eventHandlers.Register(
-                            eventHandler.Identifier,
-                            eventType,
-                            eventTypes[eventType],
-                            handler,
-                            method);
-
-                        eventHandlerMethodsBuilder = eventHandlerMethodsBuilder
-                            .Handle(eventTypes[eventType], (@event, context) => eventHandlerMethod.Invoke(@event, context));
-                    }
-                }*/
             });
 
             return clientBuilder;
