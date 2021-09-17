@@ -26,3 +26,34 @@ Task AsynchronousMethodWithContext(MyEvent @event, EventContext context);
 ```
 
 > Note: Both public and non-public methods are supported.
+
+## Middlewares
+
+If you want to get a callback for every handle method that gets called, you can implement what is known as a **Event Handler Middleware**.
+They are discovered automatically from their interface type and configured at startup.
+
+For instance, lets say you want to create a middleware that logs something before and after handle:
+
+```csharp
+using Aksio.Events.Handling;
+using Dolittle.SDK.Events;
+
+public class MyEventHandlerMiddleware : IEventHandlerMiddleware
+{
+    readonly ILogger<MyEventHandlerMiddleware> _logger;
+
+    public MyEventHandlerMiddleware(ILogger<MyEventHandlerMiddleware> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task Invoke(EventContext eventContext, object @event, NextEventHandlerMiddleware next)
+    {
+        var before = DateTime.UtcNow;
+        await next().ConfigureAwait(false);
+        var after = DateTime.UtcNow;
+        var delta = after.Subtract(before);
+        _logger.LogInformation("It took {time} milliseconds to run the event handler for type {event}", delta.TotalMilliseconds, @event.GetType().Name);
+    }
+}
+```
