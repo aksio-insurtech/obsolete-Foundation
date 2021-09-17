@@ -1,4 +1,3 @@
-using Dolittle.SDK;
 using Dolittle.SDK.Events.Handling;
 
 namespace Sample
