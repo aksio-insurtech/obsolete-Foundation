@@ -19,6 +19,5 @@ namespace Sample
 
             return Task.CompletedTask;
         }
-
     }
 }
