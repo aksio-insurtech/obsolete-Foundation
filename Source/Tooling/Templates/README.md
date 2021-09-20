@@ -15,6 +15,8 @@ Its possible to have parameters for templates, these are defined as symbols in t
 You can read about how they are [here](https://github.com/dotnet/templating/wiki/Reference-for-template.json#symbols).
 If you want to have generated symbols, there are a few [prebuilt ones](https://github.com/dotnet/templating/wiki/Available-Symbols-Generators).
 
+With symbols it is also possible to do [conditional processing](https://github.com/dotnet/templating/wiki/Conditional-processing-and-comment-syntax).
+
 ## Testing
 
 To test the template pack, simply install it by doing the following from a terminal:
