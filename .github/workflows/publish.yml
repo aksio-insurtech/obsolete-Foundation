@@ -37,7 +37,7 @@ jobs:
 
       - name: Create NuGet packages
         if: ${{ steps.release.outputs.should-publish == 'true' }}
-        run: dotnet pack --no-build --configuration Release -o ${{ env.NUGET_OUTPUT }} -p:PackageVersion=${{ steps.release.outputs.version }} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+        run: dotnet pack --no-build --configuration Release -o ${{ env.NUGET_OUTPUT }} -p:PackageVersion=${{ steps.release.outputs.version }}
 
       - name: Push NuGet packages
         if: ${{ steps.release.outputs.should-publish == 'true' }}

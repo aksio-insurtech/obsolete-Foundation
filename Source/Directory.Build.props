@@ -8,6 +8,9 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
         <IsPackable>true</IsPackable>
+        <IncludeSymbols>True</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>    
+        <IncludeSource>True</IncludeSource>
         <RepositoryUrl>https://github.com/aksio-system/Foundation</RepositoryUrl>
         <PackageProjectUrl>https://github.com/aksio-system/Foundation</PackageProjectUrl>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
