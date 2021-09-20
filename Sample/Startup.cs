@@ -1,5 +1,6 @@
 using Dolittle.SDK;
 using Dolittle.SDK.Tenancy;
+using Events.Schemas;
 
 namespace Sample
 {
@@ -17,6 +18,9 @@ namespace Sample
                 {
                     Blah = 42
                 };
+
+                var schemaStore = app.ApplicationServices.GetService<ISchemaStore>();
+                var schema = schemaStore.GenerateFor(typeof(MyEvent));
 
                 var client = app.ApplicationServices.GetService<Client>();
 
