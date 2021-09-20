@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+
     <PackageType>Template</PackageType>
     <PackageVersion>1.0</PackageVersion>
     <PackageId>Aksio.Templates</PackageId>
@@ -8,8 +9,6 @@
     <Authors>Aksio</Authors>
     <Description>Templates to use when creating an application for Aksio.</Description>
     <PackageTags>dotnet-new;templates;aksio</PackageTags>
-
-    <TargetFramework>net6.0</TargetFramework>
 
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeSymbols>False</IncludeSymbols>
@@ -23,5 +22,4 @@
     <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
     <Compile Remove="**\*" />
   </ItemGroup>
-
 </Project>
