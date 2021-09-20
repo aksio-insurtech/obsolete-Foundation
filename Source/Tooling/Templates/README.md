@@ -4,7 +4,7 @@ This project is a template project for .NET CLI tooling, it provides a [template
 for productivity purposes. The templates can be leveraged using the `dotnet new` command and is also supported through Visual Studio
 by enabling [.NET CLI tooling](https://devblogs.microsoft.com/dotnet/net-cli-templates-in-visual-studio/).
 
-For authoring create templates and whats possible, you can read more [here](https://docs.microsoft.com/en-us/dotnet/core/tutorials/cli-templates-create-project-template).
+For authoring **create templates** and whats possible, you can read more [here](https://docs.microsoft.com/en-us/dotnet/core/tutorials/cli-templates-create-project-template).
 Go [here](https://docs.microsoft.com/en-us/dotnet/core/tools/custom-templates) for the full article on custom templates.
 
 You can also find more details in the [DotNet Templating Wiki](https://github.com/dotnet/templating/wiki).
