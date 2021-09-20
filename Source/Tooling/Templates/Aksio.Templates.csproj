@@ -12,6 +12,8 @@
     <TargetFramework>net6.0</TargetFramework>
 
     <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeSymbols>False</IncludeSymbols>
+    <IncludeSource>False</IncludeSource>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>content</ContentTargetFolders>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
