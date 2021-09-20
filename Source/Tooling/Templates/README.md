@@ -8,6 +8,7 @@ For authoring **create templates** and whats possible, you can read more [here](
 Go [here](https://docs.microsoft.com/en-us/dotnet/core/tools/custom-templates) for the full article on custom templates.
 
 You can also find more details in the [DotNet Templating Wiki](https://github.com/dotnet/templating/wiki).
+For a templating cheat sheet, go [here](https://queil.net/2018/07/dotnet-templating-cheat-sheet/).
 
 ## Template Parameters & Symbols
 
