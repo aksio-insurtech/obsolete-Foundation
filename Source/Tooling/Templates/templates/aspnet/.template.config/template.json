@@ -1,0 +1,18 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Aksio",
+    "classifications": [
+        "Microservice",
+        "Common",
+        "AspNet"
+    ],
+    "identity": "Aksio.Templates.AspNet",
+    "name": "Aksio Microservice Template for AspNet",
+    "shortName": "aksioms",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "sourceName": "AksioMicroserviceTemplate",
+    "preferNameDirectory": true
+}
