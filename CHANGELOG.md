@@ -1,3 +1,11 @@
+# [v1.1.0] - 2021-9-20 [PR: #4](https://github.com/aksio-system/Foundation/pull/4)
+
+### Added
+
+- Introducing `Aksio.Templates` a `dotnet new` type of template pack. Installed by doing; `dotnet new -i Aksio.Templates`. Also supported by Visual Studio 20xx and Visual Studio for Mac.
+
+
+
 # [v1.0.0] - 2021-9-15 [PR: #3](https://github.com/aksio-system/Foundation/pull/3)
 
 Initial release.
