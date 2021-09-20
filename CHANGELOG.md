@@ -1,3 +1,10 @@
+# [v1.1.1] - 2021-9-20 [PR: #9](https://github.com/aksio-system/Foundation/pull/9)
+
+### Fixed
+
+- All Aksio assemblies are now included in type discovery.
+
+
 # [v1.1.0] - 2021-9-20 [PR: #8](https://github.com/aksio-system/Foundation/pull/8)
 
 ### Added
