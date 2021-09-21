@@ -8,6 +8,7 @@
         <ProjectReference Include="../Fundamentals/DependencyInversion/DependencyInversion.csproj" />
         <ProjectReference Include="../Fundamentals/Reflection/Reflection.csproj" />
         <ProjectReference Include="../Fundamentals/Types/Types.csproj" />
+        <ProjectReference Include="../Fundamentals/Strings/Strings.csproj" />
     </ItemGroup>
 
     <ItemGroup>
