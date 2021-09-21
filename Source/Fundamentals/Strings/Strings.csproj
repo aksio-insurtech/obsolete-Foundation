@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Aksio.Strings</AssemblyName>
+        <RootNamespace>Aksio.Strings</RootNamespace>
+        <NoWarn>RCS1217</NoWarn>
+    </PropertyGroup>
+</Project>
