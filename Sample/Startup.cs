@@ -1,6 +1,4 @@
-using Dolittle.SDK;
-using Dolittle.SDK.Tenancy;
-using Events.Schemas;
+using Aksio.Events.EventLogs;
 
 namespace Sample
 {
@@ -13,10 +11,16 @@ namespace Sample
             app.UseRouting();
             app.UseEndpoints(endpoints => endpoints.MapGet("/", () =>
             {
+                var @event = new MyEvent(42);
+                var eventLog = app.ApplicationServices.GetService<IEventLog>();
+                eventLog!.Append(Guid.NewGuid(), @event);
+
+                /*
                 var @event = new
                 {
                     Blah = 42
                 };
+
 
                 var schemaStore = app.ApplicationServices.GetService<ISchemaStore>();
                 var eventSchema = schemaStore!.GenerateFor(typeof(MyEvent));
@@ -28,6 +32,7 @@ namespace Sample
                     .CreateEvent(@event)
                     .FromEventSource(Guid.NewGuid())
                     .WithEventType(Guid.Parse("aa4e1a9e-c481-4a2a-abe8-4799a6bbe3b7"), 1)).Wait();
+                    */
             }));
         }
     }
