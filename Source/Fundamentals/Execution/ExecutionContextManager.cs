@@ -5,7 +5,7 @@ using Dolittle.SDK.Tenancy;
 using Environment = Dolittle.SDK.Microservices.Environment;
 using ExecutionContext = Dolittle.SDK.Execution.ExecutionContext;
 
-namespace Aksio.Microservices.Dolittle
+namespace Aksio.Execution
 {
     /// <summary>
     /// Represents an implementation of <see cref="IExecutionContextManager"/>.

@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Aksio.Execution</AssemblyName>
+        <RootNamespace>Aksio.Execution</RootNamespace>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+        <PackageReference Include="Dolittle.SDK" Version="$(DolittleSdk)" />
+    </ItemGroup>
+</Project>

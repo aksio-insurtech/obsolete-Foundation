@@ -10,6 +10,9 @@
 
     <ItemGroup>
         <ProjectReference Include="../Fundamentals/DependencyInversion/DependencyInversion.csproj" />
+        <ProjectReference Include="../Fundamentals/Execution/Execution.csproj" />
+        <ProjectReference Include="../Fundamentals/MongoDB/MongoDB.csproj" />
+        <ProjectReference Include="../Fundamentals/Resources/Resources.csproj" />
 		<ProjectReference Include="../Events/Events.csproj" />
     </ItemGroup>
 

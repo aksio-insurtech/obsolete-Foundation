@@ -1,3 +1,4 @@
+using Aksio.Execution;
 using Aksio.Microservices.Dolittle;
 using Dolittle.SDK;
 using Microsoft.Extensions.DependencyInjection;

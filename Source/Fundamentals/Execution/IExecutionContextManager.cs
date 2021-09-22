@@ -2,7 +2,7 @@ using Dolittle.SDK.Execution;
 using Dolittle.SDK.Tenancy;
 using ExecutionContext = Dolittle.SDK.Execution.ExecutionContext;
 
-namespace Aksio.Microservices.Dolittle
+namespace Aksio.Execution
 {
     /// <summary>
     /// Defines a system for working with <see cref="ExecutionContext"/>.
