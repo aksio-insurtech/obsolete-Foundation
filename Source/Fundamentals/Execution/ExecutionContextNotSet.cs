@@ -22,7 +22,7 @@ namespace Aksio.Execution
         /// <exception cref="ExecutionContextNotSet">Thrown if the ref is null.</exception>
         public static void ThrowIfNotSet(ExecutionContext? context)
         {
-            if (context != null) throw new ExecutionContextNotSet();
+            if (context == null) throw new ExecutionContextNotSet();
         }
     }
 }

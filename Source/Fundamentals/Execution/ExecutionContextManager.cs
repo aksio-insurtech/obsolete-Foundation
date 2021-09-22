@@ -10,6 +10,7 @@ namespace Aksio.Execution
     /// <summary>
     /// Represents an implementation of <see cref="IExecutionContextManager"/>.
     /// </summary>
+    [Singleton]
     public class ExecutionContextManager : IExecutionContextManager
     {
         static readonly AsyncLocal<ExecutionContext> _currentExecutionContext = new();
