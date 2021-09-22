@@ -5,13 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="../Fundamentals/Collections/Collections.csproj" />
-        <ProjectReference Include="../Fundamentals/DependencyInversion/DependencyInversion.csproj" />
-        <ProjectReference Include="../Fundamentals/MongoDB/MongoDB.csproj" />
-        <ProjectReference Include="../Fundamentals/Reflection/Reflection.csproj" />
-        <ProjectReference Include="../Fundamentals/Resources/Resources.csproj" />
-        <ProjectReference Include="../Fundamentals/Types/Types.csproj" />
-        <ProjectReference Include="../Fundamentals/Strings/Strings.csproj" />
+        <ProjectReference Include="../Fundamentals/Fundamentals.csproj" />
     </ItemGroup>
 
     <ItemGroup>
