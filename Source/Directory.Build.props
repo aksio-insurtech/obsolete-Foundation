@@ -20,6 +20,7 @@
 
     <!-- Package versions -->
     <PropertyGroup>
+        <DolittleSdk>9.1.0</DolittleSdk>
         <NewtonsoftJson>13.0.1</NewtonsoftJson>
         <Autofac>6.2.0</Autofac>
         <AutofacExtensions>7.1.0</AutofacExtensions>
