@@ -18,7 +18,7 @@ namespace Sample
             await next().ConfigureAwait(false);
             var after = DateTime.UtcNow;
             var delta = after.Subtract(before);
-            _logger.LogInformation("It took {Time} milliseconds to run the event handler for type {Event}", delta.TotalMilliseconds, @event.GetType().Name);
+            _logger.HandlerTiming(delta.TotalMilliseconds, @event.GetType().Name);
         }
     }
 }
