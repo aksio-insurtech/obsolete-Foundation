@@ -1,4 +1,7 @@
+using System.Dynamic;
+using Aksio.Collections;
 using Aksio.Execution;
+using Aksio.Types;
 using Dolittle.SDK;
 using Dolittle.SDK.Events;
 using IEventTypes = Aksio.Events.Types.IEventTypes;
@@ -12,6 +15,7 @@ namespace Aksio.Events.EventLogs
     {
         readonly IExecutionContextManager _executionContextManager;
         readonly IEventTypes _eventTypes;
+        readonly IInstancesOf<ICanProvideAdditionalEventInformation> _additionalEventInformationProviders;
         readonly Client _client;
 
         /// <summary>
@@ -20,10 +24,16 @@ namespace Aksio.Events.EventLogs
         /// <param name="client">The Dolittle <see cref="Client"/>.</param>
         /// <param name="executionContextManager"><see cref="IExecutionContextManager"/> for working with tenancy.</param>
         /// <param name="eventTypes"><see cref="IEventTypes"/> register.</param>
-        public EventLog(Client client, IExecutionContextManager executionContextManager, IEventTypes eventTypes)
+        /// <param name="additionalEventInformationProviders"><see cref="IInstancesOf{T}"/> <see cref="ICanProvideAdditionalEventInformation"/>.</param>
+        public EventLog(
+            Client client,
+            IExecutionContextManager executionContextManager,
+            IEventTypes eventTypes,
+            IInstancesOf<ICanProvideAdditionalEventInformation> additionalEventInformationProviders)
         {
             _executionContextManager = executionContextManager;
             _eventTypes = eventTypes;
+            _additionalEventInformationProviders = additionalEventInformationProviders;
             _client = client;
         }
 
@@ -31,12 +41,24 @@ namespace Aksio.Events.EventLogs
         public async Task Append(EventSourceId eventSourceId, object @event)
         {
             var eventType = _eventTypes.GetFor(@event.GetType());
+            var expando = new ExpandoObject();
+            AddPropertiesFrom(expando, @event);
+            _additionalEventInformationProviders.ForEach(_ => AddPropertiesFrom(expando, _.ProvideFor(@event)));
+
             await _client.EventStore.ForTenant(_executionContextManager.Current.Tenant)
                 .Commit(_ => _
-                    .CreateEvent(@event)
+                    .CreateEvent(expando)
                     .FromEventSource(eventSourceId)
                     .WithEventType(eventType))
                 .ConfigureAwait(false);
+        }
+
+        void AddPropertiesFrom(ExpandoObject expando, object input)
+        {
+            foreach (var property in input.GetType().GetProperties())
+            {
+                expando.TryAdd(property.Name, property.GetValue(input));
+            }
         }
     }
 }
