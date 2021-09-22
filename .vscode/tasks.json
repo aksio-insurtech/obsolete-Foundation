@@ -5,40 +5,27 @@
             "label": "build",
             "command": "dotnet",
             "type": "process",
+            "isBackground": true,
+            "runOptions": {
+                "reevaluateOnRerun": false
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
             "args": [
                 "build",
-                "${workspaceFolder}/Sample/Sample.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/Sample/Sample.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "watch",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "${workspaceFolder}/Sample/Sample.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "--nologo",
+                "--no-restore",
+                "${workspaceFolder}/Sample/Sample.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
