@@ -30,6 +30,7 @@ namespace Autofac
             containerBuilder.Register(_ => Container!).As<IContainer>().SingleInstance();
             containerBuilder.RegisterBuildCallback(_ => Container = (IContainer)_!);
 
+            containerBuilder.RegisterSource(new SingletonPerTenantRegistrationSource(containerBuilder, Types));
             containerBuilder.RegisterSource(new ProviderForRegistrationSource());
 
             return containerBuilder;
