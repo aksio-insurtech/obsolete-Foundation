@@ -14,7 +14,7 @@ namespace Sample
 
         public Task DoTheThing(MyEvent @event)
         {
-            _logger.LogInformation("We're here");
+            _logger.LogInformation("We're here : {Blah}", @event.Blah);
 
             return Task.CompletedTask;
         }
