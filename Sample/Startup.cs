@@ -19,7 +19,8 @@ namespace Sample
                 };
 
                 var schemaStore = app.ApplicationServices.GetService<ISchemaStore>();
-                var schema = schemaStore!.GenerateFor(typeof(MyEvent));
+                var eventSchema = schemaStore!.GenerateFor(typeof(MyEvent));
+                schemaStore.Save(eventSchema);
 
                 var client = app.ApplicationServices.GetService<Client>();
 

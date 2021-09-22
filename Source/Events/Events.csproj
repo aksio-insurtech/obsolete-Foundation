@@ -6,13 +6,15 @@
 
     <ItemGroup>
         <ProjectReference Include="../Fundamentals/DependencyInversion/DependencyInversion.csproj" />
+        <ProjectReference Include="../Fundamentals/MongoDB/MongoDB.csproj" />
         <ProjectReference Include="../Fundamentals/Reflection/Reflection.csproj" />
+        <ProjectReference Include="../Fundamentals/Resources/Resources.csproj" />
         <ProjectReference Include="../Fundamentals/Types/Types.csproj" />
         <ProjectReference Include="../Fundamentals/Strings/Strings.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Dolittle.SDK" Version="9.1.0" />
+      <PackageReference Include="Dolittle.SDK" Version="$(DolittleSdk)" />
       <PackageReference Include="Grpc.Core" Version="2.39.1" />
       <PackageReference Include="Contrib.Grpc.Core.M1" Version="2.39.1" />
       <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.14" />

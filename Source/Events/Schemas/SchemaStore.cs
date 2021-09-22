@@ -1,8 +1,10 @@
 using System.Reflection;
+using Aksio.Resources;
 using Aksio.Strings;
 using Aksio.Types;
 using Dolittle.SDK.Artifacts;
 using Dolittle.SDK.Events;
+using MongoDB.Driver;
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Schema.Generation;
 using Newtonsoft.Json.Serialization;
@@ -14,8 +16,12 @@ namespace Events.Schemas
     /// </summary>
     public class SchemaStore : ISchemaStore
     {
+        const string DatabaseName = "schema_store";
+        const string SchemasCollection = "schemas";
         static readonly JSchemaGenerator _generator;
         readonly IDictionary<Type, ICanExtendSchemaForType> _schemaInformationForTypesProviders;
+        readonly IMongoDatabase _database;
+        readonly IMongoCollection<EventSchemaMongoDB> _collection;
 
         static SchemaStore()
         {
@@ -29,10 +35,22 @@ namespace Events.Schemas
         /// <summary>
         /// Initializes a new instance of the <see cref="SchemaStore"/> class.
         /// </summary>
+        /// <param name="resourceConfigurations">All <see cref="IResourceConfigurations"/>.</param>
         /// <param name="schemaInformationForTypesProviders"><see cref="IInstancesOf{T}"/> of <see cref="ICanExtendSchemaForType"/>.</param>
-        public SchemaStore(IInstancesOf<ICanExtendSchemaForType> schemaInformationForTypesProviders)
+        public SchemaStore(
+            IResourceConfigurations resourceConfigurations,
+            IInstancesOf<ICanExtendSchemaForType> schemaInformationForTypesProviders)
         {
             _schemaInformationForTypesProviders = schemaInformationForTypesProviders.ToDictionary(_ => _.Type, _ => _);
+            var configuration = resourceConfigurations.GetForAllTenants<EventStoreConfiguration>().Values.First();
+            var mongoUrlBuilder = new MongoUrlBuilder
+            {
+                Servers = configuration.Servers.Select(_ => new MongoServerAddress(_, 27017))
+            };
+            var url = mongoUrlBuilder.ToMongoUrl();
+            var client = new MongoClient(url);
+            _database = client.GetDatabase(DatabaseName);
+            _collection = _database.GetCollection<EventSchemaMongoDB>(SchemasCollection);
         }
 
         /// <inheritdoc/>
@@ -41,21 +59,17 @@ namespace Events.Schemas
             TypeIsMissingEventType.ThrowIfMissingEventType(type);
             var eventTypeAttribute = type.GetCustomAttribute<EventTypeAttribute>()!;
 
-            var schema = _generator.Generate(type);
-            ExtendSchema(type, schema);
+            var typeSchema = _generator.Generate(type);
+            var eventSchema = new EventSchema(eventTypeAttribute.EventType, typeSchema);
+            ExtendSchema(type, eventSchema, typeSchema);
 
-            /*
-            dynamic extension = new JObject();
-            extension.pii = true;
+            return eventSchema;
+        }
 
-            foreach ((var key, var value) in schema.Properties)
-            {
-                value.Ref
-                value.ExtensionData["gdpr"] = extension;
-            }
-            */
-
-            return new EventSchema(eventTypeAttribute.EventType, schema);
+        /// <inheritdoc/>
+        public Task<IEnumerable<EventSchema>> GetAll()
+        {
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
@@ -65,21 +79,35 @@ namespace Events.Schemas
         public Task<bool> HasFor(EventType type, Generation? generation = null) => throw new NotImplementedException();
 
         /// <inheritdoc/>
-        public Task Save(EventSchema schema) => throw new NotImplementedException();
+        public async Task Save(EventSchema eventSchema)
+        {
+            // If we have a schema for the event type on the given generation and the schemas differ - throw an exception
+            // .. if they're the same. Ignore saving.
+            // If this is a new generation, there must be an upcaster and downcaster associated with the schema
+            // .. do not allow generational gaps
+            var schemaToSave = new EventSchemaMongoDB
+            {
+                EventType = eventSchema.EventType.Id,
+                Generation = eventSchema.EventType.Generation,
+                Schema = eventSchema.Schema.ToString()
+            };
 
-        void ExtendSchema(Type type, JSchema schema)
+            await _collection.InsertOneAsync(schemaToSave).ConfigureAwait(false);
+        }
+
+        void ExtendSchema(Type type, EventSchema eventSchema, JSchema typeSchema)
         {
             foreach (var provider in _schemaInformationForTypesProviders.Where(_ => _.Key == type).Select(_ => _.Value))
             {
-                provider.Extend(schema);
+                provider.Extend(eventSchema, typeSchema);
 
-                foreach ((var property, var propertySchema) in schema.Properties)
+                foreach ((var property, var propertySchema) in eventSchema.Schema.Properties)
                 {
                     var propertyName = property.ToPascalCase();
                     var propertyInfo = type.GetProperty(propertyName);
                     if (propertyInfo != null)
                     {
-                        ExtendSchema(propertyInfo.PropertyType, propertySchema);
+                        ExtendSchema(propertyInfo.PropertyType, eventSchema, propertySchema);
                     }
                 }
             }

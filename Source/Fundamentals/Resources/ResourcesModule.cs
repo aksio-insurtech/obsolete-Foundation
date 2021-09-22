@@ -24,6 +24,32 @@ namespace Aksio.Resources
                 {
                     var executionContextManager = container.Resolve<IExecutionContextManager>();
                     var tenant = executionContextManager.Current.Tenant;
+                    var resourceConfigurations = container.Resolve<IResourceConfigurations>();
+                    return resourceConfigurations.GetFor<EventStoreConfiguration>(tenant);
+                }
+
+                return null!;
+            }).As<EventStoreConfiguration>();
+
+            builder.Register(_ =>
+            {
+                if (container != default)
+                {
+                    var executionContextManager = container.Resolve<IExecutionContextManager>();
+                    var tenant = executionContextManager.Current.Tenant;
+                    var resourceConfigurations = container.Resolve<IResourceConfigurations>();
+                    return resourceConfigurations.GetFor<MongoDbReadModelsConfiguration>(tenant);
+                }
+
+                return null!;
+            }).As<MongoDbReadModelsConfiguration>();
+
+            builder.Register(_ =>
+            {
+                if (container != default)
+                {
+                    var executionContextManager = container.Resolve<IExecutionContextManager>();
+                    var tenant = executionContextManager.Current.Tenant;
                     if (_mongoDatabaseByTenant.ContainsKey(tenant))
                     {
                         return _mongoDatabaseByTenant[tenant];

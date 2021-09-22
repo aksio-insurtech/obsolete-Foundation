@@ -35,6 +35,17 @@ namespace Aksio.Resources
             return (_resourceConfigurationsByTenants[tenantId][typeof(TResource)] as TResource)!;
         }
 
+        /// <inheritdoc/>
+        public IDictionary<TenantId, TResource> GetForAllTenants<TResource>()
+            where TResource : ResourceConfiguration
+        {
+            return _resourceConfigurationsByTenants
+                .Where(_ => _.Value.ContainsKey(typeof(TResource)))
+                .ToDictionary(
+                    _ => _.Key,
+                    _ => (_.Value.Where(r => r.Key == typeof(TResource)).Select(r => r.Value).Single() as TResource)!);
+        }
+
         static void ThrowIfMissingResourceConfigurationOfType<TResource>(Dictionary<Type, ResourceConfiguration> resourceConfigurations, TenantId tenantId)
             where TResource : ResourceConfiguration
         {

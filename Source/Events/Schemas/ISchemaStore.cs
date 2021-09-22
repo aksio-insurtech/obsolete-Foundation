@@ -16,11 +16,17 @@ namespace Events.Schemas
         EventSchema GenerateFor(Type type);
 
         /// <summary>
+        /// Get all <see cref="EventSchema">event schemas</see> registered.
+        /// </summary>
+        /// <returns>A collection of <see cref="EventSchema">event schemas</see>.</returns>
+        Task<IEnumerable<EventSchema>> GetAll();
+
+        /// <summary>
         /// Save an <see cref="EventSchema"/> to the store.
         /// </summary>
-        /// <param name="schema"><see cref="EventSchema"/> to save.</param>
+        /// <param name="eventSchema"><see cref="EventSchema"/> to save.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task Save(EventSchema schema);
+        Task Save(EventSchema eventSchema);
 
         /// <summary>
         /// Check if an <see cref="EventSchema"/> for a specific <see cref="EventType"/> exists.
