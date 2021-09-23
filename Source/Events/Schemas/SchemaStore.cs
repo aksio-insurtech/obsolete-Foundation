@@ -1,4 +1,5 @@
 using System.Reflection;
+using Aksio.MongoDB;
 using Aksio.Resources;
 using Aksio.Strings;
 using Aksio.Types;
@@ -36,9 +37,11 @@ namespace Events.Schemas
         /// Initializes a new instance of the <see cref="SchemaStore"/> class.
         /// </summary>
         /// <param name="resourceConfigurations">All <see cref="IResourceConfigurations"/>.</param>
+        /// <param name="mongoDBClientFactory"><see cref="IMongoDBClientFactory"/> for creating MongoDB clients.</param>
         /// <param name="schemaInformationForTypesProviders"><see cref="IInstancesOf{T}"/> of <see cref="ICanExtendSchemaForType"/>.</param>
         public SchemaStore(
             IResourceConfigurations resourceConfigurations,
+            IMongoDBClientFactory mongoDBClientFactory,
             IInstancesOf<ICanExtendSchemaForType> schemaInformationForTypesProviders)
         {
             _schemaInformationForTypesProviders = schemaInformationForTypesProviders.ToDictionary(_ => _.Type, _ => _);
@@ -48,7 +51,7 @@ namespace Events.Schemas
                 Servers = configuration.Servers.Select(_ => new MongoServerAddress(_, 27017))
             };
             var url = mongoUrlBuilder.ToMongoUrl();
-            var client = new MongoClient(url);
+            var client = mongoDBClientFactory.Create(url);
             _database = client.GetDatabase(DatabaseName);
             _collection = _database.GetCollection<EventSchemaMongoDB>(SchemasCollection);
         }
