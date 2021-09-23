@@ -1,0 +1,11 @@
+namespace Aksio.Concepts.for_ConceptFactory
+{
+    public class when_creating_instance_of_double_concept_with_coming_in_as_double : Specification
+    {
+        DoubleConcept result;
+
+        void Because() => result = ConceptFactory.CreateConceptInstance(typeof(DoubleConcept), 5d) as DoubleConcept;
+
+        [Fact] void should_hold_the_double() => result.Value.ShouldEqual(5d);
+    }
+}
