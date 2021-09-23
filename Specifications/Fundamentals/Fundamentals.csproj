@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Aksio.Specs</AssemblyName>
+        <RootNamespace>Aksio</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../../Source/Fundamentals/Fundamentals.csproj"/>
+    </ItemGroup>
+
+</Project>
