@@ -1,16 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <AssemblyName>Aksio.Microservices</AssemblyName>
-        <RootNamespace>Aksio.Microservices</RootNamespace>
+        <RootNamespace>Aksio</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="../Fundamentals/Fundamentals.csproj" />
-		<ProjectReference Include="../Events/Events.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -23,5 +18,10 @@
         <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
         <PackageReference Include="serilog.aspnetcore" Version="4.0.0" />
         <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+        <PackageReference Include="Cratis.Extensions.Autofac" Version="$(Cratis)" />
+        <PackageReference Include="Cratis.Fundamentals" Version="$(Cratis)" />
+        <PackageReference Include="Dolittle.SDK" Version="$(DolittleSdk)" />
+        <PackageReference Include="Grpc.Core" Version="2.39.1" />
+        <PackageReference Include="Contrib.Grpc.Core.M1" Version="2.39.1" />
     </ItemGroup>
 </Project>

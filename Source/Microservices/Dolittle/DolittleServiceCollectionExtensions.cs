@@ -1,6 +1,6 @@
-using Aksio.DependencyInversion;
 using Aksio.Events.Types;
-using Aksio.Types;
+using Cratis.DependencyInversion;
+using Cratis.Types;
 using Dolittle.SDK;
 using Dolittle.SDK.Events.Handling;
 using Microsoft.Extensions.Logging;

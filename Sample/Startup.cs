@@ -1,39 +1,51 @@
-using Aksio.Events.EventLogs;
-
 namespace Sample
 {
+    /*
+    Projections:
+
+        [Projection("610bbd9c-4024-40db-8bd2-38ea1481904d)]
+        public class MyProjection : IProjection
+        {
+            public void Define(IProjectionBuilder builder)
+            {
+                builder
+                    .ProjectTo<MyModel>("<optional name>")
+                    .From<SomeEvent>(_ => _
+                        .Set(model => model.SomeProperty).To(@event => @event.SomeProperty))
+                    .From<SomeOtherEvent>(_ => _
+                        .Set(model => model.SomeOtherProperty).To(@event => @event.SomeOtherProperty))
+                    .RemovedWith<SomeDeleteEvent>(_ => _
+                        .UsingKey(@event => @event.Id)) // Default to using the EventSourceId as the key
+                    .Join<ThirdEvent>(_ => _
+                        .On(model => model.RelationProperty)
+                        .UsingKey(@event => @event.Id) // Default to using the EventSourceId as the key
+                        .Set(model => model.ThirdProperty).To(@event => @event.PropertyFromTheThirdEvent))
+                    .Children<SomeChildModel>(_ => _
+                        .IdentifiedBy(childModel => childModel.Id))
+                        .StoredIn(childModel => childModel.Children)
+                        .From<ChildAdded>(cb => cb
+                            .UsingKey(@event => @event.Id) // Default to using the EventSourceId as the key
+                            cb.Set(childMOdel => childModel.Property).To(@event => @event.Property))
+                        .RemovedWith<ChildRemoved>(cb => cb
+                            .UsingKey(@event => @event.Id)) // Default to using the EventSourceId as the key
+
+            }
+        }
+    */
     public class Startup
     {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.UseCratisWorkbench();
+        }
+
         public void Configure(IApplicationBuilder app)
         {
             app.UseAksio();
 
             app.UseRouting();
-            app.UseEndpoints(endpoints => endpoints.MapGet("/", () =>
-            {
-                var @event = new MyEvent(42);
-                var eventLog = app.ApplicationServices.GetService<IEventLog>();
-                eventLog!.Append(Guid.NewGuid(), @event);
 
-                /*
-                var @event = new
-                {
-                    Blah = 42
-                };
-
-
-                var schemaStore = app.ApplicationServices.GetService<ISchemaStore>();
-                var eventSchema = schemaStore!.GenerateFor(typeof(MyEvent));
-                schemaStore.Save(eventSchema);
-
-                var client = app.ApplicationServices.GetService<Client>();
-
-                client!.EventStore.ForTenant(TenantId.Development).Commit(_ => _
-                    .CreateEvent(@event)
-                    .FromEventSource(Guid.NewGuid())
-                    .WithEventType(Guid.Parse("aa4e1a9e-c481-4a2a-abe8-4799a6bbe3b7"), 1)).Wait();
-                    */
-            }));
+            app.AddCratisWorkbench();
         }
     }
 }

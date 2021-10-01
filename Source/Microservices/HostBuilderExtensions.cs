@@ -1,6 +1,6 @@
-using Aksio.DependencyInversion;
 using Aksio.Microservices;
-using Aksio.Types;
+using Cratis.DependencyInversion;
+using Cratis.Types;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Extensions.Hosting
@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.Hosting
         /// <returns><see cref="IHostBuilder"/> for building continuation.</returns>
         public static IHostBuilder UseAksio(this IHostBuilder builder)
         {
-            var types = new Types();
+            var types = new Types("Aksio");
 
             builder.ConfigureServices(_ => _
                 .AddSingleton<ITypes>(types)

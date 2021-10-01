@@ -14,5 +14,6 @@
     
 	<ItemGroup>
 	  <PackageReference Include="Aksio.Defaults" Version="1.*" />
+      <PackageReference Include="Cratis.AspNetCore" Version="2.1.6" />
 	</ItemGroup>
 </Project>

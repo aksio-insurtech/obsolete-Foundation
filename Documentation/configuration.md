@@ -15,6 +15,8 @@ Lets say you have a config file called `my-config.json` in the **data** director
 This can then quite easily be mapped to a type in the following way:
 
 ```csharp
+using Aksio.Configuration;
+
 [Configuration("my-config")]
 public class MyConfig
 {

@@ -1,4 +1,4 @@
-namespace Aksio.Microservices.Configuration
+namespace Aksio.Configuration
 {
     /// <summary>
     /// Attribute used to adorn configuration objects.

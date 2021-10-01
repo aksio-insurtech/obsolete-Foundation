@@ -1,4 +1,4 @@
-using Aksio.Microservices.Configuration;
+using Aksio.Configuration;
 
 #nullable disable
 

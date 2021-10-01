@@ -1,7 +1,7 @@
 using System.Reflection;
-using Aksio.Microservices.Configuration;
-using Aksio.Reflection;
-using Aksio.Types;
+using Aksio.Configuration;
+using Cratis.Reflection;
+using Cratis.Types;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
