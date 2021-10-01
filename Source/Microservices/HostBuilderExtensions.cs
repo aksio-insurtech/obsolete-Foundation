@@ -1,5 +1,6 @@
 using Aksio.Microservices;
 using Cratis.DependencyInversion;
+using Cratis.Extensions.Dolittle;
 using Cratis.Types;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,7 +23,9 @@ namespace Microsoft.Extensions.Hosting
             builder.ConfigureServices(_ => _
                 .AddSingleton<ITypes>(types)
                 .AddSingleton<ProviderFor<IServiceProvider>>(() => Internals.ServiceProvider!)
-                .AddDolittle(types, () => Internals.ServiceProvider!));
+                .AddDolittle(types, () => Internals.ServiceProvider!)
+                .AddDolittleSchemaStore("localhost", 27017)
+                .AddCratisWorkbench(_ => _.UseDolittle()));
 
             builder
                 .UseDefaultConfiguration()

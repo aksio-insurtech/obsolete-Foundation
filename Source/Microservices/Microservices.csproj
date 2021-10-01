@@ -19,6 +19,8 @@
         <PackageReference Include="serilog.aspnetcore" Version="4.0.0" />
         <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
         <PackageReference Include="Cratis.Extensions.Autofac" Version="$(Cratis)" />
+        <PackageReference Include="Cratis.Extensions.Dolittle" Version="$(Cratis)" />
+        <PackageReference Include="Cratis.AspNetCore.Workbench" Version="$(Cratis)" />
         <PackageReference Include="Cratis.Fundamentals" Version="$(Cratis)" />
         <PackageReference Include="Dolittle.SDK" Version="$(DolittleSdk)" />
         <PackageReference Include="Grpc.Core" Version="2.39.1" />

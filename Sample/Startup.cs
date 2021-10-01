@@ -36,16 +36,13 @@ namespace Sample
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.UseCratisWorkbench();
+            services.AddRazorPages();
         }
 
         public void Configure(IApplicationBuilder app)
         {
             app.UseAksio();
-
             app.UseRouting();
-
-            app.AddCratisWorkbench();
         }
     }
 }

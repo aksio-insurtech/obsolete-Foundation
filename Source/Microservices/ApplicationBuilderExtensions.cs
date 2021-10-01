@@ -17,9 +17,11 @@ namespace Microsoft.AspNetCore.Builder
         {
             Internals.ServiceProvider = app.ApplicationServices;
 
-            app.UseDefaultLogging();
-            app.UseDolittle();
-            app.UseDolittleExecutionContext();
+            app.UseDefaultLogging()
+                .UseDolittle()
+                .UseDolittleExecutionContext()
+                .UseDolittleSchemaStore()
+                .UseCratisWorkbench();
 
             if (RuntimeEnvironment.IsDevelopment)
             {
