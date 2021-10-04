@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>true</ImplicitUsings>
+        <LangVersion>10</LangVersion>
+        <NoWarn>$(NoWarn);CS1591;SA1600</NoWarn>
+        <IsPackable>true</IsPackable>
+        <AssemblyName>Main</AssemblyName>
+        <RootNamespace>Main</RootNamespace>
+    </PropertyGroup>
+    
+	<ItemGroup>
+		<PackageReference Include="Aksio.Defaults" Version="1.*" PrivateAssets="All" />
+        <PackageReference Include="Aksio.Microservices" Version="1.*" />
+	</ItemGroup>
+</Project>

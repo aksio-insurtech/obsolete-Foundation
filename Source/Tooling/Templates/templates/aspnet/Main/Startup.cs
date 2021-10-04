@@ -1,4 +1,4 @@
-namespace AksioMicroserviceTemplate
+namespace Main
 {
     public class Startup
     {

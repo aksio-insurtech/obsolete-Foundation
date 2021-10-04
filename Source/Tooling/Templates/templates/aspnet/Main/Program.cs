@@ -1,4 +1,4 @@
-using AksioMicroserviceTemplate;
+using Main;
 
 var builder = Host.CreateDefaultBuilder()
                     .UseAksio()
