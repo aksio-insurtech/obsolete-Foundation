@@ -1,9 +1,3 @@
-# [v1.2.0] - 2021-10-4 [PR: #10](https://github.com/aksio-system/Foundation/pull/10)
-
-### Added
-
-- Adding frontend template to a Microservice.
-
 # [v1.1.1] - 2021-9-20 [PR: #9](https://github.com/aksio-system/Foundation/pull/9)
 
 ### Fixed
