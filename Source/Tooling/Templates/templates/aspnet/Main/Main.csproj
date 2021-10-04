@@ -5,6 +5,8 @@
         <LangVersion>10</LangVersion>
         <NoWarn>$(NoWarn);CS1591;SA1600</NoWarn>
         <IsPackable>true</IsPackable>
+        <AssemblyName>Main</AssemblyName>
+        <RootNamespace>Main</RootNamespace>
     </PropertyGroup>
     
 	<ItemGroup>

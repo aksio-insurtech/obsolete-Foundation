@@ -12,6 +12,9 @@ For a templating cheat sheet, go [here](https://queil.net/2018/07/dotnet-templat
 
 If you're looking to create an item template, you can follow the guide found [here](https://docs.microsoft.com/en-us/dotnet/core/tutorials/cli-templates-create-item-template).
 
+There are some great [blog posts](https://github.com/dotnet/templating/wiki/Blog-posts) on how to work with templates, and
+if you're looking for an interactive experience - look [here](https://rehansaeed.com/dotnet-new-feature-selection/).
+
 ## Template Parameters & Symbols
 
 Its possible to have parameters for templates, these are defined as symbols in the template config.

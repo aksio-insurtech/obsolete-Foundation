@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Aksio.Microservices.Specs</AssemblyName>
+        <RootNamespace>Aksio</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../../Source/Microservices/Microservices.csproj"/>
+    </ItemGroup>
+
+</Project>

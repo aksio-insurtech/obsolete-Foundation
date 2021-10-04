@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
+
 namespace Sample
 {
     /*
@@ -37,12 +39,13 @@ namespace Sample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddControllers().PartManager.ApplicationParts.Add(new AssemblyPart(typeof(Startup).Assembly));
         }
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseAksio();
             app.UseRouting();
+            app.UseAksio();
         }
     }
 }
