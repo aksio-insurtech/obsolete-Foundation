@@ -1,5 +1,6 @@
 using Aksio.Events.EventLogs;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 
 namespace Sample
 {
@@ -7,10 +8,12 @@ namespace Sample
     public class MyController : Controller
     {
         readonly IEventLog _eventLog;
+        readonly IMongoDatabase _database;
 
-        public MyController(IEventLog eventLog)
+        public MyController(IEventLog eventLog, IMongoDatabase database)
         {
             _eventLog = eventLog;
+            _database = database;
         }
 
         [HttpGet]
