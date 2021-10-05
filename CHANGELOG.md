@@ -1,3 +1,9 @@
+# [v1.3.0] - 2021-10-5 [PR: #12](https://github.com/aksio-system/Foundation/pull/12)
+
+### Added
+
+- Controllers from project referenced assemblies are now automatically discovered and hooked up.
+
 # [v1.2.0] - 2021-10-4 [PR: #11](https://github.com/aksio-system/Foundation/pull/11)
 
 ### Added
