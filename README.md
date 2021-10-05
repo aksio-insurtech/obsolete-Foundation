@@ -2,35 +2,9 @@
 
 [![Build](https://github.com/aksio-system/Foundation/actions/workflows/build.yml/badge.svg)](https://github.com/aksio-system/Foundation/actions/workflows/build.yml)
 
-This repository holds the generalized abstractions constituting foundation of solutions built @ Aksio.
+This repository holds the generalized abstractions being the foundation of solutions built @ Aksio.
 Within this you'll find reusable components, libraries, helpers and solutions that are
 cross cutting. Its goal is to provide developers with a productivity suite.
 
-## Prerequisites
-
-This repository requires the following:
-
-- [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0)
-- [Docker](https://docs.docker.com/get-docker/)
-
-## Build and Test
-
-All C# based projects are added to the solution file at the root level, you can therefor
-build it quite easily from root:
-
-```shell
-$ dotnet build
-```
-
-Similarly with the specifications you can do:
-
-```shell
-$ dotnet test
-```
-
-If you're using an IDE such as Visual Studio, Rider or similar - open the [Foundation.sln](./Foundation.sln)
-file and do the build / test run from within the IDE.
-
-## Contribute
-
-** TODO **
+Read the [documentation](./Documentation/index.md) for all the details.
+For general guidance on the core values and principles we @ Aksio use, read more [here](https://github.com/aksio-system/Home/blob/main/README.md).
