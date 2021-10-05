@@ -20,12 +20,19 @@ namespace Microsoft.Extensions.Hosting
         {
             var types = new Types("Aksio");
 
-            builder.ConfigureServices(_ => _
-                .AddSingleton<ITypes>(types)
-                .AddSingleton<ProviderFor<IServiceProvider>>(() => Internals.ServiceProvider!)
-                .AddDolittle(types, () => Internals.ServiceProvider!)
-                .AddDolittleSchemaStore("localhost", 27017)
-                .AddCratisWorkbench(_ => _.UseDolittle()));
+            builder.ConfigureServices(_ =>
+            {
+                _
+                  .AddSingleton<ITypes>(types)
+                  .AddSingleton<ProviderFor<IServiceProvider>>(() => Internals.ServiceProvider!)
+                  .AddControllersFromProjectReferencedAssembles(types)
+                  .AddDolittle(types, () => Internals.ServiceProvider!)
+                  .AddDolittleSchemaStore("localhost", 27017)
+                  .AddCratisWorkbench(_ => _.UseDolittle());
+
+                // Temporarily adding this, due to a bug in .NET 6 (https://www.ingebrigtsen.info/2021/09/29/autofac-asp-net-core-6-hot-reload-debug-crash/):
+                _.AddRazorPages();
+            });
 
             builder
                 .UseDefaultConfiguration()
