@@ -1,4 +1,4 @@
-using Aksio.Microservices;
+using Aksio;
 using Cratis.DependencyInversion;
 using Cratis.Extensions.Dolittle;
 using Cratis.Types;
