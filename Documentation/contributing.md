@@ -26,3 +26,8 @@ $ dotnet test
 
 If you're using an IDE such as Visual Studio, Rider or similar - open the [Foundation.sln](./Foundation.sln)
 file and do the build / test run from within the IDE.
+
+## Static Code Analysis
+
+All projects are built using the same static code analysis rules found [here](https://github.com/aksio-system/Defaults).
+You can find the rule-sets [here](https://github.com/aksio-system/Defaults/tree/main/Source/Defaults).
