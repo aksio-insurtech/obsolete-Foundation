@@ -1,10 +1,7 @@
 using Aksio.Microservices;
 using Cratis.DependencyInversion;
 using Cratis.Extensions.Dolittle;
-using Cratis.Reflection;
 using Cratis.Types;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Extensions.Hosting
