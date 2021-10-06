@@ -4,7 +4,12 @@
             "servers": [
                 "localhost"
             ],
-            "database": "event_store_aspnetcore"
+            "database": "event_store_sample"
+        },
+        "readModels": {
+            "host": "mongodb://localhost:27017",
+            "database": "read_models_sample",
+            "useSSL": false
         }
     }
 }

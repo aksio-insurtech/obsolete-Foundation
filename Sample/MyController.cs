@@ -19,6 +19,8 @@ namespace Sample
         [HttpGet]
         public async Task Something()
         {
+            var collection = _database.GetCollection<Employee>();
+            await collection.FindAsync(_ => true).ConfigureAwait(false);
             await _eventLog.Append(Guid.NewGuid(), new MyEvent(42)).ConfigureAwait(false);
         }
     }
