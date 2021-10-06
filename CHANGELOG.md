@@ -1,3 +1,12 @@
+# [v1.4.0] - 2021-10-6 [PR: #13](https://github.com/aksio-system/Foundation/pull/13)
+
+### Added
+
+- Adding support for the Dolittle resource system with multi tenancy support.
+- Hooking up `IMongoDatabase` to use the resource system.
+- Introducing convenience extension method for getting a MongoDB collection and its name resolved from the type, automatically pluralized and camelCased.
+
+
 # [v1.3.0] - 2021-10-5 [PR: #12](https://github.com/aksio-system/Foundation/pull/12)
 
 ### Added
