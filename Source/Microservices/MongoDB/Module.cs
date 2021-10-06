@@ -1,6 +1,6 @@
+using Aksio.Dolittle.Resources;
 using Aksio.Execution;
 using Autofac;
-using Cratis.Extensions.MongoDB;
 using Dolittle.SDK.Tenancy;
 using MongoDB.Driver;
 
@@ -26,21 +26,14 @@ namespace Aksio.MongoDB
                     return _mongoDatabaseByTenant[tenant];
                 }
 
-                var client = container!.Resolve<IMongoDBClientFactory>().Create(MongoUrl.Create("mongodb://localhost:27017"));
-                var database = client.GetDatabase("something");
-                _mongoDatabaseByTenant[tenant] = database;
-                return database;
-
-                /*
+                var resourceConfigurations = container!.Resolve<IResourceConfigurations>();
                 var config = resourceConfigurations.GetFor<MongoDbReadModelsConfiguration>(tenant);
                 var url = MongoUrl.Create(config.Host);
                 var settings = MongoClientSettings.FromUrl(url);
-                settings.GuidRepresentation = GuidRepresentation.Standard;
-                arguments?.MongoClientSettingsCallback(settings);
                 var client = new MongoClient(settings.Freeze());
                 var database = client.GetDatabase(config.Database);
                 _mongoDatabaseByTenant[tenant] = database;
-                return database;*/
+                return database;
             }).As<IMongoDatabase>();
         }
     }
