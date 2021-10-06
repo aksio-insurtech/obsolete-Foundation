@@ -1,7 +1,7 @@
 using Aksio.Execution;
 using ExecutionContext = Dolittle.SDK.Execution.ExecutionContext;
 
-namespace Aksio.Microservices.Dolittle
+namespace Aksio.Dolittle
 {
     /// <summary>
     /// Represents an implementation of <see cref="global::Dolittle.SDK.DependencyInversion.IContainer"/>.
