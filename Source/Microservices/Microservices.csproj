@@ -10,6 +10,7 @@
 
     <ItemGroup>
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+        <PackageReference Include="Humanizer" Version="2.11.10" />
         <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />

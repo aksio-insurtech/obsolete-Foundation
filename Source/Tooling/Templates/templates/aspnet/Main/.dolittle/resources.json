@@ -5,6 +5,11 @@
                 "localhost"
             ],
             "database": "event_store"
+        },
+        "readModels": {
+            "host": "mongodb://localhost:27017",
+            "database": "read_models",
+            "useSSL": false
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Aksio.Execution
             _currentExecutionContext.Value = new ExecutionContext(
                 Guid.Empty,
                 tenantId,
-                new Dolittle.SDK.Microservices.Version(1, 0, 0, 0),
+                new global::Dolittle.SDK.Microservices.Version(1, 0, 0, 0),
                 RuntimeEnvironment.IsDevelopment ? Environment.Development : Environment.Production,
                 correlationId,
                 Claims.Empty,

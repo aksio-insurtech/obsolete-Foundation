@@ -1,4 +1,4 @@
-namespace Aksio.Microservices
+namespace Aksio
 {
     /// <summary>
     /// Internal properties.
