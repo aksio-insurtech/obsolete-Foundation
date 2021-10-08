@@ -1,6 +1,7 @@
 # Introduction
 
 [![Build](https://github.com/aksio-system/Foundation/actions/workflows/build.yml/badge.svg)](https://github.com/aksio-system/Foundation/actions/workflows/build.yml)
+[![Nuget](https://img.shields.io/nuget/v/aksio.microservices)](http://nuget.org/packages/aksio.microservices)
 
 This repository holds the generalized abstractions being the foundation of solutions built @ Aksio.
 Within this you'll find reusable components, libraries, helpers and solutions that are
