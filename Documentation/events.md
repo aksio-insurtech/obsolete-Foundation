@@ -42,7 +42,8 @@ public class EmployeesController : Controller
 You can add properties to all events and types being committed, without having to rely on them
 being explicitly defined on the type and then having to be set throughout.
 Typical use-case would be some metadata that you want to capture that is beyond the domain
-in which the event exists in.
+in which the event exists in. And also those properties that you want to make sure aren't tampered
+with and should be provided by the backend.
 
 All you need to do is create a class that implements the `ICanProvideAdditionalEventInformation`
 interface:
