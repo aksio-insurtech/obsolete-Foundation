@@ -38,7 +38,7 @@ namespace Aksio.Dolittle.Resources
             if (File.Exists(_resourcesJsonFilePath))
             {
                 var resourcesJson = File.ReadAllText(_resourcesJsonFilePath);
-                var resourcesPerTenant = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, JObject>>>(resourcesJson);
+                var resourcesPerTenant = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, JObject>>>(resourcesJson)!;
 
                 foreach ((var tenantIdString, var tenantResources) in resourcesPerTenant)
                 {

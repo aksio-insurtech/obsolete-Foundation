@@ -24,7 +24,9 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var clientBuilder = Client
                 .ForMicroservice(Guid.Empty)
+#pragma warning disable CA2000 // Requirement of disposing all references before exiting scope.
                 .WithLogging(new LoggerFactory().AddSerilog(Log.Logger))
+#pragma warning restore
                 .WithAutoDiscoveredEventHandlers(services, types, serviceProviderProvider)
                 .WithAutoDiscoveredEventTypes(types);
 

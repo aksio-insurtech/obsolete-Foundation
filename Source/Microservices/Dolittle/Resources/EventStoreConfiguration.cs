@@ -5,5 +5,5 @@ namespace Aksio.Dolittle.Resources
     /// </summary>
     /// <param name="Servers">MongoDB servers to connect to.</param>
     /// <param name="Database">Database to use.</param>
-    public record EventStoreConfiguration(string[] Servers, string Database) : ResourceConfiguration;
+    public record EventStoreConfiguration(IEnumerable<string> Servers, string Database) : ResourceConfiguration;
 }

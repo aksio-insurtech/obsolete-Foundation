@@ -21,6 +21,7 @@ namespace Microsoft.AspNetCore.Builder
                 .UseDolittle()
                 .UseDolittleExecutionContext()
                 .UseDolittleSchemaStore()
+                .UseDolittleProjections()
                 .UseCratisWorkbench();
 
             if (RuntimeEnvironment.IsDevelopment)
