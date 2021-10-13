@@ -27,7 +27,7 @@ public class EmployeesController : Controller
     public EmployeesController(IMongoCollection<Employee> collection) => _collection = collection;
 
     [HttpGet]
-    public IEnumerable<Employee> GetAllEmployees() = () => _collection.Find(_ => true);
+    public IEnumerable<Employee> GetAllEmployees() = () => _collection.Find(_ => true).ToList();
 }
 ```
 
@@ -45,7 +45,7 @@ public class EmployeesController : Controller
     public IEnumerable<Employee> GetAllEmployees()
     {
         var collection = _database.GetCollection<Employee>();
-        return collection.Find(_ => true);
+        return collection.Find(_ => true).ToList();
     }
 }
 ```
@@ -67,7 +67,7 @@ public class EmployeesController : Controller
     public IEnumerable<Employee> GetAllEmployees()
     {
         var collection = _database.GetCollection<Employee>("MyEmployees");
-        return collection.FindAsync(_ => true);
+        return collection.FindAsync(_ => true).ToList();
     }
 }
 ```
