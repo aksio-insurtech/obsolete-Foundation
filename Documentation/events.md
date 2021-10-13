@@ -36,3 +36,34 @@ public class EmployeesController : Controller
     }
 }
 ```
+
+## Cross cutting properties
+
+You can add properties to all events and types being committed, without having to rely on them
+being explicitly defined on the type and then having to be set throughout.
+Typical use-case would be some metadata that you want to capture that is beyond the domain
+in which the event exists in.
+
+All you need to do is create a class that implements the `ICanProvideAdditionalEventInformation`
+interface:
+
+```csharp
+using Aksio.Events.EventLogs;
+
+namespace Sample
+{
+    public class MyAdditionalEventInformationProvider : ICanProvideAdditionalEventInformation
+    {
+        public object ProvideFor(object @event)
+        {
+            return new
+            {
+                Something = Guid.NewGuid(),
+                SomeTime = DateTimeOffset.UtcNow
+            };
+        }
+    }
+}
+```
+
+This will automatically be picked up and used by the mechanisms for appending events.
