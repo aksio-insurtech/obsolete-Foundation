@@ -46,6 +46,10 @@
             ],
             "args": {
                 "targetFiles": [
+                    "./Concepts/Concepts.csproj",
+                    "./Domain/Domain.csproj",
+                    "./Events/Events.csproj",
+                    "./Read/Read.csproj",
                     "./Main/Main.csproj"
                 ],
                 "referenceType": "package",
@@ -64,10 +68,33 @@
             ],
             "args": {
                 "targetFiles": [
+                    "./Concepts/Concepts.csproj",
+                    "./Domain/Domain.csproj",
+                    "./Events/Events.csproj",
+                    "./Read/Read.csproj",
                     "./Main/Main.csproj"
                 ],
                 "referenceType": "package",
-                "reference": "Aksio.Defaults",
+                "reference": "Aksio.Microservices",
+                "projectFileExtensions": "**/*.csproj"
+            }
+        },
+        {
+            "description": "Add latest version of Aksio.Specifications",
+            "actionId": "B17581D1-C5C9-4489-8F0A-004BE667B814",
+            "continueOnError": true,
+            "manualInstructions": [
+                {
+                    "text": "dotnet add package Aksio.Specifications"
+                }
+            ],
+            "args": {
+                "targetFiles": [
+                    "./Domain.Specs/Domain.Specs.csproj",
+                    "./Read.Specs/Read.Specs.csproj"
+                ],
+                "referenceType": "package",
+                "reference": "Aksio.Specifications",
                 "projectFileExtensions": "**/*.csproj"
             }
         },

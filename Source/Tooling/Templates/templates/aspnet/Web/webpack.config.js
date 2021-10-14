@@ -8,7 +8,9 @@ module.exports = (env, argv) => {
         config.devServer.port = 9000;
         config.devServer.proxy = {
             '/graphql': 'http://localhost:5000',
-            '/api': 'http://localhost:5000'
-        }
-    }, 'AksioMicroserviceTemplate');
+            '/api': 'http://localhost:5000',
+            '/events': 'http://localhost:5000',
+            '/swagger': 'http://localhost:5000'
+        };
+    }, 'Sample');
 };
