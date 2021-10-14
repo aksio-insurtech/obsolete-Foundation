@@ -1,3 +1,9 @@
+# [v1.5.1] - 2021-10-14 [PR: #15](https://github.com/aksio-system/Foundation/pull/15)
+
+### Fixed
+
+- Upgrading to latest Cratis.
+
 # [v1.5.0] - 2021-10-14 [PR: #14](https://github.com/aksio-system/Foundation/pull/14)
 
 ### Added
