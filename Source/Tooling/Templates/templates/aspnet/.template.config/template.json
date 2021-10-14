@@ -130,6 +130,19 @@
             }
         },
         {
+            "description": "Instructions for starting 3rd parties",
+            "actionId": "AC1156F7-BB77-4DB8-B28F-24EEBCCA1E5C",
+            "manualInstructions": [
+                {
+                    "text": "To run the 3rd party dependencies; run the following command from the Main folder"
+                }
+            ],
+            "args": {
+                "executable": "docker",
+                "args": "compose up"
+            }
+        },
+        {
             "description": "Instructions for starting backend",
             "actionId": "AC1156F7-BB77-4DB8-B28F-24EEBCCA1E5C",
             "manualInstructions": [
