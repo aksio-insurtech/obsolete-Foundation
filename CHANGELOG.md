@@ -1,3 +1,10 @@
+# [v1.5.3] - 2021-10-14 [PR: #17](https://github.com/aksio-system/Foundation/pull/17)
+
+### Fixed
+
+- Adding links to runtime debugging tools in template.
+- Adding vscode setup for debugging in template.
+
 # [v1.5.2] - 2021-10-14 [PR: #16](https://github.com/aksio-system/Foundation/pull/16)
 
 ### Fixed
