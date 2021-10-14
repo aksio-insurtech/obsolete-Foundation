@@ -1,3 +1,10 @@
+# [v1.5.2] - 2021-10-14 [PR: #16](https://github.com/aksio-system/Foundation/pull/16)
+
+### Fixed
+
+- Dolittle ports exposed in docker compose file created by template.
+- Added deposit sample into template.
+
 # [v1.5.1] - 2021-10-14 [PR: #15](https://github.com/aksio-system/Foundation/pull/15)
 
 ### Fixed
