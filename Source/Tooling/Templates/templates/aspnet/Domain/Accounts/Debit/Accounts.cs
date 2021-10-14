@@ -13,5 +13,8 @@ namespace Domain.Accounts.Debit
 
         [HttpPost]
         public Task Create([FromBody] CreateDebitAccount create) => _eventLog.Append(create.AccountId, new DebitAccountOpened(create.Name, create.Owner));
+
+        [HttpPost("deposit")]
+        public Task Deposit([FromBody] DepositToAccount deposit) => _eventLog.Append(deposit.AccountId, new DepositToDebitAccountPerformed(deposit.Amount));
     }
 }

@@ -8,8 +8,11 @@ namespace Read.Accounts.Debit
     public class DebitAccountProjection : IProjectionFor<DebitAccount>
     {
         public void Define(IProjectionBuilderFor<DebitAccount> builder) =>
-            builder.From<DebitAccountOpened>(_ => _
-                .Set(model => model.Name).To(@event => @event.Name)
-                .Set(model => model.Owner).To(@event => @event.Owner));
+            builder
+                .From<DebitAccountOpened>(_ => _
+                    .Set(model => model.Name).To(@event => @event.Name)
+                    .Set(model => model.Owner).To(@event => @event.Owner))
+                .From<DepositToDebitAccountPerformed>(_ => _
+                    .Set(model => model.Balance).To(@event => @event.Amount));
     }
 }

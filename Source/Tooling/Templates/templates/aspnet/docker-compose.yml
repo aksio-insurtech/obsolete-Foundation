@@ -4,3 +4,5 @@ services:
     image: dolittle/runtime:latest-arm64-development
     ports:
       - 27017:27017
+      - 50052:50052
+      - 50053:50053

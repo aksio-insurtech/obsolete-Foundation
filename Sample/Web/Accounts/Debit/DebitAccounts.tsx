@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useDialog, DialogResult } from '../../useDialog';
 import { CreateAccountDialog, CreateAccountDialogResult } from './CreateAccountDialog';
 import { useDataFrom } from '../../useDataFrom';
@@ -13,6 +13,7 @@ import {
     SelectionMode,
     Stack
 } from '@fluentui/react';
+import { AmountDialog, AmountDialogInput, AmountDialogResult } from './AmountDialog';
 
 const columns: IColumn[] = [
     {
@@ -35,9 +36,14 @@ type CreateDebitAccount = {
     owner: string
 };
 
+type DepositToAccount = {
+    accountId: string;
+    amount: number;
+};
 
 export const DebitAccounts = () => {
     const [items, refreshItems] = useDataFrom('/api/accounts/debit');
+    const [selectedItem, setSelectedItem] = useState<any>(undefined);
     const [showCreateAccount, createAccountDialogProps] = useDialog<any, CreateAccountDialogResult>(async (result, output?) => {
         if (result === DialogResult.Success && output) {
             const createDebitAccount: CreateDebitAccount = {
@@ -59,6 +65,27 @@ export const DebitAccounts = () => {
         }
     });
 
+
+    const [showAmountDialog, amountDialogProps] = useDialog<AmountDialogInput, AmountDialogResult>(async (result, output?) => {
+        if (result === DialogResult.Success && output && selectedItem) {
+            const depositToAccount: DepositToAccount = {
+                accountId: selectedItem.id,
+                amount: output.amount
+            };
+
+            await fetch('/api/accounts/debit/deposit', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(depositToAccount)
+            });
+
+            setTimeout(refreshItems, 200);
+        }
+    });
+
     const commandBarItems: ICommandBarItemProps[] = [
         {
             key: 'add',
@@ -74,13 +101,24 @@ export const DebitAccounts = () => {
         }
     ];
 
+    if (selectedItem) {
+        commandBarItems.push(
+            {
+                key: 'deposit',
+                name: 'Deposit',
+                iconProps: { iconName: 'Money' },
+                onClick: () => showAmountDialog({ okTitle: 'Deposit' })
+            }
+        );
+    }
+
     const selection = useMemo(
         () => new Selection({
             selectionMode: SelectionMode.single,
             onSelectionChanged: () => {
                 const selected = selection.getSelection();
                 if (selected.length === 1) {
-                    alert(selected[0]);
+                    setSelectedItem(selected[0]);
                 }
             },
             items: items
@@ -99,6 +137,7 @@ export const DebitAccounts = () => {
             </Stack>
 
             <CreateAccountDialog {...createAccountDialogProps} />
+            <AmountDialog {...amountDialogProps} />
         </>
     );
 };
