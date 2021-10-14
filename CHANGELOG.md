@@ -1,3 +1,14 @@
+# [v1.5.0] - 2021-10-14 [PR: #14](https://github.com/aksio-system/Foundation/pull/14)
+
+### Added
+
+- Leveraging Cratis Projections one can now create projections from events to read models.
+- Added a full end to end sample for the .NET tooling template.
+- Adding Swagger default setup.
+- JSON Converters hooked up for Dolittle - enabling us to use concepts on events
+- JSON Converters hooked up for ASP.NET Core - enabling us to use concepts on models going in and coming out ('Commands' & Read Models).
+- Adding the capability of taking `IMongoCollection<>` directly as a dependency.
+
 # [v1.4.0] - 2021-10-6 [PR: #13](https://github.com/aksio-system/Foundation/pull/13)
 
 ### Added
