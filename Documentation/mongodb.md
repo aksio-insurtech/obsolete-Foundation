@@ -12,6 +12,27 @@ a pre-configured setup for the [IoC Container](./ioc.md).
 
 Usage:
 
+Lets say we have a document that is defined as the following:
+
+```csharp
+public record Employee(Guid Id, string FirstName, string LastName);
+```
+
+```csharp
+[Route("/api/employees")]
+public class EmployeesController : Controller
+{
+    readonly IMongoDatabase _collection;
+
+    public EmployeesController(IMongoCollection<Employee> collection) => _collection = collection;
+
+    [HttpGet]
+    public IEnumerable<Employee> GetAllEmployees() = () => _collection.Find(_ => true).ToList();
+}
+```
+
+> Note: The name of the collection will follow the convention of pluralizing the name and then **camelCasing** it.
+
 ```csharp
 [Route("/api/employees")]
 public class EmployeesController : Controller
@@ -21,16 +42,13 @@ public class EmployeesController : Controller
     public EmployeesController(IMongoDatabase database) => _database = database;
 
     [HttpGet]
-    public Task<Employee> GetAllEmployees()
+    public IEnumerable<Employee> GetAllEmployees()
     {
         var collection = _database.GetCollection<Employee>();
-        return collection.FindAsync(_ => true).ConfigureAwait(false);
+        return collection.Find(_ => true).ToList();
     }
 }
 ```
-
-> Important: It is very important that you don't create a singleton and keep the instance around, as you will be handed the
-> correct instance for the tenant in the current context.
 
 The `GetCollection<Employee>()` call is an extension method provided by the Foundation that automatically by convention
 pluralizes the name of the collection and also makes it **camelCase**.
@@ -46,10 +64,13 @@ public class EmployeesController : Controller
     public EmployeesController(IMongoDatabase database) => _database = database;
 
     [HttpGet]
-    public Task<Employee> GetAllEmployees()
+    public IEnumerable<Employee> GetAllEmployees()
     {
         var collection = _database.GetCollection<Employee>("MyEmployees");
-        return collection.FindAsync(_ => true).ConfigureAwait(false);
+        return collection.FindAsync(_ => true).ToList();
     }
 }
 ```
+
+> Important: It is very important that you don't create a singleton and keep the instance around, as you will be handed the
+> correct instance for the tenant in the current context.

@@ -8,7 +8,7 @@
         },
         "readModels": {
             "host": "mongodb://localhost:27017",
-            "database": "read_models",
+            "database": "read-models",
             "useSSL": false
         }
     }

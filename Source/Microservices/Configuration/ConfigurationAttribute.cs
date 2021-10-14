@@ -1,10 +1,12 @@
 namespace Aksio.Configuration
 {
+#pragma warning disable AS0003  // Allow sealed attribute
+
     /// <summary>
     /// Attribute used to adorn configuration objects.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class ConfigurationAttribute : Attribute
+    public sealed class ConfigurationAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurationAttribute"/> class.
@@ -20,11 +22,11 @@ namespace Aksio.Configuration
         /// <summary>
         /// Gets the name of the configuration file.
         /// </summary>
-        public string FileName { get; }
+        public string FileName { get; }
 
         /// <summary>
         /// Gets a value indicating whether or not the file is optional.
         /// </summary>
-        public bool Optional { get; }
+        public bool Optional { get; }
     }
 }

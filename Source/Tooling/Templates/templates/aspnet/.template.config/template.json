@@ -46,6 +46,10 @@
             ],
             "args": {
                 "targetFiles": [
+                    "./Concepts/Concepts.csproj",
+                    "./Domain/Domain.csproj",
+                    "./Events/Events.csproj",
+                    "./Read/Read.csproj",
                     "./Main/Main.csproj"
                 ],
                 "referenceType": "package",
@@ -64,10 +68,33 @@
             ],
             "args": {
                 "targetFiles": [
+                    "./Concepts/Concepts.csproj",
+                    "./Domain/Domain.csproj",
+                    "./Events/Events.csproj",
+                    "./Read/Read.csproj",
                     "./Main/Main.csproj"
                 ],
                 "referenceType": "package",
-                "reference": "Aksio.Defaults",
+                "reference": "Aksio.Microservices",
+                "projectFileExtensions": "**/*.csproj"
+            }
+        },
+        {
+            "description": "Add latest version of Aksio.Specifications",
+            "actionId": "B17581D1-C5C9-4489-8F0A-004BE667B814",
+            "continueOnError": true,
+            "manualInstructions": [
+                {
+                    "text": "dotnet add package Aksio.Specifications"
+                }
+            ],
+            "args": {
+                "targetFiles": [
+                    "./Domain.Specs/Domain.Specs.csproj",
+                    "./Read.Specs/Read.Specs.csproj"
+                ],
+                "referenceType": "package",
+                "reference": "Aksio.Specifications",
                 "projectFileExtensions": "**/*.csproj"
             }
         },
@@ -86,6 +113,7 @@
                 ]
             }
         },
+
         {
             "condition": "(IncludeWeb)",
             "description": "Install node modules required by this project.",
@@ -97,9 +125,22 @@
                 }
             ],
             "args": {
-                "executable": "yarn",
-                "args": "install --cwd ./Web",
+                "executable": "npx",
+                "args": "yarn install --cwd ./Web",
                 "redirectStandardOutput": "true"
+            }
+        },
+        {
+            "description": "Instructions for starting 3rd parties",
+            "actionId": "AC1156F7-BB77-4DB8-B28F-24EEBCCA1E5C",
+            "manualInstructions": [
+                {
+                    "text": "To run the 3rd party dependencies; run the following command from the Main folder"
+                }
+            ],
+            "args": {
+                "executable": "docker",
+                "args": "compose up"
             }
         },
         {

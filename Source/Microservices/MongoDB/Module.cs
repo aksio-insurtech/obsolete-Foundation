@@ -1,8 +1,12 @@
+using System.Reflection;
 using Aksio.Dolittle.Resources;
 using Aksio.Execution;
 using Autofac;
+using Cratis.Strings;
 using Dolittle.SDK.Tenancy;
+using Humanizer;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Events;
 
 namespace Aksio.MongoDB
 {
@@ -11,6 +15,8 @@ namespace Aksio.MongoDB
     /// </summary>
     public class Module : Autofac.Module
     {
+        static readonly MethodInfo GetCollectionMethod = typeof(IMongoDatabase).GetMethod(nameof(IMongoDatabase.GetCollection), BindingFlags.Public | BindingFlags.Instance)!;
+
         static readonly Dictionary<TenantId, IMongoDatabase> _mongoDatabaseByTenant = new();
 
         /// <inheritdoc/>
@@ -30,11 +36,26 @@ namespace Aksio.MongoDB
                 var config = resourceConfigurations.GetFor<MongoDbReadModelsConfiguration>(tenant);
                 var url = MongoUrl.Create(config.Host);
                 var settings = MongoClientSettings.FromUrl(url);
+                settings.ClusterConfigurator = _ => _
+                    .Subscribe<CommandStartedEvent>(ev => Console.WriteLine($"Start: {ev.CommandName} : {ev.Command}"))
+                    .Subscribe<CommandSucceededEvent>(ev => Console.WriteLine($"Succeeded: {ev.CommandName} : {ev.Reply}"))
+                    .Subscribe<CommandFailedEvent>(ev => Console.WriteLine($"Failed: {ev.CommandName} : {ev.Failure}"));
                 var client = new MongoClient(settings.Freeze());
                 var database = client.GetDatabase(config.Database);
                 _mongoDatabaseByTenant[tenant] = database;
                 return database;
             }).As<IMongoDatabase>();
+
+            builder.RegisterGeneric((_, types) =>
+            {
+                var documentType = types[0];
+                var database = container!.Resolve<IMongoDatabase>();
+
+                var name = documentType.Name.Pluralize();
+                var camelCaseName = name.ToCamelCase();
+                var genericMethod = GetCollectionMethod.MakeGenericMethod(documentType);
+                return genericMethod.Invoke(database, new object[] { camelCaseName, null! })!;
+            }).As(typeof(IMongoCollection<>));
         }
     }
 }

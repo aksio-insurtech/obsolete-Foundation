@@ -1,6 +1,6 @@
 using Aksio;
 using Cratis.DependencyInversion;
-using Cratis.Extensions.Dolittle;
+using Cratis.Extensions.Dolittle.Workbench;
 using Cratis.Types;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,9 +26,13 @@ namespace Microsoft.Extensions.Hosting
                   .AddSingleton<ITypes>(types)
                   .AddSingleton<ProviderFor<IServiceProvider>>(() => Internals.ServiceProvider!)
                   .AddControllersFromProjectReferencedAssembles(types)
+                  .AddProjections()
                   .AddDolittle(types, () => Internals.ServiceProvider!)
+                  .AddDolittleEventTypes()
                   .AddDolittleSchemaStore("localhost", 27017)
-                  .AddCratisWorkbench(_ => _.UseDolittle());
+                  .AddDolittleProjections()
+                  .AddCratisWorkbench(_ => _.UseDolittle())
+                  .AddSwaggerGen();
 
                 // Temporarily adding this, due to a bug in .NET 6 (https://www.ingebrigtsen.info/2021/09/29/autofac-asp-net-core-6-hot-reload-debug-crash/):
                 _.AddRazorPages();

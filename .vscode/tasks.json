@@ -21,7 +21,7 @@
                 "build",
                 "--nologo",
                 "--no-restore",
-                "${workspaceFolder}/Sample/Sample.csproj"
+                "${workspaceFolder}/Sample/Main/Main.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

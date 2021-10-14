@@ -1,3 +1,4 @@
+using Aksio;
 using Cratis.Reflection;
 using Cratis.Types;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,9 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             foreach (var assembly in types.ProjectReferencedAssemblies.Where(_ => _.DefinedTypes.Any(type => type.Implements(typeof(Controller)))))
             {
-                services.AddControllers().PartManager.ApplicationParts.Add(new AssemblyPart(assembly));
+                services.AddControllers()
+                            .AddJsonOptions(_ => _.JsonSerializerOptions.Converters.Add(new ConceptAsJsonConverterFactory()))
+                            .PartManager.ApplicationParts.Add(new AssemblyPart(assembly));
             }
 
             return services;

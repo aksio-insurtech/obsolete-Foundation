@@ -1,6 +1,3 @@
-using Aksio.Events.Handling;
-using Dolittle.SDK.Events;
-
 namespace Sample
 {
     public class MyEventHandlerMiddleware : IEventHandlerMiddleware

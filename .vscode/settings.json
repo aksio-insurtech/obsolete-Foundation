@@ -5,6 +5,7 @@
         "Bson",
         "Cratis",
         "expando",
+        "fluentui",
         "Templating",
         "Xunit"
     ]
