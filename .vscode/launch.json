@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Sample/bin/Debug/net6.0/Sample.dll",
+            "program": "${workspaceFolder}/Sample/Main/bin/Debug/net6.0/Main.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Sample",
+            "cwd": "${workspaceFolder}/Sample/Main",
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
@@ -25,9 +25,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Sample/bin/Debug/net6.0/Sample.dll",
+            "program": "${workspaceFolder}/Sample/Main/bin/Debug/net6.0/Main.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Sample",
+            "cwd": "${workspaceFolder}/Sample/Main",
             "stopAtEntry": false,
             "justMyCode": false,
             "requireExactSource": false,
