@@ -31,7 +31,8 @@ namespace Microsoft.Extensions.Hosting
                   .AddDolittleEventTypes()
                   .AddDolittleSchemaStore("localhost", 27017)
                   .AddDolittleProjections()
-                  .AddCratisWorkbench(_ => _.UseDolittle());
+                  .AddCratisWorkbench(_ => _.UseDolittle())
+                  .AddSwaggerGen();
 
                 // Temporarily adding this, due to a bug in .NET 6 (https://www.ingebrigtsen.info/2021/09/29/autofac-asp-net-core-6-hot-reload-debug-crash/):
                 _.AddRazorPages();

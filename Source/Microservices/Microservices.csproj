@@ -26,5 +26,6 @@
         <PackageReference Include="Dolittle.SDK" Version="$(DolittleSdk)" />
         <PackageReference Include="Grpc.Core" Version="2.39.1" />
         <PackageReference Include="Contrib.Grpc.Core.M1" Version="2.39.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
     </ItemGroup>
 </Project>

@@ -17,17 +17,19 @@ namespace Microsoft.AspNetCore.Builder
         {
             Internals.ServiceProvider = app.ApplicationServices;
 
+            if (RuntimeEnvironment.IsDevelopment)
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger"));
+            }
+
             app.UseDefaultLogging()
                 .UseDolittle()
                 .UseDolittleExecutionContext()
                 .UseDolittleSchemaStore()
                 .UseDolittleProjections()
                 .UseCratisWorkbench();
-
-            if (RuntimeEnvironment.IsDevelopment)
-            {
-                app.UseDeveloperExceptionPage();
-            }
 
             return app;
         }

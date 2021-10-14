@@ -1,4 +1,5 @@
 using Aksio.Events.Types;
+using Cratis.Concepts;
 using Cratis.DependencyInversion;
 using Cratis.Types;
 using Dolittle.SDK;
@@ -28,7 +29,12 @@ namespace Microsoft.Extensions.DependencyInjection
                 .WithLogging(new LoggerFactory().AddSerilog(Log.Logger))
 #pragma warning restore
                 .WithAutoDiscoveredEventHandlers(services, types, serviceProviderProvider)
-                .WithAutoDiscoveredEventTypes(types);
+                .WithAutoDiscoveredEventTypes(types)
+                .WithEventSerializerSettings(_ =>
+                {
+                    _.Converters.Add(new ConceptAsJsonConverter());
+                    _.Converters.Add(new ConceptAsDictionaryJsonConverter());
+                });
 
             var client = clientBuilder.Build();
             services.AddSingleton(client);
