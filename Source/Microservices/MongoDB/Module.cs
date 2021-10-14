@@ -6,6 +6,7 @@ using Cratis.Strings;
 using Dolittle.SDK.Tenancy;
 using Humanizer;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Events;
 
 namespace Aksio.MongoDB
 {
@@ -35,6 +36,10 @@ namespace Aksio.MongoDB
                 var config = resourceConfigurations.GetFor<MongoDbReadModelsConfiguration>(tenant);
                 var url = MongoUrl.Create(config.Host);
                 var settings = MongoClientSettings.FromUrl(url);
+                settings.ClusterConfigurator = _ => _
+                    .Subscribe<CommandStartedEvent>(ev => Console.WriteLine($"Start: {ev.CommandName} : {ev.Command}"))
+                    .Subscribe<CommandSucceededEvent>(ev => Console.WriteLine($"Succeeded: {ev.CommandName} : {ev.Reply}"))
+                    .Subscribe<CommandFailedEvent>(ev => Console.WriteLine($"Failed: {ev.CommandName} : {ev.Failure}"));
                 var client = new MongoClient(settings.Freeze());
                 var database = client.GetDatabase(config.Database);
                 _mongoDatabaseByTenant[tenant] = database;

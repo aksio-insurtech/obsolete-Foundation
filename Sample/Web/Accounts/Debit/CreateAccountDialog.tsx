@@ -27,17 +27,19 @@ export const CreateAccountDialog = (props: IDialogProps<any, CreateAccountDialog
     const [name, setName] = useState('');
 
     const create = () => {
+        setName('');
         props.onClose(DialogResult.Success, { name });
     };
 
     const cancel = () => {
+        setName('');
         props.onClose(DialogResult.Cancelled);
     };
 
     return (
         <Dialog
             minWidth={600}
-            hidden={!props.visible}     // We react on the visible property from the props
+            hidden={!props.visible}
             onDismiss={create}
             dialogContentProps={dialogContentProps}>
 

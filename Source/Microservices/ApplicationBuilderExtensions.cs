@@ -26,9 +26,9 @@ namespace Microsoft.AspNetCore.Builder
 
             app.UseDefaultLogging()
                 .UseDolittle()
-                .UseDolittleExecutionContext()
-                .UseDolittleSchemaStore()
                 .UseDolittleProjections()
+                .UseDolittleSchemaStore()
+                .UseDolittleExecutionContext()
                 .UseCratisWorkbench();
 
             return app;

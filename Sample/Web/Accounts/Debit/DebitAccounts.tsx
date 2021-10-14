@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import { useDialog, DialogResult } from '../../useDialog';
 import { CreateAccountDialog, CreateAccountDialogResult } from './CreateAccountDialog';
+import { useDataFrom } from '../../useDataFrom';
+import { Guid } from '@cratis/fundamentals';
 
 import {
     CommandBar,
@@ -35,16 +37,16 @@ type CreateDebitAccount = {
 
 
 export const DebitAccounts = () => {
-
+    const [items, refreshItems] = useDataFrom('/api/accounts/debit');
     const [showCreateAccount, createAccountDialogProps] = useDialog<any, CreateAccountDialogResult>(async (result, output?) => {
         if (result === DialogResult.Success && output) {
             const createDebitAccount: CreateDebitAccount = {
-                accountId: '4cf10c68-2917-4c13-842e-73e69c9fda47',
+                accountId: Guid.create().toString(),
                 name: output.name,
                 owner: 'edd60145-a6df-493f-b48d-35ffdaaefc4c'
             };
 
-            fetch('/api/accounts/debit', {
+            await fetch('/api/accounts/debit', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -52,6 +54,8 @@ export const DebitAccounts = () => {
                 },
                 body: JSON.stringify(createDebitAccount)
             });
+
+            setTimeout(refreshItems, 200);
         }
     });
 
@@ -60,13 +64,15 @@ export const DebitAccounts = () => {
             key: 'add',
             name: 'Add Debit Account',
             iconProps: { iconName: 'Add' },
-            onClick: () => {
-                showCreateAccount();
-            }
+            onClick: showCreateAccount
         },
+        {
+            key: 'refresh',
+            name: 'Refresh',
+            iconProps: { iconName: 'Refresh' },
+            onClick: refreshItems
+        }
     ];
-
-    const items: any[] = [];
 
     const selection = useMemo(
         () => new Selection({
