@@ -1,3 +1,15 @@
+# [v1.5.4] - 2021-10-25 [PR: #18](https://github.com/aksio-system/Foundation/pull/18)
+
+### Changed
+
+- Upgraded to Cratis 2.10.0 with improved projection engine and capabilities.
+- Making use of the new capabilies in the sample and templates.
+
+### Fixed
+
+- Template was referencing wrong projects - fixed.
+
+
 # [v1.5.3] - 2021-10-14 [PR: #17](https://github.com/aksio-system/Foundation/pull/17)
 
 ### Fixed
