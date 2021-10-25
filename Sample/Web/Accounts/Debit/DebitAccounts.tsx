@@ -41,6 +41,11 @@ type DepositToAccount = {
     amount: number;
 };
 
+type WithdrawFromAccount = {
+    accountId: string;
+    amount: number;
+};
+
 export const DebitAccounts = () => {
     const [items, refreshItems] = useDataFrom('/api/accounts/debit');
     const [selectedItem, setSelectedItem] = useState<any>(undefined);
@@ -66,7 +71,7 @@ export const DebitAccounts = () => {
     });
 
 
-    const [showAmountDialog, amountDialogProps] = useDialog<AmountDialogInput, AmountDialogResult>(async (result, output?) => {
+    const [showDepositAmountDialog, depositAmountDialogProps] = useDialog<AmountDialogInput, AmountDialogResult>(async (result, output?) => {
         if (result === DialogResult.Success && output && selectedItem) {
             const depositToAccount: DepositToAccount = {
                 accountId: selectedItem.id,
@@ -85,6 +90,27 @@ export const DebitAccounts = () => {
             setTimeout(refreshItems, 200);
         }
     });
+
+    const [showWithdrawAmountDialog, withdrawAmountDialogProps] = useDialog<AmountDialogInput, AmountDialogResult>(async (result, output?) => {
+        if (result === DialogResult.Success && output && selectedItem) {
+            const withdrawToAccount: WithdrawFromAccount = {
+                accountId: selectedItem.id,
+                amount: output.amount
+            };
+
+            await fetch('/api/accounts/debit/withdraw', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(withdrawToAccount)
+            });
+
+            setTimeout(refreshItems, 200);
+        }
+    });
+
 
     const commandBarItems: ICommandBarItemProps[] = [
         {
@@ -107,9 +133,19 @@ export const DebitAccounts = () => {
                 key: 'deposit',
                 name: 'Deposit',
                 iconProps: { iconName: 'Money' },
-                onClick: () => showAmountDialog({ okTitle: 'Deposit' })
+                onClick: () => showDepositAmountDialog({ okTitle: 'Deposit' })
             }
         );
+
+        commandBarItems.push(
+            {
+                key: 'withdraw',
+                name: 'Withdraw',
+                iconProps: { iconName: 'Money' },
+                onClick: () => showWithdrawAmountDialog({ okTitle: 'Withdraw' })
+            }
+        );
+
     }
 
     const selection = useMemo(
@@ -137,7 +173,8 @@ export const DebitAccounts = () => {
             </Stack>
 
             <CreateAccountDialog {...createAccountDialogProps} />
-            <AmountDialog {...amountDialogProps} />
+            <AmountDialog {...depositAmountDialogProps} />
+            <AmountDialog {...withdrawAmountDialogProps} />
         </>
     );
 };

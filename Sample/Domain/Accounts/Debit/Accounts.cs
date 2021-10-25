@@ -16,5 +16,8 @@ namespace Domain.Accounts.Debit
 
         [HttpPost("deposit")]
         public Task Deposit([FromBody] DepositToAccount deposit) => _eventLog.Append(deposit.AccountId, new DepositToDebitAccountPerformed(deposit.Amount));
+
+        [HttpPost("withdraw")]
+        public Task Withdraw([FromBody] WithdrawFromAccount deposit) => _eventLog.Append(deposit.AccountId, new WithdrawalFromDebitAccountPerformed(deposit.Amount));
     }
 }
