@@ -1,0 +1,17 @@
+/*---------------------------------------------------------------------------------------------
+ *  **DO NOT EDIT** - This file is an automatically generated file.
+ *--------------------------------------------------------------------------------------------*/
+
+{{#imports}}
+import { {{type}} } from '{{path}}'
+{{/imports}}
+
+export type {{name}} = {
+    {{#properties}}
+    {{#if enumerable}}
+    {{name}}!: {{type}}[];
+    {{else}}
+    {{name}}!: {{type}};
+    {{/if}}
+    {{/properties}}    
+}

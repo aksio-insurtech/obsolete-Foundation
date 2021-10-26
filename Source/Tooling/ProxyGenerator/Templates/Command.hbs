@@ -1,0 +1,21 @@
+/*---------------------------------------------------------------------------------------------
+ *  **DO NOT EDIT** - This file is an automatically generated file.
+ *--------------------------------------------------------------------------------------------*/
+
+{{#Imports}}
+import { {{Type}} } from '{{Module}}';
+{{/Imports}}
+
+export class {{Name}} extends ICommand {
+    get route(): string {
+        return '{{Route}}';
+    }
+
+    {{#Properties}}
+    {{#if Enumerable}}
+    {{camelcase Name}}!: {{Type}}[];
+    {{else}}
+    {{camelcase Name}}!: {{Type}};
+    {{/if}}
+    {{/Properties}}
+}
