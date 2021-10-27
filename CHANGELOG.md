@@ -1,3 +1,11 @@
+# [v1.6.0] - 2021-10-27 [PR: #19](https://github.com/aksio-system/Foundation/pull/19)
+
+### Added
+
+- ProxyGenerator NuGet package that generates Command & Query proxy objects based on ASP.NET Controllers and their input and outputs.
+- Scaffolded frontend package to match the requirements of the generated proxy objects.
+
+
 # [v1.5.4] - 2021-10-25 [PR: #18](https://github.com/aksio-system/Foundation/pull/18)
 
 ### Changed
