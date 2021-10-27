@@ -1,3 +1,4 @@
+using Aksio.ProxyGenerator.Syntax;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 

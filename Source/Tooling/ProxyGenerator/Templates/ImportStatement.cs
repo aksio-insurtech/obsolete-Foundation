@@ -1,4 +1,4 @@
-namespace Aksio.ProxyGenerator
+namespace Aksio.ProxyGenerator.Templates
 {
     /// <summary>
     /// Describes an import statement.

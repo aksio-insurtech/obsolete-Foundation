@@ -1,6 +1,6 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Aksio.ProxyGenerator
+namespace Aksio.ProxyGenerator.Syntax
 {
     /// <summary>
     /// Extension methods for working with <see cref="TypeSyntax"/>.

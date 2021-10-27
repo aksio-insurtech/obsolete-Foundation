@@ -1,3 +1,4 @@
+using Aksio.ProxyGenerator.Syntax;
 using Aksio.ProxyGenerator.Templates;
 using HandlebarsDotNet;
 using Microsoft.CodeAnalysis;
@@ -21,31 +22,6 @@ namespace Aksio.ProxyGenerator
                 DiagnosticSeverity.Warning,
                 true),
             default);
-
-        static readonly Dictionary<string, TargetType> _primitiveTypeMap = new()
-        {
-            { typeof(string).FullName!, new("string") },
-            { typeof(short).FullName!, new("number") },
-            { typeof(int).FullName!, new("number") },
-            { typeof(long).FullName!, new("number") },
-            { typeof(ushort).FullName!, new("number") },
-            { typeof(uint).FullName!, new("number") },
-            { typeof(ulong).FullName!, new("number") },
-            { typeof(float).FullName!, new("number") },
-            { typeof(double).FullName!, new("number") },
-            { typeof(DateTime).FullName!, new("string") },
-            { typeof(DateTimeOffset).FullName!, new("string") },
-            { typeof(Guid).FullName!, new("Guid", "@cratis/fundamentals") },
-        };
-
-        static readonly HandlebarsTemplate<object, object> _typeTemplate = Handlebars.Compile(GetTemplate("Type"));
-        static readonly HandlebarsTemplate<object, object> _commandTemplate = Handlebars.Compile(GetTemplate("Command"));
-        static readonly HandlebarsTemplate<object, object> _queryTemplate = Handlebars.Compile(GetTemplate("Query"));
-
-        static SourceGenerator()
-        {
-            Handlebars.RegisterHelper("camelcase", (writer, _, parameters) => writer.WriteSafeString(parameters[0].ToString()!.ToCamelCase()));
-        }
 
         /// <inheritdoc/>
         public void Initialize(GeneratorInitializationContext context)
@@ -78,38 +54,36 @@ namespace Aksio.ProxyGenerator
                 if (routeAttribute == default) return;
 
                 var targetFolder = GetTargetFolder(type, rootNamespace, outputFolder);
-
-                var publicInstanceMethods = type.GetMembers().Where(_ =>
-                    !_.IsStatic &&
-                    _ is IMethodSymbol methodSymbol &&
-                    methodSymbol.DeclaredAccessibility == Accessibility.Public &&
-                    methodSymbol.MethodKind != MethodKind.Constructor).Cast<IMethodSymbol>();
-
-                var commands = publicInstanceMethods.Where(_ => _.GetAttributes().Any(_ => _.IsHttpPostAttribute()));
-                var queries = publicInstanceMethods.Where(_ => _.GetAttributes().Any(_ => _.IsHttpGetAttribute()));
-
                 var baseApiRoute = routeAttribute.ConstructorArguments[0].Value?.ToString() ?? string.Empty;
 
-                foreach (var command in commands)
+                var publicInstanceMethods = type.GetPublicInstanceMethodsFrom();
+
+                OutputCommands(publicInstanceMethods, baseApiRoute, targetFolder);
+            }
+        }
+
+        static void OutputCommands(IEnumerable<IMethodSymbol> methods, string baseApiRoute, string targetFolder)
+        {
+            foreach (var commandMethod in methods.Where(_ => _.GetAttributes().Any(_ => _.IsHttpPostAttribute())))
+            {
+                var methodRoute = commandMethod.GetMethodRoute();
+                var fullRoute = baseApiRoute;
+                if (methodRoute.Length > 0)
                 {
-                    var postAttribute = command.GetHttpPostAttribute();
-                    var commandRoute = baseApiRoute;
-                    if (postAttribute!.ConstructorArguments.Length == 1)
-                    {
-                        commandRoute = $"{baseApiRoute}/{postAttribute.ConstructorArguments[0].Value}";
-                    }
-                    var commandParameter = command.Parameters[0];
-                    var commandType = commandParameter.Type;
-                    var importStatements = new HashSet<ImportStatement>();
-                    var properties = GetPropertyDescriptorsFrom(commandType, importStatements);
-                    var commandDescriptor = new CommandDescriptor(commandRoute, commandType.Name, properties, importStatements);
-                    var result = _commandTemplate(commandDescriptor);
-                    if (result != default)
-                    {
-                        Directory.CreateDirectory(targetFolder);
-                        var file = Path.Join(targetFolder, $"{commandType.Name}.ts");
-                        File.WriteAllText(file, result);
-                    }
+                    fullRoute = $"{baseApiRoute}/{methodRoute}";
+                }
+                var commandParameter = commandMethod.Parameters[0];
+                var commandType = commandParameter.Type;
+                var importStatements = new HashSet<ImportStatement>();
+                var properties = commandType.GetPropertyDescriptorsFrom(out var additionalImportStatements);
+                additionalImportStatements.ForEach(_ => importStatements.Add(_));
+                var commandDescriptor = new CommandDescriptor(fullRoute, commandType.Name, properties, importStatements);
+                var result = TemplateTypes.Command(commandDescriptor);
+                if (result != default)
+                {
+                    Directory.CreateDirectory(targetFolder);
+                    var file = Path.Join(targetFolder, $"{commandType.Name}.ts");
+                    File.WriteAllText(file, result);
                 }
             }
         }
@@ -122,62 +96,6 @@ namespace Aksio.ProxyGenerator
 
             var relativePath = string.Join(Path.DirectorySeparatorChar, segments);
             return Path.Join(outputFolder, relativePath);
-        }
-
-        static string GetTemplate(string name)
-        {
-            var rootType = typeof(Root);
-            var stream = rootType.Assembly.GetManifestResourceStream($"{rootType.Namespace}.{name}.hbs");
-            if (stream != default)
-            {
-                using var reader = new StreamReader(stream);
-                return reader.ReadToEnd();
-            }
-            return string.Empty;
-        }
-
-        IEnumerable<PropertyDescriptor> GetPropertyDescriptorsFrom(ITypeSymbol type, HashSet<ImportStatement> importStatements)
-        {
-            List<PropertyDescriptor> descriptors = new();
-
-            var properties = type.GetMembers().Where(_ => !_.IsStatic
-                && _ is IPropertySymbol propertySymbol
-                && propertySymbol.DeclaredAccessibility == Accessibility.Public).Cast<IPropertySymbol>();
-
-            return properties.Select(_ =>
-                new PropertyDescriptor(
-                    _.Name,
-                    GetTypeScriptTypeFor(_.GetMethod!.ReturnType, importStatements),
-                    false)).ToArray();
-        }
-
-        string GetTypeScriptTypeFor(ITypeSymbol symbol, HashSet<ImportStatement> importStatements)
-        {
-            var baseType = symbol.BaseType;
-            if (baseType?.IsGenericType == true &&
-                baseType?.ContainingNamespace.ToDisplayString() == "Cratis.Concepts" &&
-                baseType?.Name == "ConceptAs")
-            {
-                symbol = baseType!.TypeArguments[0];
-            }
-
-            var typeName = GetTypeName(symbol);
-            if (_primitiveTypeMap.ContainsKey(typeName))
-            {
-                var targetType = _primitiveTypeMap[typeName];
-
-                if (!string.IsNullOrEmpty(targetType.ImportFromModule))
-                {
-                    importStatements.Add(new(targetType.Type, targetType.ImportFromModule));
-                }
-                return targetType.Type;
-            }
-            return "any";
-        }
-
-        string GetTypeName(ITypeSymbol symbol)
-        {
-            return $"{symbol.ContainingNamespace.ToDisplayString()}.{symbol.Name}";
         }
     }
 }

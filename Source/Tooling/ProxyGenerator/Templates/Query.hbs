@@ -2,8 +2,17 @@
  *  **DO NOT EDIT** - This file is an automatically generated file.
  *--------------------------------------------------------------------------------------------*/
 
-export class {{name}} extends IQueryFor<TModel> {
-    get path(): string {
-        return '{{path}}';
+import { IQueryFor, useQuery, RefreshQuery } from '@aksio/frontend/queries';
+{{#Imports}}
+import { {{Type}} } from '{{Module}}';
+{{/Imports}}
+
+export class {{Name}} implements IQueryFor<TModel> {
+    get route(): string {
+        return '{{Route}}';
+    }
+
+    static use({{#Arguments}}{{#if @index}}, {{/if}}{{camelcase Name}}: {{Type}}{{/Arguments}}): [TModel[], RefreshQuery] {
+        return useQuery<TQuery, TModel>()
     }
 }

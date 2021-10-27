@@ -2,11 +2,12 @@
  *  **DO NOT EDIT** - This file is an automatically generated file.
  *--------------------------------------------------------------------------------------------*/
 
+import { ICommand } from '@aksio/frontend/commands';
 {{#Imports}}
 import { {{Type}} } from '{{Module}}';
 {{/Imports}}
 
-export class {{Name}} extends ICommand {
+export class {{Name}} implements ICommand {
     get route(): string {
         return '{{Route}}';
     }
