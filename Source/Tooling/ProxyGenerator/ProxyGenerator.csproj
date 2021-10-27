@@ -5,7 +5,7 @@
         <IsRoslynComponent>true</IsRoslynComponent>
         <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    </PropertyGroup>
+   </PropertyGroup>    
 
     <ItemGroup>
         <CompilerVisibleProperty Include="AksioProxyOutput" />
@@ -13,20 +13,29 @@
 
     <ItemGroup>
         <PackageReference Include="handlebars.net" Version="2.0.9" GeneratePathProperty="true" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.11.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.11.0" />       
+
+        <None Include="$(OutputPath)\$(AssemblyName).dll"
+                Pack="true"
+                PackagePath="analyzers/dotnet/cs"
+                Visible="false" />        
     </ItemGroup>
 
     <ItemGroup>
         <EmbeddedResource Include="$(MSBuildThisFileDirectory)/Templates/**/*" />
     </ItemGroup>
 
-  <PropertyGroup>
-    <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
-  </PropertyGroup>
-
-  <Target Name="GetDependencyTargetPaths">
     <ItemGroup>
-      <TargetPathWithTargetPlatformMoniker Include="$(PKGHandlebars_Net)\lib\netstandard2.0\Handlebars.dll" IncludeRuntimeDependency="false" />
+        <Content Include="./build/Aksio.ProxyGenerator.props" PackagePath="build\" />
     </ItemGroup>
-  </Target>    
+
+    <PropertyGroup>
+        <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+    </PropertyGroup>
+
+    <Target Name="GetDependencyTargetPaths">
+        <ItemGroup>
+            <TargetPathWithTargetPlatformMoniker Include="$(PKGHandlebars_Net)\lib\netstandard2.0\Handlebars.dll" IncludeRuntimeDependency="false" />
+        </ItemGroup>
+    </Target>
 </Project>
