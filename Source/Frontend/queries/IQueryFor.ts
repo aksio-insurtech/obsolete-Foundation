@@ -1,12 +1,6 @@
 /**
  * Defines the base of a query.
  */
-export interface IQueryFor {
+export interface IQueryFor<TModel> {
     readonly route: string;
-}
-
-export type RefreshQuery = () => Promise<void>;
-
-export function useQuery<TQuery, TModel>() {
-
 }
