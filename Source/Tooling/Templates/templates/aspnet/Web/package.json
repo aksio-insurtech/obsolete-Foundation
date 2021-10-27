@@ -1,5 +1,6 @@
 {
-    "name": "sample",
+    "name": "template.web",
+    "version": "1.0.0",
     "scripts": {
         "build": "webpack --mode=production",
         "build:dev": "webpack --mode=development",
