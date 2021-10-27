@@ -8,10 +8,8 @@
 
         <AksioProxyOutput>$(MSBuildThisFileDirectory)/Web</AksioProxyOutput>
     </PropertyGroup>
-    
-    <ItemGroup>
-        <CompilerVisibleProperty Include="AksioProxyOutput"/>
-    </ItemGroup>
+
+    <Import Project="../../Source/ProxyGenerator/Aksio.ProxyGenerator.props"/>
 
     <ItemGroup>
         <ProjectReference Include="../../Source/Microservices/Microservices.csproj" />
