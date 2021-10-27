@@ -2,16 +2,16 @@
  *  **DO NOT EDIT** - This file is an automatically generated file.
  *--------------------------------------------------------------------------------------------*/
 
-{{#imports}}
-import { {{type}} } from '{{path}}'
-{{/imports}}
+{{#Imports}}
+import { {{Type}} } from '{{Module}}';
+{{/Imports}}
 
-export type {{name}} = {
-    {{#properties}}
-    {{#if enumerable}}
-    {{name}}!: {{type}}[];
+export type {{Name}} = {
+    {{#Properties}}
+    {{#if IsEnumerable}}
+    {{camelcase Name}}: {{Type}}[];
     {{else}}
-    {{name}}!: {{type}};
+    {{camelcase Name}}: {{Type}};
     {{/if}}
-    {{/properties}}    
-}
+    {{/Properties}}    
+};

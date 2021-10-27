@@ -8,6 +8,11 @@ namespace Aksio.ProxyGenerator.Syntax
     /// </summary>
     public static class TypeSymbolExtensions
     {
+        /// <summary>
+        /// Gets the definition of any type.
+        /// </summary>
+        public const string AnyType = "any";
+
         static readonly Dictionary<string, TargetType> _primitiveTypeMap = new()
         {
             { typeof(string).FullName!, new("string") },
@@ -53,10 +58,11 @@ namespace Aksio.ProxyGenerator.Syntax
 
             return properties.Select(_ =>
             {
+                var returnType = _.GetMethod!.ReturnType;
                 var descriptor = new PropertyDescriptor(
                     _.Name,
-                    _.GetMethod!.ReturnType.GetTypeScriptType(out var importStatements),
-                    false);
+                    returnType.GetTypeScriptType(out var importStatements),
+                    returnType.IsEnumerable());
 
                 importStatements.ForEach(_ => allImportStatements.Add(_));
                 return descriptor;
@@ -93,7 +99,17 @@ namespace Aksio.ProxyGenerator.Syntax
                 }
                 return targetType.Type;
             }
-            return "any";
+            return AnyType;
+        }
+
+        /// <summary>
+        /// Check whether or not a <see cref="ITypeSymbol"/> is an enumerable.
+        /// </summary>
+        /// <param name="symbol"><see cref="ITypeSymbol"/> to check.</param>
+        /// <returns>True if it is enumerable, false if not.</returns>
+        public static bool IsEnumerable(this ITypeSymbol symbol)
+        {
+            return symbol.AllInterfaces.Any(_ => _.ToDisplayString() == "System.Collections.IEnumerable");
         }
 
         static string GetTypeName(ITypeSymbol symbol)
