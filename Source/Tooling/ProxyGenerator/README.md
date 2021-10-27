@@ -10,8 +10,35 @@ More information about Source Generators can be found [here](https://docs.micros
 and also a full tutorial can be found [here](https://www.thinktecture.com/en/net/roslyn-source-generators-introduction/).
 The [following article](https://dominikjeske.github.io/source-generators/) contains a lot more detail as well.
 
-https://www.mytechramblings.com/posts/configure-roslyn-analyzers-using-editorconfig/
+## Configuration Options
 
+Configuration can also be part of analyzers and follow a convention, mentioned a little bit in the previous article - but also
+more details [here](https://www.mytechramblings.com/posts/configure-roslyn-analyzers-using-editorconfig/).
+The way we have opted in to do this is to leverage the build properties from MsBuild, the values are prefixed with **build_property** and
+then the name of the property. The propertyname is lower cased.
+
+The following property specified in a .csproj: 
+
+```xml
+<PropertyGroup>
+    <AksioProxyOutput>../Web</AksioProxyOutput>
+</PropertyGroup>
+```
+
+Will be accessible through the global options on the `GeneratorExecutionContext`:
+
+```csharp
+context.AnalyzerConfigOptions.GlobalOptions.TryGetValue("build_property.aksioproxyoutput", out var outputFolder);
+```
+
+In addition to this to work, the property needs to be visible to the compiler - this is achieved by adding
+
+```xml
+<CompilerVisibleProperty Include="AksioProxyOutput"/>
+```
+
+Within an `<ItemGroup/>` in the [Aksio.ProxyGenerator.props](./Aksio.ProxyGenerator.props) file that will automatically
+be included during compiletime of any consumers of this package.
 
 ## Run in sample
 
