@@ -37,5 +37,13 @@
     },
     "exclude": [
         "**/dist"
+    ],
+    "references": [
+        {
+            "path": "../../Source/Frontend/tsconfig.json"
+        },
+        {
+            "path": "../../Source/TypeScript/tsconfig.json"
+        }
     ]
 }
