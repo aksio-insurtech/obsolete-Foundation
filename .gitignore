@@ -287,3 +287,5 @@ dist
 *.tsbuildinfo
 
 wwwroot
+
+.eslintcache
