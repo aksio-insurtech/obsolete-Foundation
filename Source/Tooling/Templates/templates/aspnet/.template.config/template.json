@@ -80,6 +80,25 @@
             }
         },
         {
+            "description": "Add latest version of Aksio.ProxyGenerator",
+            "actionId": "B17581D1-C5C9-4489-8F0A-004BE667B814",
+            "continueOnError": true,
+            "manualInstructions": [
+                {
+                    "text": "dotnet add package Aksio.ProxyGenerator"
+                }
+            ],
+            "args": {
+                "targetFiles": [
+                    "./Domain/Domain.csproj",
+                    "./Read/Read.csproj"
+                ],
+                "referenceType": "package",
+                "reference": "Aksio.ProxyGenerator",
+                "projectFileExtensions": "**/*.csproj"
+            }
+        },
+        {
             "description": "Add latest version of Aksio.Specifications",
             "actionId": "B17581D1-C5C9-4489-8F0A-004BE667B814",
             "continueOnError": true,

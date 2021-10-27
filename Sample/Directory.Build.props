@@ -5,10 +5,15 @@
         <ImplicitUsings>true</ImplicitUsings>
         <NoWarn>$(NoWarn);CS8019;SA1600;SA1601;CS1591;</NoWarn>
         <NoWarn>$(NoWarn);CS0012;RCS1090;CA2007</NoWarn>    <!-- ConfigureAwait requirement, https://devblogs.microsoft.com/dotnet/configureawait-faq/#when-should-i-use-configureawaitfalse -->
+
+        <AksioProxyOutput>$(MSBuildThisFileDirectory)/Web</AksioProxyOutput>
     </PropertyGroup>
+
+    <Import Project="../../Source/ProxyGenerator/Aksio.ProxyGenerator.props"/>
 
     <ItemGroup>
         <ProjectReference Include="../../Source/Microservices/Microservices.csproj" />
+        <ProjectReference Include="../../Source/Tooling/ProxyGenerator/ProxyGenerator.csproj" OutputItemType="Analyzer" Private="true"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -16,6 +21,6 @@
     </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Aksio.Defaults" Version="1.1.15" />
+		<PackageReference Include="Aksio.Defaults" Version="1.1.17" />
 	</ItemGroup>
 </Project>

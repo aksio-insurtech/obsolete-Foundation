@@ -15,4 +15,5 @@ If you want to contribute, please read more [here](./contributing.md).
 | [Event Handlers](./event-handlers.md) | How to work with event handlers. |
 | [MongoDB](./mongodb.md) | How to work with MongoDB. |
 | [Templates](./templates.md) | How you can increase productivity through our packaged templates. |
+| [Proxy Generation](./proxy-generation.md) | How the proxy generator tool can be used. |
 | [Third Parties](./third-parties.md) | What third parties comes out of the box, and what they're for. |

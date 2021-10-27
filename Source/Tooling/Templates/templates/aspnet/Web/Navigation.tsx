@@ -57,5 +57,5 @@ export const Navigation = () => {
                 onLinkClick={navItemClicked}
                 selectedKey={selectedNav} />
         </div>
-    )
-}
+    );
+};
