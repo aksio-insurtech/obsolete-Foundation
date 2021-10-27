@@ -51,4 +51,4 @@ export const CreateAccountDialog = (props: IDialogProps<any, CreateAccountDialog
             </DialogFooter>
         </Dialog>
     );
-}
+};

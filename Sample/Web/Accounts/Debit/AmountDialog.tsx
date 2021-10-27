@@ -54,4 +54,4 @@ export const AmountDialog = (props: IDialogProps<AmountDialogInput, AmountDialog
             </DialogFooter>
         </Dialog>
     );
-}
+};
