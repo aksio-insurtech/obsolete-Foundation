@@ -1,5 +1,3 @@
-#pragma warning disable RCS1213, CA1823, IDE0052, SA1201
-
 namespace Aksio.ProxyGenerator
 {
     /// <summary>

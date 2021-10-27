@@ -5,7 +5,6 @@
         <IsRoslynComponent>true</IsRoslynComponent>
         <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-        <NoWarn>$(NoWarn),RCS1217;CA1308</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

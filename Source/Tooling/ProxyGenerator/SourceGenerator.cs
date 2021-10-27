@@ -3,8 +3,6 @@ using Aksio.ProxyGenerator.Templates;
 using HandlebarsDotNet;
 using Microsoft.CodeAnalysis;
 
-#pragma warning disable RCS1213, CA1823, IDE0052, SA1201
-
 namespace Aksio.ProxyGenerator
 {
     /// <summary>
@@ -59,6 +57,7 @@ namespace Aksio.ProxyGenerator
                 var publicInstanceMethods = type.GetPublicInstanceMethodsFrom();
 
                 OutputCommands(publicInstanceMethods, baseApiRoute, targetFolder);
+                OutputQueries(publicInstanceMethods, baseApiRoute, targetFolder);
             }
         }
 
@@ -66,18 +65,13 @@ namespace Aksio.ProxyGenerator
         {
             foreach (var commandMethod in methods.Where(_ => _.GetAttributes().Any(_ => _.IsHttpPostAttribute())))
             {
-                var methodRoute = commandMethod.GetMethodRoute();
-                var fullRoute = baseApiRoute;
-                if (methodRoute.Length > 0)
-                {
-                    fullRoute = $"{baseApiRoute}/{methodRoute}";
-                }
+                var route = GetRoute(baseApiRoute, commandMethod);
                 var commandParameter = commandMethod.Parameters[0];
                 var commandType = commandParameter.Type;
                 var importStatements = new HashSet<ImportStatement>();
                 var properties = commandType.GetPropertyDescriptorsFrom(out var additionalImportStatements);
                 additionalImportStatements.ForEach(_ => importStatements.Add(_));
-                var commandDescriptor = new CommandDescriptor(fullRoute, commandType.Name, properties, importStatements);
+                var commandDescriptor = new CommandDescriptor(route, commandType.Name, properties, importStatements);
                 var result = TemplateTypes.Command(commandDescriptor);
                 if (result != default)
                 {
@@ -86,6 +80,28 @@ namespace Aksio.ProxyGenerator
                     File.WriteAllText(file, result);
                 }
             }
+        }
+
+        static void OutputQueries(IEnumerable<IMethodSymbol> methods, string baseApiRoute, string targetFolder)
+        {
+            foreach (var queryMethod in methods.Where(_ => _.GetAttributes().Any(_ => _.IsHttpGetAttribute())))
+            {
+                var route = GetRoute(baseApiRoute, queryMethod);
+
+                Console.WriteLine(targetFolder);
+            }
+        }
+
+        static string GetRoute(string baseApiRoute, IMethodSymbol commandMethod)
+        {
+            var methodRoute = commandMethod.GetMethodRoute();
+            var fullRoute = baseApiRoute;
+            if (methodRoute.Length > 0)
+            {
+                fullRoute = $"{baseApiRoute}/{methodRoute}";
+            }
+
+            return fullRoute;
         }
 
         static string GetTargetFolder(ITypeSymbol type, string rootNamespace, string outputFolder)
