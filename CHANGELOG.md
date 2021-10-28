@@ -1,3 +1,10 @@
+# [v1.6.1] - 2021-10-28 [PR: #20](https://github.com/aksio-system/Foundation/pull/20)
+
+### Fixed
+
+- ProxyGenerator failed due to missing 3rd party assemblies in the analyzer folder of the package. These are now added.
+
+
 # [v1.6.0] - 2021-10-27 [PR: #19](https://github.com/aksio-system/Foundation/pull/19)
 
 ### Added
