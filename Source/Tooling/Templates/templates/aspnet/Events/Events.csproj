@@ -1,4 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Events</AssemblyName>
+        <RootNamespace>Events</RootNamespace>
+    </PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="../Concepts/Concepts.csproj" />
 	</ItemGroup>
