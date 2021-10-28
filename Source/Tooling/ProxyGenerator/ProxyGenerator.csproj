@@ -18,6 +18,16 @@
         <None Include="$(OutputPath)\$(AssemblyName).dll"
                 Pack="true"
                 PackagePath="analyzers/dotnet/cs"
+                Visible="false" />
+
+        <None Include="$(OutputPath)\Handlebars.dll"
+                Pack="true"
+                PackagePath="analyzers/dotnet/cs"
+                Visible="false" />        
+
+        <None Include="$(OutputPath)\Humanizer.dll"
+                Pack="true"
+                PackagePath="analyzers/dotnet/cs"
                 Visible="false" />        
     </ItemGroup>
 
