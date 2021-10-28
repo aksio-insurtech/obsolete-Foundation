@@ -18,5 +18,4 @@
         <PackageReference Include="Aksio.Microservices" Version="1.6.0" />
         <PackageReference Include="Aksio.ProxyGenerator" Version="1.6.0" />
     </ItemGroup>
-
 </Project>
