@@ -1,3 +1,13 @@
+# [v1.6.2] - 2021-10-28 [PR: #21](https://github.com/aksio-system/Foundation/pull/21)
+
+### Fixed
+
+- Adding Main project to template solution file.
+- Setting rootnamespaces and assembly names for projects in template.
+- Centralizing package references for Aksio packages in Directory.Build.props
+- Custom post action script that updates Aksio package references to latest.
+
+
 # [v1.6.1] - 2021-10-28 [PR: #20](https://github.com/aksio-system/Foundation/pull/20)
 
 ### Fixed
