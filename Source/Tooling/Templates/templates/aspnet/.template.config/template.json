@@ -36,85 +36,17 @@
     ],
     "postActions": [
         {
-            "description": "Add latest version of Aksio.Defaults",
-            "actionId": "B17581D1-C5C9-4489-8F0A-004BE667B814",
-            "continueOnError": true,
+            "description": "Set Aksio dependencies to the latest versions.",
+            "actionId": "3A7C4B45-1F5D-4A30-959A-51B88E82B5D2",
+            "continueOnError": false,
             "manualInstructions": [
                 {
-                    "text": "dotnet add package Aksio.Defaults"
+                    "text": "Run 'node updateAksioReferences.js' from this folder, or update the 'Directory.Build.props' package references manually."
                 }
             ],
             "args": {
-                "targetFiles": [
-                    "./Concepts/Concepts.csproj",
-                    "./Domain/Domain.csproj",
-                    "./Events/Events.csproj",
-                    "./Read/Read.csproj",
-                    "./Main/Main.csproj"
-                ],
-                "referenceType": "package",
-                "reference": "Aksio.Defaults",
-                "projectFileExtensions": "**/*.csproj"
-            }
-        },
-        {
-            "description": "Add latest version of Aksio.Microservices",
-            "actionId": "B17581D1-C5C9-4489-8F0A-004BE667B814",
-            "continueOnError": true,
-            "manualInstructions": [
-                {
-                    "text": "dotnet add package Aksio.Microservices"
-                }
-            ],
-            "args": {
-                "targetFiles": [
-                    "./Concepts/Concepts.csproj",
-                    "./Domain/Domain.csproj",
-                    "./Events/Events.csproj",
-                    "./Read/Read.csproj",
-                    "./Main/Main.csproj"
-                ],
-                "referenceType": "package",
-                "reference": "Aksio.Microservices",
-                "projectFileExtensions": "**/*.csproj"
-            }
-        },
-        {
-            "description": "Add latest version of Aksio.ProxyGenerator",
-            "actionId": "B17581D1-C5C9-4489-8F0A-004BE667B814",
-            "continueOnError": true,
-            "manualInstructions": [
-                {
-                    "text": "dotnet add package Aksio.ProxyGenerator"
-                }
-            ],
-            "args": {
-                "targetFiles": [
-                    "./Domain/Domain.csproj",
-                    "./Read/Read.csproj"
-                ],
-                "referenceType": "package",
-                "reference": "Aksio.ProxyGenerator",
-                "projectFileExtensions": "**/*.csproj"
-            }
-        },
-        {
-            "description": "Add latest version of Aksio.Specifications",
-            "actionId": "B17581D1-C5C9-4489-8F0A-004BE667B814",
-            "continueOnError": true,
-            "manualInstructions": [
-                {
-                    "text": "dotnet add package Aksio.Specifications"
-                }
-            ],
-            "args": {
-                "targetFiles": [
-                    "./Domain.Specs/Domain.Specs.csproj",
-                    "./Read.Specs/Read.Specs.csproj"
-                ],
-                "referenceType": "package",
-                "reference": "Aksio.Specifications",
-                "projectFileExtensions": "**/*.csproj"
+                "executable": "node",
+                "args": "updateAksioReferences.js"
             }
         },
         {
@@ -132,7 +64,6 @@
                 ]
             }
         },
-
         {
             "condition": "(IncludeWeb)",
             "description": "Install node modules required by this project.",
@@ -145,8 +76,7 @@
             ],
             "args": {
                 "executable": "npx",
-                "args": "yarn install --cwd ./Web",
-                "redirectStandardOutput": "true"
+                "args": "yarn install --cwd ./Web"
             }
         },
         {
