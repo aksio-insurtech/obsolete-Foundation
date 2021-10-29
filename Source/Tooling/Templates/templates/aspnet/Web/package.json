@@ -20,8 +20,7 @@
         "@fluentui/font-icons-mdl2": "8.1.11",
         "@fluentui/react": "8.34.7",
         "@fluentui/react-hooks": "8.3.2",
-        "@fluentui/react-icons": "1.1.141",
-        "handlebars": "^4.7.7"
+        "@fluentui/react-icons": "1.1.141"
     },
     "devDependencies": {
         "@cratis/webpack": "2.10.0",
