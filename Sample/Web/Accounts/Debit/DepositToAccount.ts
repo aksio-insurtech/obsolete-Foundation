@@ -2,14 +2,11 @@
  *  **DO NOT EDIT** - This file is an automatically generated file.
  *--------------------------------------------------------------------------------------------*/
 
-import { ICommand } from '@aksio/frontend/commands';
-import { Guid } from '@cratis/fundamentals';
+import { Command } from '@aksio/frontend/commands';
 
-export class DepositToAccount implements ICommand {
-    get route(): string {
-        return '/api/accounts/debit/deposit';
-    }
+export class DepositToAccount extends Command {
+    readonly route: string = '/api/accounts/debit/deposit';
 
-    accountId!: Guid;
+    accountId!: string;
     amount!: number;
 }

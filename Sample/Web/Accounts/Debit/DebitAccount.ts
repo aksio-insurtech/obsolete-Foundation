@@ -2,11 +2,10 @@
  *  **DO NOT EDIT** - This file is an automatically generated file.
  *--------------------------------------------------------------------------------------------*/
 
-import { Guid } from '@cratis/fundamentals';
 
 export type DebitAccount = {
-    id: Guid;
+    id: string;
     name: string;
-    owner: Guid;
+    owner: string;
     balance: number;
 };

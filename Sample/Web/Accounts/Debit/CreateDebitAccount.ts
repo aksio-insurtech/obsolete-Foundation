@@ -2,15 +2,12 @@
  *  **DO NOT EDIT** - This file is an automatically generated file.
  *--------------------------------------------------------------------------------------------*/
 
-import { ICommand } from '@aksio/frontend/commands';
-import { Guid } from '@cratis/fundamentals';
+import { Command } from '@aksio/frontend/commands';
 
-export class CreateDebitAccount implements ICommand {
-    get route(): string {
-        return '/api/accounts/debit';
-    }
+export class CreateDebitAccount extends Command {
+    readonly route: string = '/api/accounts/debit';
 
-    accountId!: Guid;
+    accountId!: string;
     name!: string;
-    owner!: Guid;
+    owner!: string;
 }
