@@ -14,6 +14,9 @@ import {
     Stack
 } from '@fluentui/react';
 import { AmountDialog, AmountDialogInput, AmountDialogResult } from './AmountDialog';
+import { CreateDebitAccount } from './CreateDebitAccount';
+import { DepositToAccount } from './DepositToAccount';
+import { WithdrawFromAccount } from './WithdrawFromAccount';
 
 const columns: IColumn[] = [
     {
@@ -30,84 +33,38 @@ const columns: IColumn[] = [
     }
 ];
 
-type CreateDebitAccount = {
-    accountId: string;
-    name: string,
-    owner: string
-};
-
-type DepositToAccount = {
-    accountId: string;
-    amount: number;
-};
-
-type WithdrawFromAccount = {
-    accountId: string;
-    amount: number;
-};
-
 export const DebitAccounts = () => {
     const [items, refreshItems] = useDataFrom('/api/accounts/debit');
     const [selectedItem, setSelectedItem] = useState<any>(undefined);
     const [showCreateAccount, createAccountDialogProps] = useDialog<any, CreateAccountDialogResult>(async (result, output?) => {
         if (result === DialogResult.Success && output) {
-            const createDebitAccount: CreateDebitAccount = {
-                accountId: Guid.create().toString(),
-                name: output.name,
-                owner: 'edd60145-a6df-493f-b48d-35ffdaaefc4c'
-            };
-
-            await fetch('/api/accounts/debit', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(createDebitAccount)
-            });
-
-            setTimeout(refreshItems, 200);
+            const command = new CreateDebitAccount();
+            command.accountId = Guid.create().toString(),
+            command.name = output.name;
+            command.owner = 'edd60145-a6df-493f-b48d-35ffdaaefc4c';
+            await command.execute();
+            setTimeout(refreshItems, 20);
         }
     });
 
 
     const [showDepositAmountDialog, depositAmountDialogProps] = useDialog<AmountDialogInput, AmountDialogResult>(async (result, output?) => {
         if (result === DialogResult.Success && output && selectedItem) {
-            const depositToAccount: DepositToAccount = {
-                accountId: selectedItem.id,
-                amount: output.amount
-            };
-
-            await fetch('/api/accounts/debit/deposit', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(depositToAccount)
-            });
-
-            setTimeout(refreshItems, 200);
+            const command = new DepositToAccount();
+            command.accountId = selectedItem.id;
+            command.amount = output.amount;
+            await command.execute();
+            setTimeout(refreshItems, 20);
         }
     });
 
     const [showWithdrawAmountDialog, withdrawAmountDialogProps] = useDialog<AmountDialogInput, AmountDialogResult>(async (result, output?) => {
         if (result === DialogResult.Success && output && selectedItem) {
-            const withdrawToAccount: WithdrawFromAccount = {
-                accountId: selectedItem.id,
-                amount: output.amount
-            };
-
-            await fetch('/api/accounts/debit/withdraw', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(withdrawToAccount)
-            });
-
-            setTimeout(refreshItems, 200);
+            const command = new WithdrawFromAccount();
+            command.accountId = selectedItem.id;
+            command.amount = output.amount;
+            await command.execute();
+            setTimeout(refreshItems, 20);
         }
     });
 
