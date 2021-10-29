@@ -6,11 +6,18 @@ import { QueryFor, QueryResult, useQuery, PerformQuery } from '@aksio/frontend/q
 {{#Imports}}
 import { {{Type}} } from '{{Module}}';
 {{/Imports}}
+import Handlebars from 'handlebars';
+
+const routeTemplate = Handlebars.compile('{{Route}}');
 
 {{#if Arguments.[0]}}
 export interface {{Name}}Arguments {
     {{#Arguments}}
+    {{#if IsOptional}}
+    {{camelcase Name}}?: string;
+    {{else}}
     {{camelcase Name}}: string;
+    {{/if}}
     {{/Arguments}}
 }
 export class {{Name}} extends QueryFor<{{Model}}, {{Name}}Arguments> {
@@ -18,10 +25,11 @@ export class {{Name}} extends QueryFor<{{Model}}, {{Name}}Arguments> {
 export class {{Name}} extends QueryFor<{{Model}}> {
 {{/if}}
     readonly route: string = '{{Route}}';
+    readonly routeTemplate: Handlebars.TemplateDelegate = routeTemplate;
 
 {{#if Arguments.[0]}}
-    static use(arguments: {{Name}}Arguments): [QueryResult<{{Model}}>, PerformQuery<{{Name}}Arguments>] {
-        return useQuery<{{Model}}, {{Name}}, {{Name}}Arguments>({{Name}});
+    static use(args: {{Name}}Arguments): [QueryResult<{{Model}}>, PerformQuery<{{Name}}Arguments>] {
+        return useQuery<{{Model}}, {{Name}}, {{Name}}Arguments>({{Name}}, args);
     }
 {{else}}
     static use(): [QueryResult<{{Model}}>, PerformQuery] {

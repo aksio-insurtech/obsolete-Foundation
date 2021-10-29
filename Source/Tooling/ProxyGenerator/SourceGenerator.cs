@@ -88,7 +88,8 @@ namespace Aksio.ProxyGenerator
                 var targetFile = Path.Join(targetFolder, $"{queryMethod.Name}.ts");
                 OutputType(actualType, rootNamespace, outputFolder, targetFile, importStatements);
 
-                var queryDescriptor = new QueryDescriptor(route, queryMethod.Name, actualType.Name, importStatements, Array.Empty<QueryArgumentDescriptor>());
+                var queryArguments = GetQueryArgumentsFrom(queryMethod, ref route, importStatements);
+                var queryDescriptor = new QueryDescriptor(route, queryMethod.Name, actualType.Name, importStatements, queryArguments);
                 var renderedTemplate = TemplateTypes.Query(queryDescriptor);
                 if (renderedTemplate != default)
                 {
@@ -96,6 +97,52 @@ namespace Aksio.ProxyGenerator
                     File.WriteAllText(targetFile, renderedTemplate);
                 }
             }
+        }
+
+        static List<QueryArgumentDescriptor> GetQueryArgumentsFrom(IMethodSymbol queryMethod, ref string route, HashSet<ImportStatement> importStatements)
+        {
+            var queryArguments = new List<QueryArgumentDescriptor>();
+            if (queryMethod.Parameters.Length > 0)
+            {
+                foreach (var parameter in queryMethod.Parameters)
+                {
+                    var isArgument = false;
+                    var attributes = parameter.GetAttributes();
+                    if (attributes.Any(_ => _.IsFromRouteAttribute()))
+                    {
+                        route = route.Replace($"{{{parameter.Name}}}", $"{{{{{parameter.Name}}}}}", StringComparison.InvariantCulture);
+                        isArgument = true;
+                    }
+                    if (attributes.Any(_ => _.IsFromQueryAttribute()))
+                    {
+                        if (!route.Contains('?', StringComparison.InvariantCulture))
+                        {
+                            route = $"{route}?";
+                        }
+                        else
+                        {
+                            route = $"{route}&";
+                        }
+
+                        var isNullable = parameter.NullableAnnotation == NullableAnnotation.Annotated;
+                        route = $"{route}{parameter.Name}={{{{{parameter.Name}}}}}";
+                        isArgument = true;
+                    }
+
+                    if (isArgument)
+                    {
+                        queryArguments.Add(
+                            new(
+                                parameter.Name,
+                                parameter.Type.GetTypeScriptType(out var additionalImportStatements),
+                                parameter.NullableAnnotation == NullableAnnotation.Annotated));
+
+                        additionalImportStatements.ForEach(_ => importStatements.Add(_));
+                    }
+                }
+            }
+
+            return queryArguments;
         }
 
         static void OutputType(ITypeSymbol type, string rootNamespace, string outputFolder, string parentFile, HashSet<ImportStatement> parentImportStatements)
