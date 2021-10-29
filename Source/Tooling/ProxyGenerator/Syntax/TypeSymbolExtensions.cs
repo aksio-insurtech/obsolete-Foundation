@@ -26,7 +26,7 @@ namespace Aksio.ProxyGenerator.Syntax
             { typeof(double).FullName!, new("number") },
             { typeof(DateTime).FullName!, new("string") },
             { typeof(DateTimeOffset).FullName!, new("string") },
-            { typeof(Guid).FullName!, new("Guid", "@cratis/fundamentals") },
+            { typeof(Guid).FullName!, new("string") },
         };
 
         /// <summary>
