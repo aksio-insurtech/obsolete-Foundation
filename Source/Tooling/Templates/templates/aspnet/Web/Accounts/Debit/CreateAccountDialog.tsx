@@ -10,7 +10,7 @@ import {
     TextField,
 } from '@fluentui/react';
 
-import { IDialogProps, DialogResult } from '../../useDialog';
+import { IDialogProps, DialogResult } from '@aksio/frontend/dialogs';
 
 const dialogContentProps: IDialogContentProps = {
     type: DialogType.normal,

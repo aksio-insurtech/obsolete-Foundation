@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useDialog, DialogResult } from '../../useDialog';
+import { useDialog, DialogResult } from '@aksio/frontend/dialogs';
 import { CreateAccountDialog, CreateAccountDialogResult } from './CreateAccountDialog';
 import { useDataFrom } from '../../useDataFrom';
 import { Guid } from '@cratis/fundamentals';
