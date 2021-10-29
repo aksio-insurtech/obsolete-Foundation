@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useDialog, DialogResult } from '@aksio/frontend/dialogs';
 import { CreateAccountDialog, CreateAccountDialogResult } from './CreateAccountDialog';
-import { useDataFrom } from '../../useDataFrom';
 import { Guid } from '@cratis/fundamentals';
 
 import {
@@ -17,6 +16,7 @@ import { AmountDialog, AmountDialogInput, AmountDialogResult } from './AmountDia
 import { CreateDebitAccount } from './CreateDebitAccount';
 import { DepositToAccount } from './DepositToAccount';
 import { WithdrawFromAccount } from './WithdrawFromAccount';
+import { AllAccounts } from './AllAccounts';
 
 const columns: IColumn[] = [
     {
@@ -34,7 +34,7 @@ const columns: IColumn[] = [
 ];
 
 export const DebitAccounts = () => {
-    const [items, refreshItems] = useDataFrom('/api/accounts/debit');
+    const [accounts, queryAccounts] = AllAccounts.use();
     const [selectedItem, setSelectedItem] = useState<any>(undefined);
     const [showCreateAccount, createAccountDialogProps] = useDialog<any, CreateAccountDialogResult>(async (result, output?) => {
         if (result === DialogResult.Success && output) {
@@ -43,7 +43,7 @@ export const DebitAccounts = () => {
             command.name = output.name;
             command.owner = 'edd60145-a6df-493f-b48d-35ffdaaefc4c';
             await command.execute();
-            setTimeout(refreshItems, 20);
+            setTimeout(queryAccounts, 20);
         }
     });
 
@@ -54,7 +54,7 @@ export const DebitAccounts = () => {
             command.accountId = selectedItem.id;
             command.amount = output.amount;
             await command.execute();
-            setTimeout(refreshItems, 20);
+            setTimeout(queryAccounts, 20);
         }
     });
 
@@ -64,10 +64,9 @@ export const DebitAccounts = () => {
             command.accountId = selectedItem.id;
             command.amount = output.amount;
             await command.execute();
-            setTimeout(refreshItems, 20);
+            setTimeout(queryAccounts, 20);
         }
     });
-
 
     const commandBarItems: ICommandBarItemProps[] = [
         {
@@ -80,7 +79,7 @@ export const DebitAccounts = () => {
             key: 'refresh',
             name: 'Refresh',
             iconProps: { iconName: 'Refresh' },
-            onClick: refreshItems
+            onClick: queryAccounts
         }
     ];
 
@@ -114,9 +113,8 @@ export const DebitAccounts = () => {
                     setSelectedItem(selected[0]);
                 }
             },
-            items: items
-        }), [items]);
-
+            items: accounts.items as any
+        }), [accounts.items]);
 
     return (
         <>
@@ -125,7 +123,7 @@ export const DebitAccounts = () => {
                     <CommandBar items={commandBarItems} />
                 </Stack.Item>
                 <Stack.Item>
-                    <DetailsList columns={columns} items={items} selection={selection} />
+                    <DetailsList columns={columns} items={accounts.items} selection={selection} />
                 </Stack.Item>
             </Stack>
 
