@@ -9,5 +9,8 @@ namespace Read.Accounts.Debit
 
         [HttpGet]
         public IEnumerable<DebitAccount> AllAccounts() => _collection.Find(_ => true).ToList();
+
+        [HttpGet("some/{category}")]
+        public IEnumerable<DebitAccount> SomeAccounts([FromRoute] string category, [FromQuery] string? startingWith) => _collection.Find(_ => true).ToList();
     }
 }

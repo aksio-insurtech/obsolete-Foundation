@@ -17,6 +17,7 @@ import { CreateDebitAccount } from './CreateDebitAccount';
 import { DepositToAccount } from './DepositToAccount';
 import { WithdrawFromAccount } from './WithdrawFromAccount';
 import { AllAccounts } from './AllAccounts';
+import { SomeAccounts } from './SomeAccounts';
 
 const columns: IColumn[] = [
     {
@@ -47,6 +48,7 @@ export const DebitAccounts = () => {
         }
     });
 
+    const [someAccounts, querySomeAccounts] = SomeAccounts.use({ category: 'horses' });
 
     const [showDepositAmountDialog, depositAmountDialogProps] = useDialog<AmountDialogInput, AmountDialogResult>(async (result, output?) => {
         if (result === DialogResult.Success && output && selectedItem) {
