@@ -1,3 +1,10 @@
+# [v1.6.3] - 2021-10-29 [PR: #22](https://github.com/aksio-system/Foundation/pull/22)
+
+### Fixed
+
+- When creating a new project without `--IncludeWeb` - it will now not have the reference to the `Aksio.ProxyGenerator` package and thus not create proxies for web purpose.
+
+
 # [v1.6.2] - 2021-10-28 [PR: #21](https://github.com/aksio-system/Foundation/pull/21)
 
 ### Fixed
