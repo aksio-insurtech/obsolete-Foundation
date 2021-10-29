@@ -1,5 +1,6 @@
 import { IQueryFor } from './IQueryFor';
 import { QueryResult } from "./QueryResult";
+import Handlebars from 'handlebars';
 
 /**
  * Represents an implementation of {@link IQueryFor}.
@@ -7,10 +8,16 @@ import { QueryResult } from "./QueryResult";
  */
 export abstract class QueryFor<TModel, TArguments = {}> implements IQueryFor<TModel, TArguments> {
     abstract readonly route: string;
+    abstract readonly routeTemplate: Handlebars.TemplateDelegate;
 
     /** @inheritdoc */
     async perform(args?: TArguments): Promise<QueryResult<TModel>> {
-        const response = await fetch(this.route, {
+        let actualRoute = this.route;
+        if (args && Object.keys(args).length > 0) {
+            actualRoute = this.routeTemplate(args);
+        }
+
+        const response = await fetch(actualRoute, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

@@ -1,4 +1,5 @@
 import { QueryResult } from './QueryResult';
+import Handlebars from 'handlebars';
 
 /**
  * Defines the base of a query.
@@ -7,6 +8,7 @@ import { QueryResult } from './QueryResult';
  */
 export interface IQueryFor<TModel, TArguments = {}> {
     readonly route: string;
+    readonly routeTemplate: Handlebars.TemplateDelegate;
 
     /**
      * Perform the query.
