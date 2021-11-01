@@ -10,14 +10,15 @@ import {
     DetailsList,
     Selection,
     SelectionMode,
-    Stack
+    Stack,
+    SearchBox
 } from '@fluentui/react';
 import { AmountDialog, AmountDialogInput, AmountDialogResult } from './AmountDialog';
 import { CreateDebitAccount } from './CreateDebitAccount';
 import { DepositToAccount } from './DepositToAccount';
 import { WithdrawFromAccount } from './WithdrawFromAccount';
 import { AllAccounts } from './AllAccounts';
-import { SomeAccounts } from './SomeAccounts';
+import { StartingWith } from './StartingWith';
 
 const columns: IColumn[] = [
     {
@@ -36,19 +37,20 @@ const columns: IColumn[] = [
 
 export const DebitAccounts = () => {
     const [accounts, queryAccounts] = AllAccounts.use();
+    const [accountsStartingWith, queryAccountsStartingWith] = StartingWith.use({ filter: '' });
+    const [searching, setSearching] = useState<boolean>(false);
     const [selectedItem, setSelectedItem] = useState<any>(undefined);
     const [showCreateAccount, createAccountDialogProps] = useDialog<any, CreateAccountDialogResult>(async (result, output?) => {
         if (result === DialogResult.Success && output) {
             const command = new CreateDebitAccount();
             command.accountId = Guid.create().toString(),
-            command.name = output.name;
+                command.name = output.name;
             command.owner = 'edd60145-a6df-493f-b48d-35ffdaaefc4c';
             await command.execute();
             setTimeout(queryAccounts, 20);
         }
     });
 
-    const [someAccounts, querySomeAccounts] = SomeAccounts.use({ category: 'horses' });
 
     const [showDepositAmountDialog, depositAmountDialogProps] = useDialog<AmountDialogInput, AmountDialogResult>(async (result, output?) => {
         if (result === DialogResult.Success && output && selectedItem) {
@@ -70,6 +72,15 @@ export const DebitAccounts = () => {
         }
     });
 
+    const searchFor = (filter: string) => {
+        if (filter && filter !== '') {
+            setSearching(true);
+        } else {
+            setSearching(false);
+        }
+        queryAccountsStartingWith({ filter });
+    };
+
     const commandBarItems: ICommandBarItemProps[] = [
         {
             key: 'add',
@@ -81,9 +92,23 @@ export const DebitAccounts = () => {
             key: 'refresh',
             name: 'Refresh',
             iconProps: { iconName: 'Refresh' },
-            onClick: queryAccounts
+            onClick: () => queryAccounts()
+        },
+        {
+            key: 'search',
+            onRender: (props, defaultRenderer) => {
+                return (
+                    <div style={{ position: 'relative', top: '6px' }}>
+                        <SearchBox
+                            placeholder="Accounts starting with"
+                            onClear={() => searchFor('')}
+                            onChange={(ev, newValue) => searchFor(newValue || '')} />
+                    </div>
+                );
+            }
         }
     ];
+    
 
     if (selectedItem) {
         commandBarItems.push(
@@ -103,7 +128,6 @@ export const DebitAccounts = () => {
                 onClick: () => showWithdrawAmountDialog({ okTitle: 'Withdraw' })
             }
         );
-
     }
 
     const selection = useMemo(
@@ -118,6 +142,8 @@ export const DebitAccounts = () => {
             items: accounts.items as any
         }), [accounts.items]);
 
+    const items = searching ? accountsStartingWith.items : accounts.items;
+
     return (
         <>
             <Stack>
@@ -125,7 +151,7 @@ export const DebitAccounts = () => {
                     <CommandBar items={commandBarItems} />
                 </Stack.Item>
                 <Stack.Item>
-                    <DetailsList columns={columns} items={accounts.items} selection={selection} />
+                    <DetailsList columns={columns} items={items} selection={selection} />
                 </Stack.Item>
             </Stack>
 
