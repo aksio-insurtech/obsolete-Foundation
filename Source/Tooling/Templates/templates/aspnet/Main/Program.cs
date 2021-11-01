@@ -1,4 +1,4 @@
-using Main;
+using Sample;
 
 var builder = Host.CreateDefaultBuilder()
                     .UseAksio()

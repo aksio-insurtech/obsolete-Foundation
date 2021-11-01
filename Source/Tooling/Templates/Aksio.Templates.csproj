@@ -18,8 +18,24 @@
     <NoWarn>$(NoWarn);NU5128</NoWarn>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
-    <Compile Remove="**\*" />
-  </ItemGroup>
+    <PropertyGroup>
+        <Sample>../../../Sample</Sample>
+        <TemplateDir>$(MSBuildThisFileDirectory)/templates/aspnet</TemplateDir>
+    </PropertyGroup>
+    <ItemGroup>
+        <FilesToDelete Include="$(TemplateDir)/**/*.cs;$(TemplateDir)/**/*.csproj;$(TemplateDir)/**/*.js;$(TemplateDir)/**/*.ts;$(TemplateDir)/**/*.tsx;$(TemplateDir)/**/*.scss*;$(TemplateDir)/**/*.ejs;$(TemplateDir)/**/*.json" Exclude="$(TemplateDir)/Web/package.json;$(TemplateDir)/updateAksioReferences.js;$(TemplateDir)/.vscode/**/*;$(TemplateDir)/.template.config"/>
+        <FilesToCopy Include="$(Sample)/**/*.cs;$(Sample)/**/*.csproj;;$(Sample)/**/*.js;$(Sample)/**/*.ts;$(Sample)/**/*.tsx;$(Sample)/**/*.scss*;$(Sample)/**/*.ejs;$(Sample)/**/*.json" Exclude="$(Sample)/Web/package.json"/>
+    </ItemGroup>
+
+    <Target Name="CopyFiles" BeforeTargets="Build">
+        <Delete Files="@(FilesToDelete)"/>
+        <Message Text="Deleted template files" Importance="High" />
+        <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(TemplateDir)/%(RecursiveDir)" SkipUnchangedFiles="true"/>
+        <Message Text="Copied template files from sample" Importance="High" />
+    </Target>
+
+    <ItemGroup>
+        <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
+        <Compile Remove="**\*" />
+    </ItemGroup>
 </Project>

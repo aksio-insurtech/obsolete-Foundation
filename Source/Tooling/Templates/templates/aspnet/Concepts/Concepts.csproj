@@ -1,6 +1,2 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <AssemblyName>Concepts</AssemblyName>
-        <RootNamespace>Concepts</RootNamespace>
-    </PropertyGroup>
 </Project>
