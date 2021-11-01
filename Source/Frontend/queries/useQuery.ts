@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 /**
  * Delegate type for performing a {@link IQueryFor} in the context of the {@link useQuery} hook.
  */
-export type PerformQuery<TArguments = {}> = () => Promise<void>;
+export type PerformQuery<TArguments = {}> = (args?: TArguments) => Promise<void>;
 
 /**
  * React hook for working with {@link IQueryFor} within the state management of React.
@@ -18,14 +18,14 @@ export type PerformQuery<TArguments = {}> = () => Promise<void>;
  */
 export function useQuery<TModel, TQuery extends IQueryFor<TModel>, TArguments = {}>(query: Constructor<TQuery>, args?: TArguments): [QueryResult<TModel>, PerformQuery<TArguments>] {   
     const [result, setResult] = useState<QueryResult<TModel>>(new QueryResult([], true));
-    const queryExecutor = (async () => {
+    const queryExecutor = (async (args?: TArguments) => {
         const queryInstance = new query() as TQuery;
         const response = await queryInstance.perform(args);
         setResult(response);
     });
 
     useEffect(() => {
-        queryExecutor();
+        queryExecutor(args);
     }, []);
     
     return [result, queryExecutor];
