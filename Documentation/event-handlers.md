@@ -50,7 +50,7 @@ public class MyEventHandlerMiddleware : IEventHandlerMiddleware
     public async Task Invoke(EventContext eventContext, object @event, NextEventHandlerMiddleware next)
     {
         var before = DateTime.UtcNow;
-        await next().ConfigureAwait(false);
+        await next();
         var after = DateTime.UtcNow;
         var delta = after.Subtract(before);
         _logger.LogInformation("It took {time} milliseconds to run the event handler for type {event}", delta.TotalMilliseconds, @event.GetType().Name);

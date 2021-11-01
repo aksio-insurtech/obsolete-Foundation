@@ -1,9 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-    <PropertyGroup>
-        <AssemblyName>Main</AssemblyName>
-        <RootNamespace>Main</RootNamespace>
-    </PropertyGroup>
-
+<Project Sdk="Microsoft.NET.Sdk.Web"> 
     <ItemGroup>
         <ProjectReference Include="../Concepts/Concepts.csproj"/>
         <ProjectReference Include="../Domain/Domain.csproj"/>

@@ -9,11 +9,11 @@
         <AksioProxyOutput>$(MSBuildThisFileDirectory)/Web</AksioProxyOutput>
     </PropertyGroup>
 
-    <Import Project="../../Source/ProxyGenerator/Aksio.ProxyGenerator.props"/>
+    <Import Project="$(MSBuildThisFileDirectory)../Source/Tooling/ProxyGenerator/build/Aksio.ProxyGenerator.props"/>
 
     <ItemGroup>
-        <ProjectReference Include="../../Source/Microservices/Microservices.csproj" />
-        <ProjectReference Include="../../Source/Tooling/ProxyGenerator/ProxyGenerator.csproj" OutputItemType="Analyzer" Private="true"/>
+        <ProjectReference Include="$(MSBuildThisFileDirectory)../Source/Microservices/Microservices.csproj" />
+        <ProjectReference Include="$(MSBuildThisFileDirectory)../Source/Tooling/ProxyGenerator/ProxyGenerator.csproj" OutputItemType="Analyzer" Private="true"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -21,6 +21,6 @@
     </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Aksio.Defaults" Version="1.1.17" />
+		<PackageReference Include="Aksio.Defaults" Version="1.1.18" />
 	</ItemGroup>
 </Project>

@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aksio.Defaults" Version="1.1.16" />
+        <PackageReference Include="Aksio.Defaults" Version="1.1.18" />
         <PackageReference Include="Aksio.Microservices" Version="1.6.0" />
         <!--#if (IncludeWeb) -->
         <PackageReference Include="Aksio.ProxyGenerator" Version="1.6.0" />

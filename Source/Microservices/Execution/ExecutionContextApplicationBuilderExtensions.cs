@@ -29,7 +29,7 @@ namespace Microsoft.AspNetCore.Builder
 
                 var executionContextManager = app.ApplicationServices.GetService<IExecutionContextManager>();
                 executionContextManager!.Establish(tenantId, Guid.NewGuid());
-                await next.Invoke().ConfigureAwait(false);
+                await next.Invoke();
             });
 
             return app;

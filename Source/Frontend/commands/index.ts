@@ -1,2 +1,3 @@
 export * from './ICommand';
-export * from './useCommand';
+export * from './Command';
+export * from './CommandResult';

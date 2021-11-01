@@ -2,17 +2,38 @@
  *  **DO NOT EDIT** - This file is an automatically generated file.
  *--------------------------------------------------------------------------------------------*/
 
-import { IQueryFor, useQuery, RefreshQuery } from '@aksio/frontend/queries';
+import { QueryFor, QueryResult, useQuery, PerformQuery } from '@aksio/frontend/queries';
 {{#Imports}}
 import { {{Type}} } from '{{Module}}';
 {{/Imports}}
+import Handlebars from 'handlebars';
 
-export class {{Name}} implements IQueryFor<{{Model}}> {
-    get route(): string {
-        return '{{Route}}';
-    }
+const routeTemplate = Handlebars.compile('{{Route}}');
 
-    static use({{#Arguments}}{{#if @index}}, {{/if}}{{camelcase Name}}: {{Type}}{{/Arguments}}): [{{Model}}[], RefreshQuery] {
-        return useQuery<{{Name}}, {{Model}}>();
+{{#if Arguments.[0]}}
+export interface {{Name}}Arguments {
+    {{#Arguments}}
+    {{#if IsOptional}}
+    {{camelcase Name}}?: string;
+    {{else}}
+    {{camelcase Name}}: string;
+    {{/if}}
+    {{/Arguments}}
+}
+export class {{Name}} extends QueryFor<{{Model}}, {{Name}}Arguments> {
+{{else}}
+export class {{Name}} extends QueryFor<{{Model}}> {
+{{/if}}
+    readonly route: string = '{{Route}}';
+    readonly routeTemplate: Handlebars.TemplateDelegate = routeTemplate;
+
+{{#if Arguments.[0]}}
+    static use(args: {{Name}}Arguments): [QueryResult<{{Model}}>, PerformQuery<{{Name}}Arguments>] {
+        return useQuery<{{Model}}, {{Name}}, {{Name}}Arguments>({{Name}}, args);
     }
+{{else}}
+    static use(): [QueryResult<{{Model}}>, PerformQuery] {
+        return useQuery<{{Model}}, {{Name}}>({{Name}});
+    }
+{{/if}}
 }

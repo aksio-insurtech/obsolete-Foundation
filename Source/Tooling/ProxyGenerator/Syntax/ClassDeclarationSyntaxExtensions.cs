@@ -29,14 +29,14 @@ namespace Aksio.ProxyGenerator.Syntax
             {
                 var parentClass = parent as ClassDeclarationSyntax;
                 Contract.Assert(parentClass != null);
-                items.Add(parentClass.Identifier.Text);
+                items.Add(parentClass!.Identifier.Text);
 
                 parent = parent.Parent;
             }
 
             var nameSpace = parent as NamespaceDeclarationSyntax;
             Contract.Assert(nameSpace != null);
-            var stringBuilder = new StringBuilder().Append(nameSpace.Name).Append(_namespaceClassDelimiter);
+            var stringBuilder = new StringBuilder().Append(nameSpace!.Name).Append(_namespaceClassDelimiter);
             items.Reverse();
             items.ForEach(i => stringBuilder.Append(i).Append(_nestedClassDelimiter));
             stringBuilder.Append(source.Identifier.Text);

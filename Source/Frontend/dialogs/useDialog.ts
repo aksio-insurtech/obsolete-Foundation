@@ -1,15 +1,10 @@
 import { useState } from 'react';
+import { DialogResult } from './DialogResult';
 
 export interface IDialogProps<TInput = {}, TOutput = {}> {
     visible: boolean;
     input: TInput;
     onClose: DialogClosed<TOutput>
-}
-
-export enum DialogResult {
-    Success,
-    Failed,
-    Cancelled
 }
 
 export type ShowDialog<T = {}> = (input?: T) => void;

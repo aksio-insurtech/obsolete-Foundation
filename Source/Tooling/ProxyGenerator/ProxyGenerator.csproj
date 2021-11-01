@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <AssemblyName>Aksio.ProxyGenerator</AssemblyName>
         <RootNamespace>Aksio.ProxyGenerator</RootNamespace>
         <IsRoslynComponent>true</IsRoslynComponent>

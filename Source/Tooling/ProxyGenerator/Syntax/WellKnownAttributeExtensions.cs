@@ -9,10 +9,12 @@ namespace Aksio.ProxyGenerator.Syntax
     {
         const string HttpPostAttribute = "Microsoft.AspNetCore.Mvc.HttpPostAttribute";
         const string HttpGetAttribute = "Microsoft.AspNetCore.Mvc.HttpGetAttribute";
+        const string FromRouteAttribute = "Microsoft.AspNetCore.Mvc.FromRouteAttribute";
+        const string FromQueryAttribute = "Microsoft.AspNetCore.Mvc.FromQueryAttribute";
         const string RouteAttribute = "Microsoft.AspNetCore.Mvc.RouteAttribute";
 
         /// <summary>
-        /// Get the route attribute.
+        /// Get the route attribute - if any.
         /// </summary>
         /// <param name="type">Type to get it from.</param>
         /// <returns>Attribute, default if it wasn't there.</returns>
@@ -22,7 +24,7 @@ namespace Aksio.ProxyGenerator.Syntax
         }
 
         /// <summary>
-        /// Get the HTTP Post attribute.
+        /// Get the HTTP Post attribute - if any.
         /// </summary>
         /// <param name="type">Type to get it from.</param>
         /// <returns>Attribute, default if it wasn't there.</returns>
@@ -32,7 +34,7 @@ namespace Aksio.ProxyGenerator.Syntax
         }
 
         /// <summary>
-        /// Get the HTTP Get attribute.
+        /// Get the HTTP Get attribute - if any.
         /// </summary>
         /// <param name="type">Type to get it from.</param>
         /// <returns>Attribute, default if it wasn't there.</returns>
@@ -80,6 +82,26 @@ namespace Aksio.ProxyGenerator.Syntax
         public static bool IsHttpGetAttribute(this AttributeData symbol)
         {
             return symbol.AttributeClass?.ToString() == HttpGetAttribute;
+        }
+
+       /// <summary>
+        /// Check whether or not a symbol is an FromRoute attribute.
+        /// </summary>
+        /// <param name="symbol">Symbol to check.</param>
+        /// <returns>True if it is, false if not.</returns>
+        public static bool IsFromRouteAttribute(this AttributeData symbol)
+        {
+            return symbol.AttributeClass?.ToString() == FromRouteAttribute;
+        }
+
+       /// <summary>
+        /// Check whether or not a symbol is an FromQuery attribute.
+        /// </summary>
+        /// <param name="symbol">Symbol to check.</param>
+        /// <returns>True if it is, false if not.</returns>
+        public static bool IsFromQueryAttribute(this AttributeData symbol)
+        {
+            return symbol.AttributeClass?.ToString() == FromQueryAttribute;
         }
     }
 }

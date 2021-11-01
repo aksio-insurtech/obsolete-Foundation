@@ -1,15 +1,11 @@
-namespace Main
+namespace Sample
 {
     public class Startup
     {
-        public void ConfigureServices(IServiceCollection services)
-        {
-        }
-
         public void Configure(IApplicationBuilder app)
         {
-            app.UseAksio();
             app.UseRouting();
+            app.UseAksio();
         }
     }
 }

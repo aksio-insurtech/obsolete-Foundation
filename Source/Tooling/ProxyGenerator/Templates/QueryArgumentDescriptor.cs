@@ -5,5 +5,6 @@ namespace Aksio.ProxyGenerator.Templates
     /// </summary>
     /// <param name="Name">Name of argument.</param>
     /// <param name="Type">Type of argument.</param>
-    public record QueryArgumentDescriptor(string Name, string Type);
+    /// <param name="IsOptional">Whether or not the argument is nullable / optional.</param>
+    public record QueryArgumentDescriptor(string Name, string Type, bool IsOptional);
 }
