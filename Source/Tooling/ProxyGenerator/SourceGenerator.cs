@@ -45,8 +45,8 @@ namespace Aksio.ProxyGenerator
 
                 var publicInstanceMethods = type.GetPublicInstanceMethodsFrom();
 
-                OutputCommands(type, publicInstanceMethods, baseApiRoute, rootNamespace, outputFolder);
-                OutputQueries(context, type, publicInstanceMethods, baseApiRoute, rootNamespace, outputFolder);
+                OutputCommands(type, publicInstanceMethods, baseApiRoute, rootNamespace!, outputFolder);
+                OutputQueries(context, type, publicInstanceMethods, baseApiRoute, rootNamespace!, outputFolder);
             }
         }
 
@@ -66,7 +66,7 @@ namespace Aksio.ProxyGenerator
                 if (renderedTemplate != default)
                 {
                     Directory.CreateDirectory(targetFolder);
-                    var file = Path.Join(targetFolder, $"{commandType.Name}.ts");
+                    var file = Path.Combine(targetFolder, $"{commandType.Name}.ts");
                     File.WriteAllText(file, renderedTemplate);
                 }
             }
@@ -85,7 +85,7 @@ namespace Aksio.ProxyGenerator
                     context.ReportDiagnostic(Diagnostics.QueryIsNotEnumerable($"{type.ToDisplayString()}:{queryMethod.Name}"));
                 }
                 var actualType = ((INamedTypeSymbol)queryMethod.ReturnType).TypeArguments[0];
-                var targetFile = Path.Join(targetFolder, $"{queryMethod.Name}.ts");
+                var targetFile = Path.Combine(targetFolder, $"{queryMethod.Name}.ts");
                 OutputType(actualType, rootNamespace, outputFolder, targetFile, importStatements);
 
                 var queryArguments = GetQueryArgumentsFrom(queryMethod, ref route, importStatements);
@@ -110,12 +110,12 @@ namespace Aksio.ProxyGenerator
                     var attributes = parameter.GetAttributes();
                     if (attributes.Any(_ => _.IsFromRouteAttribute()))
                     {
-                        route = route.Replace($"{{{parameter.Name}}}", $"{{{{{parameter.Name}}}}}", StringComparison.InvariantCulture);
+                        route = route.Replace($"{{{parameter.Name}}}", $"{{{{{parameter.Name}}}}}");
                         isArgument = true;
                     }
                     if (attributes.Any(_ => _.IsFromQueryAttribute()))
                     {
-                        if (!route.Contains('?', StringComparison.InvariantCulture))
+                        if (!route.Contains('?'))
                         {
                             route = $"{route}?";
                         }
@@ -148,7 +148,7 @@ namespace Aksio.ProxyGenerator
         static void OutputType(ITypeSymbol type, string rootNamespace, string outputFolder, string parentFile, HashSet<ImportStatement> parentImportStatements)
         {
             var targetFolder = GetTargetFolder(type, rootNamespace, outputFolder);
-            var targetFile = Path.Join(targetFolder, $"{type.Name}.ts");
+            var targetFile = Path.Combine(targetFolder, $"{type.Name}.ts");
             var relativeImport = new Uri(parentFile).MakeRelativeUri(new Uri(targetFile));
             var importPath = Path.GetFileNameWithoutExtension(relativeImport.ToString());
             if (Path.GetDirectoryName(targetFile) == Path.GetDirectoryName(parentFile)) importPath = $"./{importPath}";
@@ -206,12 +206,12 @@ namespace Aksio.ProxyGenerator
 
         static string GetTargetFolder(ITypeSymbol type, string rootNamespace, string outputFolder)
         {
-            var segments = type.ContainingNamespace.ToDisplayString().Replace(rootNamespace, string.Empty, StringComparison.InvariantCulture)
-                                                            .Split(".")
+            var segments = type.ContainingNamespace.ToDisplayString().Replace(rootNamespace, string.Empty)
+                                                            .Split('.')
                                                             .Where(_ => _.Length > 0);
 
-            var relativePath = string.Join(Path.DirectorySeparatorChar, segments);
-            return Path.Join(outputFolder, relativePath);
+            var relativePath = string.Join(Path.DirectorySeparatorChar.ToString(), segments);
+            return Path.Combine(outputFolder, relativePath);
         }
     }
 }
