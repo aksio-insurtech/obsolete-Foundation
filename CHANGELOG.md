@@ -1,3 +1,11 @@
+# [v1.7.1] - 2021-11-1 [PR: #24](https://github.com/aksio-system/Foundation/pull/24)
+
+### Fixed
+
+- Missing reference to `@aksio/frontend` package for template.
+- Exporting deeper "namespaces" in `@aksio/frontend` package.
+
+
 # [v1.7.0] - 2021-11-1 [PR: #23](https://github.com/aksio-system/Foundation/pull/23)
 
 ### Added
