@@ -1,3 +1,19 @@
+# [v1.7.0] - 2021-11-1 [PR: #23](https://github.com/aksio-system/Foundation/pull/23)
+
+### Added
+
+- Frontend representations of Commands and CommandResult.
+- Frontend representations of Queries and QueryResult.
+
+### Changed
+
+- Proxy generation to follow the new frontend API
+
+### Fixed
+
+- Sample is now source for the template - easier to maintain one rather than two.
+
+
 # [v1.6.3] - 2021-10-29 [PR: #22](https://github.com/aksio-system/Foundation/pull/22)
 
 ### Fixed
