@@ -25,7 +25,6 @@ export abstract class QueryFor<TModel, TArguments = {}> implements IQueryFor<TMo
             }
         });
 
-        const items = await response.json();
-        return new QueryResult(items, response);
+        return await QueryResult.fromResponse<TModel>(response);
     }
 }

@@ -1,22 +1,30 @@
+
+type QueryResultFromServer<TModel> = {
+    items: TModel[];
+    isSuccess: boolean;
+};
+
 /**
  * Represents the result from executing a {@link IQueryFor}.
  * @template TModel The model type.
  */
 export class QueryResult<TModel> {
-    private readonly _ok: boolean;
-
     /**
      * Creates an instance of query result.
-     * @param response 
+     * @param {TModel[]} items The items returned, if any - can be empty.
+     * @param {boolean} isSuccess Whether or not the query was successful.
      */
-    constructor(readonly items: TModel[], response?: Response) {
-        this._ok = response?.ok || true;
+    constructor(readonly items: TModel[], readonly isSuccess: boolean) {
     }
 
     /**
-     * Gets whether execution is successful or not.
+     * Create a {@link QueryResult} from a {@link Response}.
+     * @template TModel Type of model to create for.
+     * @param {Response} [response] Response to create from.
+     * @returns A new {@link QueryResult}.
      */
-    get isSuccess() {
-        return this._ok;
+    static async fromResponse<TModel>(response: Response): Promise<QueryResult<TModel>> {
+        const jsonResponse = await response.json() as QueryResultFromServer<TModel>;
+        return new QueryResult(jsonResponse.items, jsonResponse.isSuccess && response.ok);
     }
 }

@@ -17,7 +17,7 @@ export type PerformQuery<TArguments = {}> = () => Promise<void>;
  * @returns Tuple of {@link QueryResult} and a {@link PerformQuery} delegate.
  */
 export function useQuery<TModel, TQuery extends IQueryFor<TModel>, TArguments = {}>(query: Constructor<TQuery>, args?: TArguments): [QueryResult<TModel>, PerformQuery<TArguments>] {   
-    const [result, setResult] = useState<QueryResult<TModel>>(new QueryResult([]));
+    const [result, setResult] = useState<QueryResult<TModel>>(new QueryResult([], true));
     const queryExecutor = (async () => {
         const queryInstance = new query() as TQuery;
         const response = await queryInstance.perform(args);
