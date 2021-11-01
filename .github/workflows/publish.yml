@@ -65,6 +65,13 @@ jobs:
       - name: Remove any existing artifacts
         run: rm -rf ${{ env.NUGET_OUTPUT }}
 
+      - name: Publish NPM packages
+        if: ${{ steps.release.outputs.should-publish == 'true' }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          yarn publish-version ${{ steps.release.outputs.version }}
+
       - name: Create NuGet packages
         if: ${{ steps.release.outputs.should-publish == 'true' }}
         continue-on-error: true
@@ -73,10 +80,3 @@ jobs:
       - name: Push NuGet packages
         if: ${{ steps.release.outputs.should-publish == 'true' }}
         run: dotnet nuget push --skip-duplicate '${{ env.NUGET_OUTPUT }}/*.nupkg' --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
-
-      - name: Publish NPM packages
-        if: ${{ steps.release.outputs.should-publish == 'true' }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          yarn publish-version ${{ steps.release.outputs.version }}
