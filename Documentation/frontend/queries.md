@@ -51,7 +51,7 @@ export class AllAccounts extends QueryFor<DebitAccount> {
 
 From a React component you can now use the static `use()` method:
 
-```typescript
+```tsx
 export const MyComponent = () => {
     const [accounts, queryAccounts] = AllAccounts.use();
 
@@ -61,3 +61,37 @@ export const MyComponent = () => {
     )
 };
 ```
+
+### Parameters
+
+Queries can have parameters they can be used for instance for filtering.
+Lets say you have a query called `StartingWith`:
+
+```csharp
+[HttpGet("starting-with")]
+public IEnumerable<DebitAccount> StartingWith([FromQuery] string? filter)
+{
+    var filterDocument = Builders<DebitAccount>
+        .Filter
+        .Regex("name", $"^{filter ?? string.Empty}.*");
+
+    return _collection.Find(filterDocument).ToList();
+}
+```
+
+The `filter` parameter will be part of the generated proxy, since it has the `[FromQuery]`
+attribute on it. Using the proxy requires you to now specify the parameter as well:
+
+```tsx
+export const MyComponent = () => {
+    const [accounts, queryAccounts] = StartingWith.use({ filter: '' });
+
+    return (
+        <>
+        </>
+    )
+};
+```
+
+> Note: Route values will also be considered parameters and generated when adorning
+> a method parameter with `[HttpPost]`.

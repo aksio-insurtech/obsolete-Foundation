@@ -16,6 +16,10 @@ Queries are the data coming out. These are represents as **HttpGet** operations 
 of a specific type. These can have arguments which will also be part of the proxy objects. The generator will use the
 method name as the query name, so remember to name these properly to get meaningful query objects for the frontend.
 
+You can provide parameters to the queries as well. These can either be part of the route or as part of the query string.
+(C#: `[FromRoute]` or `[FromQuery]`). The proxy generator will create a type that holds these and becomes compile-time
+checked when using the query in the frontend.
+
 ## Getting started
 
 All you need is to reference the following **Aksio.ProxyGenerator** package and configure the property for the output
