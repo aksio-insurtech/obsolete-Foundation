@@ -1,4 +1,6 @@
 using Aksio;
+using Aksio.Commands;
+using Aksio.Queries;
 using Cratis.Reflection;
 using Cratis.Types;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +23,13 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             foreach (var assembly in types.ProjectReferencedAssemblies.Where(_ => _.DefinedTypes.Any(type => type.Implements(typeof(Controller)))))
             {
-                services.AddControllers()
-                            .AddJsonOptions(_ => _.JsonSerializerOptions.Converters.Add(new ConceptAsJsonConverterFactory()))
-                            .PartManager.ApplicationParts.Add(new AssemblyPart(assembly));
+                services.AddControllers(_ =>
+                {
+                    _.Filters.Add(new CommandActionFilter());
+                    _.Filters.Add(new QueryActionFilter());
+                })
+                        .AddJsonOptions(_ => _.JsonSerializerOptions.Converters.Add(new ConceptAsJsonConverterFactory()))
+                        .PartManager.ApplicationParts.Add(new AssemblyPart(assembly));
             }
 
             return services;
