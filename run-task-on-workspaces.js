@@ -12,13 +12,13 @@ const path = require('path');
 const fs = require('fs');
 const spawn = require('child_process').spawnSync;
 const editJsonFile = require('edit-json-file');
-const rootPackageJson = require('./package.json')
+const rootPackageJson = require('./package.json');
 const glob = require('glob').sync;
 
 const workspaces = {};
 
 
-const distFolder = `dist${path.sep}`
+const distFolder = `dist${path.sep}`;
 for (const workspaceDef of rootPackageJson.workspaces) {
     console.log(`Getting packages for workspace definition '${workspaceDef}' \n`);
 
@@ -46,6 +46,7 @@ if (args.length > 0) {
 
 console.log('');
 
+workspaces['template'] = './Source/Tooling/Templates/template/aspnet/';
 const workspaceNames = Object.keys(workspaces);
 
 function updateDependencyVersionsFromLocalWorkspaces(file, packageJson, version) {
