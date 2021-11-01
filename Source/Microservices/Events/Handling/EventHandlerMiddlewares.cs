@@ -27,7 +27,7 @@ namespace Aksio.Events.Handling
         {
             return async (@event, context) =>
             {
-                NextEventHandlerMiddleware next = async () => await method.Invoke(@event, context).ConfigureAwait(false);
+                NextEventHandlerMiddleware next = async () => await method.Invoke(@event, context);
 
                 NextEventHandlerMiddleware WrapMiddleware(IEventHandlerMiddleware middleware, NextEventHandlerMiddleware nextMiddleware) => () => middleware.Invoke(context, @event, nextMiddleware);
 
@@ -36,7 +36,7 @@ namespace Aksio.Events.Handling
                     next = WrapMiddleware(middleware, next);
                 }
 
-                await next().ConfigureAwait(false);
+                await next();
             };
         }
     }

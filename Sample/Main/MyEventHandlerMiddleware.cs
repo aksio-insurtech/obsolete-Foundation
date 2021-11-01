@@ -12,7 +12,7 @@ namespace Sample
         public async Task Invoke(EventContext eventContext, object @event, NextEventHandlerMiddleware next)
         {
             var before = DateTime.UtcNow;
-            await next().ConfigureAwait(false);
+            await next();
             var after = DateTime.UtcNow;
             var delta = after.Subtract(before);
             _logger.HandlerTiming(delta.TotalMilliseconds, @event.GetType().Name);

@@ -49,8 +49,7 @@ namespace Aksio.Events.EventLogs
                 .Commit(_ => _
                     .CreateEvent(expando)
                     .FromEventSource(eventSourceId)
-                    .WithEventType(eventType))
-                .ConfigureAwait(false);
+                    .WithEventType(eventType));
         }
 
         void AddPropertiesFrom(ExpandoObject expando, object input)
