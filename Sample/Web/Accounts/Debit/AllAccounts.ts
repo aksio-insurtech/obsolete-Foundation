@@ -6,7 +6,6 @@ import { QueryFor, QueryResult, useQuery, PerformQuery } from '@aksio/frontend/q
 import { DebitAccount } from './DebitAccount';
 import Handlebars from 'handlebars';
 
-
 const routeTemplate = Handlebars.compile('/api/accounts/debit');
 
 export class AllAccounts extends QueryFor<DebitAccount> {
