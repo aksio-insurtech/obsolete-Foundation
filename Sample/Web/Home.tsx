@@ -23,6 +23,11 @@ export const Home = () => {
                 <li><Link href="https://github.com/aksio-system/Foundation/blob/main/Documentation/index.md" target="__blank">Aksio Foundation documentation.</Link></li>
                 <li><Link href="https://github.com/aksio-system/Defaults" target="__blank">Get familiar with the defaults which is used for static code analysis.</Link></li>
             </ul>
+            <h2>Debugging tools</h2>
+            <ul>
+                <li><Link href="/events" target="__blank">Event Workbench</Link></li>
+                <li><Link href="/swagger" target="__blank">Swagger API</Link></li>
+            </ul>
         </div>
     );
 };
