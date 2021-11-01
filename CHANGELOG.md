@@ -1,3 +1,10 @@
+# [v1.7.2] - 2021-11-1 [PR: #25](https://github.com/aksio-system/Foundation/pull/25)
+
+### Fixed
+
+- Rearranging the order of publishing to have NPM packages first, due to it updating references in the template used by the published `dotnet` template.
+
+
 # [v1.7.1] - 2021-11-1 [PR: #24](https://github.com/aksio-system/Foundation/pull/24)
 
 ### Fixed
