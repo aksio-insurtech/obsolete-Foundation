@@ -23,7 +23,7 @@
         <TemplateDir>$(MSBuildThisFileDirectory)/templates/aspnet</TemplateDir>
     </PropertyGroup>
     <ItemGroup>
-        <FilesToDelete Include="$(TemplateDir)/**/*.cs;$(TemplateDir)/**/*.csproj;$(TemplateDir)/**/*.js;$(TemplateDir)/**/*.ts;$(TemplateDir)/**/*.tsx;$(TemplateDir)/**/*.scss*;$(TemplateDir)/**/*.ejs;$(TemplateDir)/**/*.json" Exclude="$(TemplateDir)/Web/package.json;$(TemplateDir)/updateAksioReferences.js;$(TemplateDir)/.vscode/**/*;$(TemplateDir)/.template.config"/>
+        <FilesToDelete Include="$(TemplateDir)/**/*.cs;$(TemplateDir)/**/*.csproj;$(TemplateDir)/**/*.js;$(TemplateDir)/**/*.ts;$(TemplateDir)/**/*.tsx;$(TemplateDir)/**/*.scss*;$(TemplateDir)/**/*.ejs;$(TemplateDir)/**/*.json" Exclude="$(TemplateDir)/Web/package.json;$(TemplateDir)/updateAksioReferences.js;$(TemplateDir)/.vscode/**/*;$(TemplateDir)/.template.config/template.json"/>
         <FilesToCopy Include="$(Sample)/**/*.cs;$(Sample)/**/*.csproj;;$(Sample)/**/*.js;$(Sample)/**/*.ts;$(Sample)/**/*.tsx;$(Sample)/**/*.scss*;$(Sample)/**/*.ejs;$(Sample)/**/*.json" Exclude="$(Sample)/Web/package.json"/>
     </ItemGroup>
 
