@@ -1,3 +1,9 @@
+# [v1.7.4] - 2021-11-2 [PR: #28](https://github.com/aksio-system/Foundation/pull/28)
+
+## Fixed
+
+- Template.json for DotNet template included again after some changes.
+
 # [v1.7.3] - 2021-11-2 [PR: #26](https://github.com/aksio-system/Foundation/pull/26)
 
 ### Fixed
