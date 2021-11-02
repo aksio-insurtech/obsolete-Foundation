@@ -4,7 +4,7 @@ There is a template pack for Aksio projects.
 Install it by simply doing the following from your terminal:
 
 ```shell
-$ dotnet new -i Aksio.Templates
+dotnet new -i Aksio.Templates
 ```
 
 The templates are also supported through Visual Studio
@@ -15,7 +15,7 @@ by enabling [.NET CLI tooling](https://devblogs.microsoft.com/dotnet/net-cli-tem
 Create a folder to holds your microservice and from within this folder you run:
 
 ```shell
-$ dotnet new <template-name>
+dotnet new <template-name>
 ```
 
 | Template | Description |
@@ -43,13 +43,13 @@ opted in for the web option.
 Once created, you can simply run the microservice by running the following from the `Main` folder:
 
 ```shell
-$ dotnet run
+dotnet run
 ```
 
 ...or
 
 ```shell
-$ dotnet watch run
+dotnet watch run
 ```
 
 > Note: if you're using an IDE such as Visual Studio or Rider, you typically would run it from within the IDE.
@@ -57,7 +57,7 @@ $ dotnet watch run
 If you opted in to include a Web frontend, you run this by running the following from the `Web` folder:
 
 ```shell
-$ yarn start:dev
+yarn start:dev
 ```
 
 The backend will start on port **5000** while the frontend will be on **9000**. The frontend is configured to
