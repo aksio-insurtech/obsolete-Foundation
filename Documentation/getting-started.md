@@ -1,6 +1,13 @@
-# Templates
+# Getting started
 
-There is a template pack for Aksio projects.
+## Pre requisites
+
+- [.NET Core 6 rc.2 or better](https://dotnet.microsoft.com/download/dotnet/6.0)
+- [Node JS version 16](https://nodejs.org/)
+
+## Install
+
+The project comes with scaffolding templates.
 Install it by simply doing the following from your terminal:
 
 ```shell
