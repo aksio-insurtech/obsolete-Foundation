@@ -1,3 +1,10 @@
+# [v1.7.5] - 2021-11-2 [PR: #29](https://github.com/aksio-system/Foundation/pull/29)
+
+### Fixed
+
+- Template packaging now excludes node_modules from Sample but includes files & directories starting with a . (dot)
+
+
 # [v1.7.4] - 2021-11-2 [PR: #28](https://github.com/aksio-system/Foundation/pull/28)
 
 ## Fixed
