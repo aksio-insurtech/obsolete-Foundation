@@ -1,3 +1,9 @@
+# [v1.7.7] - 2021-11-2 [PR: #32](https://github.com/aksio-system/Foundation/pull/32)
+
+### Fixed
+
+- Excluding `node_modules` from template packaging.
+
 # [v1.7.6] - 2021-11-2 [PR: #31](https://github.com/aksio-system/Foundation/pull/31)
 
 ### Fixed
