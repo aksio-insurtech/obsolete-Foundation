@@ -9,3 +9,5 @@ cross cutting. Its goal is to provide developers with a productivity suite.
 
 Read the [documentation](./Documentation/index.md) for all the details.
 For general guidance on the core values and principles we @ Aksio use, read more [here](https://github.com/aksio-system/Home/blob/main/README.md).
+
+To get a quick start, head over to our [getting started](./Documentation/getting-started.md) section.

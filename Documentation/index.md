@@ -5,11 +5,12 @@ challenges in one place. On top of that it should also provide tooling when and 
 
 If you want to contribute, please read more [here](./contributing.md).
 
+To get a quick start, head over to our [getting started](./getting-started.md) section.
+
 ## Backend
 
 | Topic | Description |
 | ------- | ----------- |
-| [Getting Started](./getting-started.md) | Get started using the scaffolding templates. |
 | [Inversion of Control](./ioc.md) | Why and how inversion of control is setup. |
 | [Tenancy](./tenancy.md) | What is tenancy and how does it work? |
 | [Configuration](./configuration.md) | How the configuration system is setup |
