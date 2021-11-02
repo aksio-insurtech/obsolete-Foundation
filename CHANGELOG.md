@@ -1,3 +1,10 @@
+# [v1.7.6] - 2021-11-2 [PR: #31](https://github.com/aksio-system/Foundation/pull/31)
+
+### Fixed
+
+- Fixing publish pipeline for NuGet packages. Moving NoDefaultExclude option into .csproj for our template project where it belongs.
+
+
 # [v1.7.5] - 2021-11-2 [PR: #29](https://github.com/aksio-system/Foundation/pull/29)
 
 ### Fixed
