@@ -6,7 +6,6 @@
         <IsRoslynComponent>true</IsRoslynComponent>
         <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-        <NoDefaultExcludes>true</NoDefaultExcludes>
    </PropertyGroup>    
 
     <ItemGroup>
