@@ -5,6 +5,7 @@ challenges in one place. On top of that it should also provide tooling when and 
 
 If you want to contribute, please read more [here](./contributing.md).
 
+To get a quick start, head over to our [getting started](./getting-started.md) section.
 
 ## Backend
 
@@ -17,7 +18,6 @@ If you want to contribute, please read more [here](./contributing.md).
 | [Events](./events.md) | How to work with events. |
 | [Event Handlers](./event-handlers.md) | How to work with event handlers. |
 | [MongoDB](./mongodb.md) | How to work with MongoDB. |
-| [Templates](./templates.md) | How you can increase productivity through our packaged templates. |
 | [Third Parties](./third-parties.md) | What third parties comes out of the box, and what they're for. |
 
 ## Frontend
