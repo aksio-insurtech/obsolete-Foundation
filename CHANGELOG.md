@@ -1,3 +1,9 @@
+# [v1.7.3] - 2021-11-2 [PR: #26](https://github.com/aksio-system/Foundation/pull/26)
+
+### Fixed
+
+- The NuGet template updates to the latest NPM packages post creation.
+
 # [v1.7.2] - 2021-11-1 [PR: #25](https://github.com/aksio-system/Foundation/pull/25)
 
 ### Fixed
