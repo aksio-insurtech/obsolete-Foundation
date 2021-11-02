@@ -93,6 +93,19 @@
             }
         },
         {
+            "description": "Instructions for starting Dolittle",
+            "actionId": "AC1156F7-BB77-4DB8-B28F-24EEBCCA1E5C",
+            "manualInstructions": [
+                {
+                    "text": "You'll need the Dolittle Runtime to run (if using ARM64 (Apple M based CPUs)) - change image to: dolittle/runtime:latest-arm64-development"
+                }
+            ],
+            "args": {
+                "executable": "docker",
+                "args": "run -d -p 50052:50052 -p 50053:50053 -p 27017:27017 dolittle/runtime:latest-development"
+            }
+        },       
+        {
             "description": "Instructions for starting backend",
             "actionId": "AC1156F7-BB77-4DB8-B28F-24EEBCCA1E5C",
             "manualInstructions": [
