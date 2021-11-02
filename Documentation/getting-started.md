@@ -2,6 +2,7 @@
 
 ## Pre requisites
 
+- [Docker](https://www.docker.com/products/docker-desktop)
 - [.NET Core 6 rc.2 or better](https://dotnet.microsoft.com/download/dotnet/6.0)
 - [Node JS version 16](https://nodejs.org/)
 
@@ -47,7 +48,17 @@ opted in for the web option.
 
 #### Running
 
-Once created, you can simply run the microservice by running the following from the `Main` folder:
+Before running the microservice backend and frontend, we will need to run the Dolittle Runtime
+
+```shell
+docker run -d -p 50052:50052 -p 50053:50053 -p 27017:27017 dolittle/runtime:latest-development
+```
+
+> Note: If you're running with an ARM64 based computer, such as the Apple M based Macs, you'll need
+> a different image; dolittle/runtime:latest-arm64-development.
+> `docker run -d -p 50052:50052 -p 50053:50053 -p 27017:27017 dolittle/runtime:latest-arm64-development`
+
+Then you can simply run the microservice backend by running the following from the `Main` folder:
 
 ```shell
 dotnet run
