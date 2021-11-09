@@ -25,7 +25,7 @@
         <Autofac>6.2.0</Autofac>
         <AutofacExtensions>7.1.0</AutofacExtensions>
         <MongoDB>2.13.1</MongoDB>
-        <Cratis>2.10.0</Cratis>
+        <Cratis>2.12.0</Cratis>
     </PropertyGroup>
 
 	<ItemGroup>
