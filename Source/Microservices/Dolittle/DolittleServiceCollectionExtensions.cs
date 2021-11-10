@@ -23,13 +23,15 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns><see cref="IServiceCollection"/> for continuation.</returns>
         public static IServiceCollection AddDolittle(this IServiceCollection services, ITypes types, ProviderFor<IServiceProvider> serviceProviderProvider)
         {
+            var eventTypes = new EventTypes(types);
+
             var clientBuilder = Client
                 .ForMicroservice(Guid.Empty)
 #pragma warning disable CA2000 // Requirement of disposing all references before exiting scope.
                 .WithLogging(new LoggerFactory().AddSerilog(Log.Logger))
 #pragma warning restore
-                .WithAutoDiscoveredEventHandlers(services, types, serviceProviderProvider)
-                .WithAutoDiscoveredEventTypes(types)
+                .WithAutoDiscoveredEventHandlers(services, types, eventTypes, serviceProviderProvider)
+                .WithAutoDiscoveredEventTypes(eventTypes)
                 .WithEventSerializerSettings(_ =>
                 {
                     _.Converters.Add(new ConceptAsJsonConverter());
