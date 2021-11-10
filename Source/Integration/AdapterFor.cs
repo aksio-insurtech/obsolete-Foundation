@@ -14,7 +14,7 @@ namespace Aksio.Integration
         /// <summary>
         /// Gets the property that represents the key.
         /// </summary>
-        public abstract Expression<Func<TModel, object>> Key { get; }
+        public abstract Expression<Func<TExternalModel, global::Dolittle.SDK.Events.EventSourceId>> Key { get; }
 
         /// <summary>
         /// Define the model / state based on projection from events.

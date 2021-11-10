@@ -65,7 +65,7 @@ namespace Integration.AccountHolders
     */
     public class AccountHolderDetailsAdapter : AdapterFor<AccountHolder, ExternalAccountHolder>
     {
-        public override Expression<Func<AccountHolder, object>> Key => _ => _.Id;
+        public override Expression<Func<ExternalAccountHolder, EventSourceId>> Key => _ => _.Id;
 
         public override void DefineModel(IProjectionBuilderFor<AccountHolder> builder) => builder
             .From<AccountHolderRegistered>(_ => _

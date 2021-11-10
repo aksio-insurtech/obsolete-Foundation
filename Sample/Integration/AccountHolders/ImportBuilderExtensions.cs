@@ -9,7 +9,7 @@ using Cratis.Reflection;
 
 namespace Integration.AccountHolders
 {
-    public static class AdapterImportContextExtensions
+    public static class ImportBuilderExtensions
     {
         public static IObservable<ImportContext<TModel, TExternalModel>> WithProperties<TModel, TExternalModel>(this IImportBuilderFor<TModel, TExternalModel> builder, params Expression<Func<TModel, object>>[] properties)
         {
@@ -17,7 +17,7 @@ namespace Integration.AccountHolders
 
             return builder.Where(_ =>
             {
-                var changes = _.Changeset.Changes.Where(_ => _ is PropertiesChanged).Select(_ => _ as PropertiesChanged);
+                var changes = _.Changeset.Changes.Where(_ => _ is PropertiesChanged<TModel>).Select(_ => _ as PropertiesChanged<TModel>);
                 return changes.Any(_ => _!.Differences.Any(_ => propertyPaths.Contains(_.MemberPath)));
             });
         }
@@ -43,24 +43,6 @@ namespace Integration.AccountHolders
             });
 
             return context;
-        }
-
-        public static Task Apply<TModel, TExternalModel>(this ImportContext<TModel, TExternalModel> context, TExternalModel instance, EventSourceId? eventSourceId = default)
-        {
-            Console.WriteLine("Hello : " + context + instance + eventSourceId);
-            return Task.CompletedTask;
-        }
-
-        public static Task Apply<TModel, TExternalModel>(this ImportContext<TModel, TExternalModel> context, IEnumerable<TExternalModel> instances, Func<TExternalModel, EventSourceId>? eventSourceIdProvider = default)
-        {
-            Console.WriteLine("Hello : " + context + instances + eventSourceIdProvider);
-            return Task.CompletedTask;
-        }
-
-        public static Task Apply<TModel, TExternalModel>(this ImportContext<TModel, TExternalModel> context, Changeset<TExternalModel> changeset)
-        {
-            Console.WriteLine("Hello : " + context + changeset);
-            return Task.CompletedTask;
         }
     }
 }

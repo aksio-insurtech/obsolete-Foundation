@@ -11,7 +11,6 @@ namespace Aksio.Integration
         /// <typeparam name="TModel">Type of model to get for.</typeparam>
         /// <typeparam name="TExternalModel">Type of external model to get for.</typeparam>
         /// <returns><see cref="ImportContext{TModel, TExternalModel}"/>.</returns>
-        /// <exception cref="NotImplementedException">Not implemented.</exception>
-        ImportContext<TModel, TExternalModel> For<TModel, TExternalModel>();
+        ImportOperations<TModel, TExternalModel> For<TModel, TExternalModel>();
     }
 }

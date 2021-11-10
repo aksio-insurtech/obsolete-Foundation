@@ -32,18 +32,5 @@ namespace Integration.AccountHolders
             var accountHolders = await _externalSystem.GetBySocialSecurityNumbers(socialSecurityNumbers);
             await _importer.For<AccountHolder, ExternalAccountHolder>().Apply(accountHolders);
         }
-
-        public async Task ImportPartial()
-        {
-            // Do stuff
-            var initial = new ExternalAccountHolder(string.Empty, string.Empty, string.Empty, DateTime.UtcNow, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
-            var changeset = new Changeset<ExternalAccountHolder>(initial, new ExpandoObject());
-            var change = new PropertiesChanged(new ExpandoObject(), new[]
-            {
-                new PropertyDifference(new ExpandoObject(), new ExpandoObject(), new Difference("SomeProperty", "42", "43"))
-            });
-            changeset.Add(change);
-            await _importer.For<AccountHolder, ExternalAccountHolder>().Apply(changeset);
-        }
     }
 }
