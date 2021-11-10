@@ -11,7 +11,7 @@ To get a quick start, head over to our [getting started](./getting-started.md) s
 
 | Topic | Description |
 | ------- | ----------- |
-| [getting started](./getting-started.md) | Getting started |
+| [Getting started](./getting-started.md) | Getting started |
 | [Inversion of Control](./ioc.md) | Why and how inversion of control is setup. |
 | [Tenancy](./tenancy.md) | What is tenancy and how does it work? |
 | [Configuration](./configuration.md) | How the configuration system is setup |
