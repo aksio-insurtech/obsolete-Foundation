@@ -22,8 +22,8 @@ To get a quick start, head over to our [getting started](./getting-started.md) s
 
 ## Frontend
 
-| Topic | Description |
-| ----- | ----------- |
+| Topic | Description |
+| ----- | ----------- |
 | [Proxy Generation](./frontend/proxy-generation.md) | How the proxy generator tool can be used. |
-| [Commands](./frontend/commands.md) | How to leverage commands from the frontend. |
-| [Queries](./frontend/queryies.md) | How to leverage queries from the frontend. |
+| [Commands](./frontend/commands.md) | How to leverage commands from the frontend. |
+| [Queries](./frontend/queryies.md) | How to leverage queries from the frontend. |
