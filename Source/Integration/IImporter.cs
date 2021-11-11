@@ -1,7 +1,7 @@
 namespace Aksio.Integration
 {
     /// <summary>
-    /// Represents the context to work with translation of models and external models.
+    /// Defines a system for working with import of data.
     /// </summary>
     public interface IImporter
     {
@@ -11,6 +11,6 @@ namespace Aksio.Integration
         /// <typeparam name="TModel">Type of model to get for.</typeparam>
         /// <typeparam name="TExternalModel">Type of external model to get for.</typeparam>
         /// <returns><see cref="ImportContext{TModel, TExternalModel}"/>.</returns>
-        ImportOperations<TModel, TExternalModel> For<TModel, TExternalModel>();
+        IImportOperations<TModel, TExternalModel> For<TModel, TExternalModel>();
     }
 }

@@ -6,11 +6,19 @@ namespace Aksio.Integration
     public interface IAdapters
     {
         /// <summary>
-        /// Gets an <see cref="AdapterFor{TModel, TExternalModel}"/> for the specific model and external model.
+        /// Gets an <see cref="IAdapterFor{TModel, TExternalModel}"/> for the specific model and external model.
         /// </summary>
         /// <typeparam name="TModel">Type of model.</typeparam>
         /// <typeparam name="TExternalModel">Type of external model.</typeparam>
         /// <returns>The <see cref="AdapterFor{TModel, TExternalModel}"/>.</returns>
-        AdapterFor<TModel, TExternalModel> GetFor<TModel, TExternalModel>();
+        IAdapterFor<TModel, TExternalModel> GetFor<TModel, TExternalModel>();
+
+        /// <summary>
+        /// Gets a <see cref="IAdapterProjectionFor{TModel}"/> for a specific model and external model.
+        /// </summary>
+        /// <typeparam name="TModel">Type of model.</typeparam>
+        /// <typeparam name="TExternalModel">Type of external model.</typeparam>
+        /// <returns><see cref="IAdapterProjectionFor{TModel}"/> instance.</returns>
+        IAdapterProjectionFor<TModel> GetProjectionFor<TModel, TExternalModel>();
     }
 }
