@@ -2,6 +2,7 @@ using Cratis.Events.Projections;
 using Cratis.Events.Projections.Changes;
 using Cratis.Extensions.Dolittle.EventStore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using EventSourceId = Dolittle.SDK.Events.EventSourceId;
 
 namespace Aksio.Integration
@@ -38,11 +39,13 @@ namespace Aksio.Integration
         {
             var eventProvider = new EventSourceInstanceEventProvider(_eventStream, eventSourceId);
             var pipeline = new ProjectionPipeline(eventProvider, _projection, _changesetStorage, _loggerFactory.CreateLogger<ProjectionPipeline>());
-            var result = new InstanceProjectionResult();
+            var result = new InstanceProjectionResult<TModel>();
             pipeline.StoreIn(result);
             pipeline.Start();
 
-            return default!;
+            if (result.HasInstance(eventSourceId)) return result.GetInstance(eventSourceId);
+
+            return JsonConvert.DeserializeObject<TModel>("{}")!;
         }
     }
 }

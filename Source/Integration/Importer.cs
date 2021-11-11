@@ -26,7 +26,8 @@ namespace Aksio.Integration
         {
             var adapter = _adapters.GetFor<TModel, TExternalModel>();
             var projection = _adapters.GetProjectionFor<TModel, TExternalModel>();
-            return new ImportOperations<TModel, TExternalModel>(adapter, projection, _eventLog);
+            var mapper = _adapters.GetMapperFor<TModel, TExternalModel>();
+            return new ImportOperations<TModel, TExternalModel>(adapter, projection, mapper, _eventLog);
         }
     }
 }

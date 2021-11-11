@@ -59,13 +59,7 @@ namespace Aksio.Integration
         /// <returns>Observable for chaining.</returns>
         public static IObservable<ImportContext<TModel, TExternalModel>> AppendEvent<TModel, TExternalModel, TEvent>(this IObservable<ImportContext<TModel, TExternalModel>> context, Func<ImportContext<TModel, TExternalModel>, TEvent> creationCallback)
         {
-            context.Subscribe(_ =>
-            {
-                creationCallback(_);
-                var t = typeof(TEvent);
-                Console.WriteLine(t);
-            });
-
+            context.Subscribe(_ => _.Events.Add(creationCallback(_)!));
             return context;
         }
     }

@@ -1,4 +1,5 @@
 using System.Reflection;
+using AutoMapper;
 using Cratis.Concepts;
 using Cratis.Events;
 using Cratis.Events.Projections;
@@ -66,6 +67,17 @@ namespace Aksio.Integration
             return AdaptersByKey<TModel, TExternalModel>.Projection!;
         }
 
+        /// <inheritdoc/>
+        public IMapper GetMapperFor<TModel, TExternalModel>()
+        {
+            ThrowIfMissingAdapterForModelAndExternalModel<TModel, TExternalModel>();
+            if (AdaptersByKey<TModel, TExternalModel>.Mapper is null)
+            {
+                CreateMapperFor<TModel, TExternalModel>();
+            }
+            return AdaptersByKey<TModel, TExternalModel>.Mapper!;
+        }
+
         void PopulateAdapters()
         {
             foreach (var adapterType in _types.FindMultiple(typeof(IAdapterFor<,>)))
@@ -99,6 +111,17 @@ namespace Aksio.Integration
             AdaptersByKey<TModel, TExternalModel>.Projection = new AdapterProjectionFor<TModel>(projection, _eventStream, _loggerFactory);
         }
 
+        void CreateMapperFor<TModel, TExternalModel>()
+        {
+            ThrowIfMissingAdapterForModelAndExternalModel<TModel, TExternalModel>();
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                var mapping = cfg.CreateMap<TExternalModel, TModel>();
+                AdaptersByKey<TModel, TExternalModel>.Adapter!.DefineImportMapping(mapping!);
+            });
+            AdaptersByKey<TModel, TExternalModel>.Mapper = configuration.CreateMapper();
+        }
+
         void ThrowIfMissingAdapterForModelAndExternalModel<TModel, TExternalModel>()
         {
             if (AdaptersByKey<TModel, TExternalModel>.Adapter is null)
@@ -109,9 +132,10 @@ namespace Aksio.Integration
 
         static class AdaptersByKey<TModel, TExternalModel>
         {
-            #pragma warning disable CS0649 // We're assigning using reflection
+#pragma warning disable CS0649 // We're assigning using reflection
             public static IAdapterFor<TModel, TExternalModel>? Adapter;
             public static IAdapterProjectionFor<TModel>? Projection;
+            public static IMapper? Mapper;
         }
     }
 }
