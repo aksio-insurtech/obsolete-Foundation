@@ -14,7 +14,7 @@ namespace Integration.AccountHolders
         [HttpGet]
         public async Task Trigger()
         {
-            await _connector.ImportOne("20107512345");
+            await _connector.ImportOne("03050712345");
         }
     }
 }
