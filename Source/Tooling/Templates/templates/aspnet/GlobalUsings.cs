@@ -1,5 +1,7 @@
 global using Aksio.Events.EventLogs;
 global using Aksio.Events.Handling;
+global using Aksio.Integration;
+global using AutoMapper;
 global using Cratis.Concepts;
 global using Cratis.Events.Projections;
 global using Dolittle.SDK.Events;
