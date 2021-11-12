@@ -32,5 +32,18 @@ namespace Aksio.ProxyGenerator
                 DiagnosticSeverity.Error,
                 true),
             default);
+
+        /// <summary>
+        /// The <see cref="Diagnostic"/> to report when the output path is missing.
+        /// </summary>
+        public static readonly Func<string, Diagnostic> UnableToResolveModelType = (string queryName) => Diagnostic.Create(
+            new DiagnosticDescriptor(
+                "AKSIO0003",
+                "Unable to resolve model type",
+                $"Unable to resolve model type from '{queryName}'.",
+                "Generation",
+                DiagnosticSeverity.Error,
+                true),
+            default);
     }
 }

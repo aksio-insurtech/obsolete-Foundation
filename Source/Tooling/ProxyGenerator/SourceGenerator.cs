@@ -78,23 +78,43 @@ namespace Aksio.ProxyGenerator
             foreach (var queryMethod in methods.Where(_ => _.GetAttributes().Any(_ => _.IsHttpGetAttribute())))
             {
                 var modelType = queryMethod.ReturnType;
-                var route = GetRoute(baseApiRoute, queryMethod);
-                var importStatements = new HashSet<ImportStatement>();
-                if (!modelType.IsEnumerable())
-                {
-                    context.ReportDiagnostic(Diagnostics.QueryIsNotEnumerable($"{type.ToDisplayString()}:{queryMethod.Name}"));
-                }
-                var actualType = ((INamedTypeSymbol)queryMethod.ReturnType).TypeArguments[0];
-                var targetFile = Path.Combine(targetFolder, $"{queryMethod.Name}.ts");
-                OutputType(actualType, rootNamespace, outputFolder, targetFile, importStatements);
 
-                var queryArguments = GetQueryArgumentsFrom(queryMethod, ref route, importStatements);
-                var queryDescriptor = new QueryDescriptor(route, queryMethod.Name, actualType.Name, importStatements, queryArguments);
-                var renderedTemplate = TemplateTypes.Query(queryDescriptor);
-                if (renderedTemplate != default)
+                if (modelType is INamedTypeSymbol modelTypeAsNamedType)
                 {
-                    Directory.CreateDirectory(targetFolder);
-                    File.WriteAllText(targetFile, renderedTemplate);
+                    if (modelType.ToString() == typeof(Task).FullName)
+                    {
+                        continue;
+                    }
+
+                    if (modelTypeAsNamedType.ConstructedFrom.ToString().StartsWith(typeof(Task).FullName, StringComparison.InvariantCulture) && modelTypeAsNamedType.IsGenericType)
+                    {
+                        modelTypeAsNamedType = (modelTypeAsNamedType.TypeArguments[0] as INamedTypeSymbol)!;
+                    }
+                    var route = GetRoute(baseApiRoute, queryMethod);
+                    var importStatements = new HashSet<ImportStatement>();
+                    if (!modelTypeAsNamedType.IsEnumerable())
+                    {
+                        context.ReportDiagnostic(Diagnostics.QueryIsNotEnumerable($"{type.ToDisplayString()}:{queryMethod.Name}"));
+                        return;
+                    }
+                    if (!modelTypeAsNamedType.IsGenericType)
+                    {
+                        context.ReportDiagnostic(Diagnostics.UnableToResolveModelType($"{type.ToDisplayString()}:{queryMethod.Name}"));
+                        return;
+                    }
+
+                    var actualType = modelTypeAsNamedType.TypeArguments[0];
+                    var targetFile = Path.Combine(targetFolder, $"{queryMethod.Name}.ts");
+                    OutputType(actualType, rootNamespace, outputFolder, targetFile, importStatements);
+
+                    var queryArguments = GetQueryArgumentsFrom(queryMethod, ref route, importStatements);
+                    var queryDescriptor = new QueryDescriptor(route, queryMethod.Name, actualType.Name, importStatements, queryArguments);
+                    var renderedTemplate = TemplateTypes.Query(queryDescriptor);
+                    if (renderedTemplate != default)
+                    {
+                        Directory.CreateDirectory(targetFolder);
+                        File.WriteAllText(targetFile, renderedTemplate);
+                    }
                 }
             }
         }
