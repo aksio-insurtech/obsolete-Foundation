@@ -2,11 +2,11 @@ namespace Integration.AccountHolders
 {
     [Route("/api/integration")]
 
-    public class IntegrationTestController : Controller
+    public class IntegrationController : Controller
     {
         readonly KontoEierConnector _connector;
 
-        public IntegrationTestController(KontoEierConnector connector)
+        public IntegrationController(KontoEierConnector connector)
         {
             _connector = connector;
         }
