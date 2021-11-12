@@ -1,3 +1,15 @@
+# [v1.8.0] - 2021-11-12 [PR: #34](https://github.com/aksio-system/Foundation/pull/34)
+
+### Added
+
+- Introduces an API for working with integration. Read more in our documentation on how it works.
+- Supporting async query actions for the proxy generator.
+- Improved error handling and messages from the proxy generator if expected type return is wrong.
+
+### Fixed
+
+- Crash bug in proxy generator for unknown types.
+
 # [v1.7.7] - 2021-11-2 [PR: #32](https://github.com/aksio-system/Foundation/pull/32)
 
 ### Fixed
