@@ -4,9 +4,9 @@ namespace Integration.AccountHolders
 
     public class IntegrationTestController : Controller
     {
-        readonly ExternalAccountHolderConnector _connector;
+        readonly KontoEierConnector _connector;
 
-        public IntegrationTestController(ExternalAccountHolderConnector connector)
+        public IntegrationTestController(KontoEierConnector connector)
         {
             _connector = connector;
         }

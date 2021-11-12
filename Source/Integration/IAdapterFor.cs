@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using AutoMapper;
 using Cratis.Events.Projections;
 
@@ -14,7 +13,7 @@ namespace Aksio.Integration
         /// <summary>
         /// Gets the property that represents the key.
         /// </summary>
-        Expression<Func<TExternalModel, global::Dolittle.SDK.Events.EventSourceId>> Key { get; }
+        Func<TExternalModel, global::Dolittle.SDK.Events.EventSourceId> KeyResolver { get; }
 
         /// <summary>
         /// Define the model / state based on projection from events.

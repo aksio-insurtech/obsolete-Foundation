@@ -3,8 +3,6 @@ using System.Reflection;
 using Aksio.Events.EventLogs;
 using AutoMapper;
 using Cratis.Changes;
-using Cratis.Reflection;
-using Dolittle.SDK.Events;
 
 namespace Aksio.Integration
 {
@@ -45,8 +43,8 @@ namespace Aksio.Integration
         /// <inheritdoc/>
         public async Task Apply(TExternalModel instance)
         {
-            var keyValue = _adapter.Key.GetPropertyInfo().GetValue(instance)!;
-            var eventSourceId = keyValue as EventSourceId;
+            var keyValue = _adapter.KeyResolver(instance)!;
+            var eventSourceId = keyValue;
             eventSourceId ??= new() { Value = keyValue.ToString() };
             var initial = _adapterProjection.GetById(eventSourceId!);
             var mappedInstance = _mapper.Map<TModel>(instance)!;

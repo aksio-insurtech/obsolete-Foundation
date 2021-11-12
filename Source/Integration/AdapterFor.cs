@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using AutoMapper;
 using Cratis.Events.Projections;
 
@@ -12,7 +11,7 @@ namespace Aksio.Integration
     public abstract class AdapterFor<TModel, TExternalModel> : IAdapterFor<TModel, TExternalModel>
     {
         /// <inheritdoc/>
-        public abstract Expression<Func<TExternalModel, global::Dolittle.SDK.Events.EventSourceId>> Key { get; }
+        public abstract Func<TExternalModel, global::Dolittle.SDK.Events.EventSourceId> KeyResolver { get; }
 
         /// <summary>
         /// Define the model / state based on projection from events.

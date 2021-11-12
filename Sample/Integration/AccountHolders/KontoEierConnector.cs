@@ -10,12 +10,12 @@ using ObjectsComparer;
 
 namespace Integration.AccountHolders
 {
-    public class ExternalAccountHolderConnector
+    public class KontoEierConnector
     {
-        readonly IExternalAccountHolderSystem _externalSystem;
+        readonly IKontoEierSystem _externalSystem;
         readonly IImporter _importer;
 
-        public ExternalAccountHolderConnector(IExternalAccountHolderSystem externalSystem, IImporter importer)
+        public KontoEierConnector(IKontoEierSystem externalSystem, IImporter importer)
         {
             _externalSystem = externalSystem;
             _importer = importer;
@@ -24,13 +24,13 @@ namespace Integration.AccountHolders
         public async Task ImportOne(string socialSecurityNumber)
         {
             var accountHolder = await _externalSystem.GetBySocialSecurityNumber(socialSecurityNumber);
-            await _importer.For<AccountHolder, ExternalAccountHolder>().Apply(accountHolder);
+            await _importer.For<AccountHolder, KontoEier>().Apply(accountHolder);
         }
 
         public async Task ImportAll(IEnumerable<string> socialSecurityNumbers)
         {
             var accountHolders = await _externalSystem.GetBySocialSecurityNumbers(socialSecurityNumbers);
-            await _importer.For<AccountHolder, ExternalAccountHolder>().Apply(accountHolders);
+            await _importer.For<AccountHolder, KontoEier>().Apply(accountHolders);
         }
     }
 }
