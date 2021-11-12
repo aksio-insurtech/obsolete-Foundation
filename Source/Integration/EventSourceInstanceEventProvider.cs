@@ -89,7 +89,7 @@ namespace Aksio.Integration
                             content));
                 }
 
-                lastSavedPosition = @event.Id;
+                lastSavedPosition = @event.Id + 1;
             }
 
             return lastSavedPosition;

@@ -1,6 +1,9 @@
 using System.Dynamic;
 using Cratis.Changes;
+using Cratis.Concepts;
+using Cratis.Dynamic;
 using Cratis.Events.Projections;
+using Newtonsoft.Json;
 using EventSourceId = Dolittle.SDK.Events.EventSourceId;
 
 namespace Aksio.Integration
@@ -14,14 +17,40 @@ namespace Aksio.Integration
         readonly Dictionary<EventSourceId, TModel> _instances = new();
 
         /// <inheritdoc/>
-        public Task ApplyChanges(Model model, object key, Changeset<Event, ExpandoObject> changeset)
+        public async Task ApplyChanges(Model model, object key, Changeset<Event, ExpandoObject> changeset)
         {
-            return Task.CompletedTask;
+            var eventSourceId = new EventSourceId { Value = key.ToString() };
+            var existing = await FindOrDefault(model, key);
+            foreach (var change in changeset.Changes)
+            {
+                switch (change)
+                {
+                    case PropertiesChanged<ExpandoObject> propertiesChanged:
+                        {
+                            existing = propertiesChanged.State as ExpandoObject;
+                        }
+                        break;
+                }
+            }
+
+            var converters = new JsonConverter[]
+            {
+                new ConceptAsJsonConverter(),
+                new ConceptAsDictionaryJsonConverter()
+            };
+            var json = JsonConvert.SerializeObject(existing, converters);
+            _instances[eventSourceId] = JsonConvert.DeserializeObject<TModel>(json, converters)!;
         }
 
         /// <inheritdoc/>
         public Task<ExpandoObject> FindOrDefault(Model model, object key)
         {
+            var eventSourceId = new EventSourceId { Value = key.ToString() };
+            if (_instances.ContainsKey(eventSourceId))
+            {
+                return Task.FromResult(_instances[eventSourceId]!.AsExpandoObject());
+            }
+
             return Task.FromResult(new ExpandoObject());
         }
 

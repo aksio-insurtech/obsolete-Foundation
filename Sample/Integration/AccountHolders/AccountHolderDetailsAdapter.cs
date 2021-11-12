@@ -82,7 +82,7 @@ namespace Integration.AccountHolders
         {
             builder
                 .WithProperties(_ => _.FirstName, _ => _.LastName, _ => _.DateOfBirth)
-                .AppendEvent(_ => new AccountHolderRegistered(string.Empty, string.Empty, DateTime.Now))
+                .AppendEvent(_ => new AccountHolderRegistered(_.Changeset.Incoming.FirstName, _.Changeset.Incoming.LastName, _.Changeset.Incoming.DateOfBirth))
                 .AppendEvent<AccountHolder, ExternalAccountHolder, AccountHolderRegistered>();
 
             builder

@@ -8,6 +8,7 @@ using Cratis.Extensions.Dolittle.EventStore;
 using Cratis.Types;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using IEventStore = Cratis.Extensions.Dolittle.EventStore.IEventStore;
 
 namespace Aksio.Integration
 {
@@ -18,7 +19,7 @@ namespace Aksio.Integration
     {
         readonly ITypes _types;
         readonly IServiceProvider _serviceProvider;
-        readonly IEventStream _eventStream;
+        readonly IEventStore _eventStore;
         readonly IEventTypes _eventTypes;
         readonly JsonProjectionSerializer _projectionSerializer;
         readonly ILoggerFactory _loggerFactory;
@@ -28,21 +29,21 @@ namespace Aksio.Integration
         /// </summary>
         /// <param name="types"><see cref="ITypes"/> for type discovery.</param>
         /// <param name="serviceProvider"><see cref="IServiceProvider"/> for getting instances from the IoC container.</param>
-        /// <param name="eventStream"><see cref="IEventStream"/> to use.</param>
+        /// <param name="eventStore"><see cref="IEventStream"/> to use.</param>
         /// <param name="eventTypes">The <see cref="IEventTypes"/> to use.</param>
         /// <param name="projectionSerializer"><see cref="JsonProjectionSerializer"/> used for deserialization to Cratis Kernel ProjectionDefinition.</param>
         /// <param name="loggerFactory"><see cref="ILoggerFactory"/> for creating loggers.</param>
         public Adapters(
             ITypes types,
             IServiceProvider serviceProvider,
-            IEventStream eventStream,
+            IEventStore eventStore,
             IEventTypes eventTypes,
             JsonProjectionSerializer projectionSerializer,
             ILoggerFactory loggerFactory)
         {
             _types = types;
             _serviceProvider = serviceProvider;
-            _eventStream = eventStream;
+            _eventStore = eventStore;
             _eventTypes = eventTypes;
             _projectionSerializer = projectionSerializer;
             _loggerFactory = loggerFactory;
@@ -108,7 +109,7 @@ namespace Aksio.Integration
             var parsed = _projectionSerializer.Deserialize(json);
             var projection = _projectionSerializer.CreateFrom(parsed);
 
-            AdaptersByKey<TModel, TExternalModel>.Projection = new AdapterProjectionFor<TModel>(projection, _eventStream, _loggerFactory);
+            AdaptersByKey<TModel, TExternalModel>.Projection = new AdapterProjectionFor<TModel>(projection, _eventStore.GetStream(EventStreamId.EventLog), _loggerFactory);
         }
 
         void CreateMapperFor<TModel, TExternalModel>()
