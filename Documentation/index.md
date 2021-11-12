@@ -19,6 +19,7 @@ To get a quick start, head over to our [getting started](./getting-started.md) s
 | [Events](./events.md) | How to work with events. |
 | [Event Handlers](./event-handlers.md) | How to work with event handlers. |
 | [MongoDB](./mongodb.md) | How to work with MongoDB. |
+| [Integration](./integration/integration.md) | How to create integration connectors and adapters for 3rd parties. |
 | [Third Parties](./third-parties.md) | What third parties comes out of the box, and what they're for. |
 
 ## Frontend

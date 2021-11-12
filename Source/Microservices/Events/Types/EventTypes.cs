@@ -12,21 +12,26 @@ namespace Aksio.Events.Types
     [Singleton]
     public class EventTypes : IEventTypes
     {
-        readonly IDictionary<Type, EventType> _typesToEventTypes;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="EventTypes"/> class.
         /// </summary>
         /// <param name="types"><see cref="ITypes"/> for type discovery.</param>
         public EventTypes(ITypes types)
         {
-            _typesToEventTypes = types.All.Where(_ => _.HasAttribute<EventTypeAttribute>()).ToDictionary(_ => _, _ => _.GetCustomAttribute<EventTypeAttribute>()!.EventType);
+            TypeMap = types.All.Where(_ => _.HasAttribute<EventTypeAttribute>()).ToDictionary(_ => _, _ =>
+            {
+                var eventTypeAttribute = _.GetCustomAttribute<EventTypeAttribute>()!;
+                return new EventType(eventTypeAttribute.Identifier, eventTypeAttribute.Generation, eventTypeAttribute.Alias);
+            });
         }
 
         /// <inheritdoc/>
-        public EventType GetFor(Type type) => _typesToEventTypes[type];
+        public IDictionary<Type, EventType> TypeMap { get; }
 
         /// <inheritdoc/>
-        public bool HasFor(Type type) => _typesToEventTypes.ContainsKey(type);
+        public EventType GetFor(Type type) => TypeMap[type];
+
+        /// <inheritdoc/>
+        public bool HasFor(Type type) => TypeMap.ContainsKey(type);
     }
 }

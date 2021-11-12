@@ -1,6 +1,7 @@
 using Cratis.Types;
 using Dolittle.SDK.Events;
 using Dolittle.SDK.Events.Handling;
+using IEventTypes = Aksio.Events.Types.IEventTypes;
 
 namespace Aksio.Events.Handling.for_EventHandlers
 {
@@ -30,12 +31,14 @@ namespace Aksio.Events.Handling.for_EventHandlers
         }
 
         Mock<ITypes> types;
+        Mock<IEventTypes> event_types;
         Mock<IServiceProvider> service_provider;
         EventHandlers event_handlers;
 
         void Establish()
         {
             types = new();
+            event_types = new();
             service_provider = new();
             types.Setup(_ => _.All)
                 .Returns(new Type[]
@@ -47,7 +50,7 @@ namespace Aksio.Events.Handling.for_EventHandlers
                 });
         }
 
-        void Because() => event_handlers = new EventHandlers(types.Object, () => service_provider.Object);
+        void Because() => event_handlers = new EventHandlers(types.Object, event_types.Object, () => service_provider.Object);
 
         [Fact] void should_have_two_event_handlers() => event_handlers.All.Count().ShouldEqual(2);
         [Fact] void should_have_two_methods_on_first_handler() => event_handlers.All.First().Methods.Count().ShouldEqual(2);

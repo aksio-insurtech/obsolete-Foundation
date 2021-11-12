@@ -13,13 +13,14 @@ namespace Read.Accounts.Debit
         public IEnumerable<DebitAccount> AllAccounts() => _collection.Find(_ => true).ToList();
 
         [HttpGet("starting-with")]
-        public IEnumerable<DebitAccount> StartingWith([FromQuery] string? filter)
+        public async Task<IEnumerable<DebitAccount>> StartingWith([FromQuery] string? filter)
         {
             var filterDocument = Builders<DebitAccount>
                 .Filter
                 .Regex("name", $"^{filter ?? string.Empty}.*");
 
-            return _collection.Find(filterDocument).ToList();
+            var result = await _collection.FindAsync(filterDocument);
+            return result.ToList();
         }
     }
 }

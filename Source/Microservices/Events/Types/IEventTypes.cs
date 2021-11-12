@@ -8,6 +8,11 @@ namespace Aksio.Events.Types
     public interface IEventTypes
     {
         /// <summary>
+        /// Gets the map between <see cref="Type"/> and <see cref="EventType"/>.
+        /// </summary>
+        IDictionary<Type, EventType> TypeMap { get; }
+
+        /// <summary>
         /// Check a particular <see cref="Type"/> is registered.
         /// </summary>
         /// <param name="type"><see cref="Type"/> to check for.</param>
