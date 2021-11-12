@@ -191,7 +191,96 @@ public class AccountHolderDetailsAdapter : AdapterFor<AccountHolder, KontoEier>
 }
 ```
 
-### Triggering integration
+> Note: All `AdapterFor<,>` implementations will automatically be discovered, there is no need for registering them anywhere.
+> As you start using the engine, they will be instantiated and configured as needed.
+
+### Integration jobs
 
 What triggers an integration flow is whatever you want it to be, for instance an ASP.NET controller action could
-be such an entrypoint.
+be such an entrypoint. You leverage the engine by making use of the `IImporter` interface. But you might want to
+consider encapsulating the **connector** itself, so that it can be leveraged from different scenarios.
+
+Lets say we have the following definition of our external API:
+
+```csharp
+public interface IKontoEierSystem
+{
+    Task<KontoEier> GetBySocialSecurityNumber(string socialSecurityNumber);
+}
+```
+
+For the simplicity of the demo, you can implement it with hard-coded data as follows:
+
+```csharp
+public class KontoEierSystem : IKontoEierSystem
+{
+    public Task<KontoEier> GetBySocialSecurityNumber(string socialSecurityNumber) =>
+        Task.FromResult(new KontoEier(
+            "03050712345",
+            "John",
+            "Doe",
+            new DateTime(2007, 5, 3),
+            "Greengrass 42",
+            "Paradise City",
+            "48321",
+            "Themyscira"));
+}
+```
+
+We then create an encapsulation of our connector as something like the following:
+
+```csharp
+public class KontoEierConnector
+{
+    readonly IKontoEierSystem _externalSystem;
+    readonly IImporter _importer;
+
+    public KontoEierConnector(IKontoEierSystem externalSystem, IImporter importer)
+    {
+        _externalSystem = externalSystem;
+        _importer = importer;
+    }
+
+    public async Task ImportOne(string socialSecurityNumber)
+    {
+        var accountHolder = await _externalSystem.GetBySocialSecurityNumber(socialSecurityNumber);
+        await _importer.For<AccountHolder, KontoEier>().Apply(accountHolder);
+    }
+
+    public async Task ImportAll(IEnumerable<string> socialSecurityNumbers)
+    {
+        var accountHolders = await _externalSystem.GetBySocialSecurityNumbers(socialSecurityNumbers);
+        await _importer.For<AccountHolder, KontoEier>().Apply(accountHolders);
+    }
+}
+```
+
+The connector basically does the coordination of talking to the external system and handing the
+result of that over to the importer and its operations, which will under the covers grab
+hold of your adapter configuration and run it through the pipeline as expected.
+
+> Note: Notice that the `ImportOperations` support applying a single item or an enumerable of items.
+> It will do the looping for you.
+
+To start the job, you can have something like an API controller that calls the connector and triggers
+the import. Something like the following:
+
+```csharp
+[Route("/api/integration")]
+
+public class IntegrationController : Controller
+{
+    readonly KontoEierConnector _connector;
+
+    public IntegrationController(KontoEierConnector connector)
+    {
+        _connector = connector;
+    }
+
+    [HttpGet]
+    public async Task Trigger()
+    {
+        await _connector.ImportOne("03050712345");
+    }
+}
+```
