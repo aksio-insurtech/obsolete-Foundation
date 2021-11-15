@@ -3,7 +3,7 @@
 ## Pre requisites
 
 - [Docker](https://www.docker.com/products/docker-desktop)
-- [.NET Core 6 rc.2 or better](https://dotnet.microsoft.com/download/dotnet/6.0)
+- [.NET Core 6](https://dotnet.microsoft.com/download/dotnet/6.0)
 - [Node JS version 16](https://nodejs.org/)
 
 ## Install
