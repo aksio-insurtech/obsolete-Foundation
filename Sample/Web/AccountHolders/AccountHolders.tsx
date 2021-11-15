@@ -33,12 +33,25 @@ export const AccountHolders = () => {
         queryAccountsStartingWith({ filter });
     };
 
+    const triggerIntegration = async () => {
+        await fetch('/api/integration', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+        setTimeout(() => queryAccountHolders(), 50);
+    };
+
     const commandBarItems: ICommandBarItemProps[] = [
         {
             key: 'import',
             name: 'Trigger import',
             iconProps: { iconName: 'Add' },
-            onClick: () => {}
+            onClick: () => {
+                triggerIntegration();
+            }
         },
         {
             key: 'refresh',
@@ -54,16 +67,15 @@ export const AccountHolders = () => {
                         <SearchBox
                             placeholder="AccountHolders starting with"
                             onClear={() => searchFor('')}
-                            onChange={(ev, newValue) => searchFor(newValue || '')} />
+                            onChange={(ev, newValue) => searchFor(newValue || '')} />
                     </div>
                 );
             }
         }
     ];
 
-
     const items = searching ? accountHoldersStartingWith.items : accountHolders.items;
-    
+
     return (
         <div>
             <Stack>
