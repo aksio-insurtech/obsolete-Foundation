@@ -117,7 +117,16 @@ namespace Aksio.Integration
             ThrowIfMissingAdapterForModelAndExternalModel<TModel, TExternalModel>();
             var configuration = new MapperConfiguration(cfg =>
             {
+                cfg.ShouldUseConstructor = ci =>
+                {
+                    var parameters = ci.GetParameters();
+                    return !ci.IsPrivate && !(parameters.Length == 1 && parameters[0].ParameterType.Equals(ci.DeclaringType));
+                };
+                cfg.ShouldMapMethod = mi => false;
+                cfg.ShouldMapField = fi => !fi.IsPrivate;
+                cfg.AllowNullDestinationValues = true;
                 var mapping = cfg.CreateMap<TExternalModel, TModel>();
+                mapping = mapping.DisableCtorValidation();
                 AdaptersByKey<TModel, TExternalModel>.Adapter!.DefineImportMapping(mapping!);
             });
             AdaptersByKey<TModel, TExternalModel>.Mapper = configuration.CreateMapper();
