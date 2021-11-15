@@ -6,7 +6,6 @@
 export type AccountHolder = {
     firstName: string[];
     lastName: string[];
-    dateOfBirth: string;
     socialSecurityNumber: string[];
     address: string[];
     city: string[];

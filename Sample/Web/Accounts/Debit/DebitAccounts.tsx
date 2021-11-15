@@ -98,7 +98,7 @@ export const DebitAccounts = () => {
             key: 'search',
             onRender: (props, defaultRenderer) => {
                 return (
-                    <div style={{ position: 'relative', top: '6px' }}>
+                    <div style={{ position: 'relative', top: '6px', width: '400px' }}>
                         <SearchBox
                             placeholder="Accounts starting with"
                             onClear={() => searchFor('')}

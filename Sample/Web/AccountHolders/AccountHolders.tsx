@@ -63,7 +63,7 @@ export const AccountHolders = () => {
             key: 'search',
             onRender: (props, defaultRenderer) => {
                 return (
-                    <div style={{ position: 'relative', top: '6px' }}>
+                    <div style={{ position: 'relative', top: '6px', width: '400px' }}>
                         <SearchBox
                             placeholder="AccountHolders starting with"
                             onClear={() => searchFor('')}
