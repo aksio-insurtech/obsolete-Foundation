@@ -4,6 +4,7 @@ import { default as styles } from './App.module.scss';
 import { Navigation } from './Navigation';
 import { Home } from './Home';
 import { DebitAccounts } from './Accounts/Debit/DebitAccounts';
+import { AccountHolders } from './AccountHolders/AccountHolders';
 
 export const App = () => {
     return (
@@ -18,6 +19,9 @@ export const App = () => {
                     </Route>
                     <Route path="/accounts/debit">
                         <DebitAccounts/>
+                    </Route>
+                    <Route path="/integration">
+                        <AccountHolders/>
                     </Route>
                 </div>
             </div>
