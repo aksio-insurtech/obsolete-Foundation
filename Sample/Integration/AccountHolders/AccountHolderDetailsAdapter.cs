@@ -28,8 +28,7 @@ namespace Integration.AccountHolders
         {
             builder
                 .WithProperties(_ => _.FirstName, _ => _.LastName, _ => _.DateOfBirth)
-                .AppendEvent(_ => new AccountHolderRegistered(_.Changeset.Incoming.FirstName, _.Changeset.Incoming.LastName, _.Changeset.Incoming.DateOfBirth))
-                .AppendEvent<AccountHolder, KontoEier, AccountHolderRegistered>();
+                .AppendEvent(_ => new AccountHolderRegistered(_.Changeset.Incoming.FirstName, _.Changeset.Incoming.LastName, _.Changeset.Incoming.DateOfBirth));
 
             builder
                 .WithProperties(_ => _.Address, _ => _.City, _ => _.PostalCode)
