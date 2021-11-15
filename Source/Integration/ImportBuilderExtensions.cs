@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using System.Reactive.Linq;
+using System.Reflection;
 using Cratis.Changes;
 using Cratis.Reflection;
 
@@ -41,8 +42,35 @@ namespace Aksio.Integration
         {
             context.Subscribe(_ =>
             {
-                var t = typeof(TEvent);
-                Console.WriteLine(t);
+                var constructors = typeof(TEvent).GetConstructors(BindingFlags.Instance | BindingFlags.Public).OrderByDescending(_ => _.GetParameters().Length).ToArray();
+                var constructor = constructors[0];
+                var parameters = constructor.GetParameters();
+                var sourceProperties = typeof(TModel).GetProperties();
+
+                foreach (var change in _.Changeset.Changes.Where(_ => _ is PropertiesChanged<TModel>).Select(_ => _ as PropertiesChanged<TModel>))
+                {
+                    var values = new List<object>();
+                    foreach (var parameter in parameters)
+                    {
+                        var added = false;
+                        var difference = change!.Differences.FirstOrDefault(_ => _.MemberPath.Equals(parameter.Name, StringComparison.InvariantCultureIgnoreCase));
+                        if (difference is not null)
+                        {
+                            var property = Array.Find(sourceProperties, _ => _.Name == difference.MemberPath);
+                            if (property is not null)
+                            {
+                                values.Add(property!.GetValue(change.State)!);
+                                added = true;
+                            }
+                        }
+
+                        if (!added)
+                        {
+                            values.Add(null!);
+                        }
+                    }
+                    _.Events.Add(constructor.Invoke(values.ToArray()));
+                }
             });
 
             return context;

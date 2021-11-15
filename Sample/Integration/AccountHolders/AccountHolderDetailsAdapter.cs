@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq.Expressions;
 using System.Reactive.Linq;
+using AutoMapper;
 using Cratis.Changes;
 using Cratis.Events.Projections;
+using Events.AccountHolders;
 
 namespace Integration.AccountHolders
 {
@@ -26,8 +28,7 @@ namespace Integration.AccountHolders
         {
             builder
                 .WithProperties(_ => _.FirstName, _ => _.LastName, _ => _.DateOfBirth)
-                .AppendEvent(_ => new AccountHolderRegistered(_.Changeset.Incoming.FirstName, _.Changeset.Incoming.LastName, _.Changeset.Incoming.DateOfBirth))
-                .AppendEvent<AccountHolder, KontoEier, AccountHolderRegistered>();
+                .AppendEvent(_ => new AccountHolderRegistered(_.Changeset.Incoming.FirstName, _.Changeset.Incoming.LastName, _.Changeset.Incoming.DateOfBirth));
 
             builder
                 .WithProperties(_ => _.Address, _ => _.City, _ => _.PostalCode)
@@ -35,12 +36,13 @@ namespace Integration.AccountHolders
         }
 
         public override void DefineImportMapping(IMappingExpression<KontoEier, AccountHolder> builder) => builder
-            .ForMember(_ => _.SocialSecurityNumber, _ => _.MapFrom(_ => _.Fnr))
-            .ForMember(_ => _.FirstName, _ => _.MapFrom(_ => _.Fornavn))
-            .ForMember(_ => _.LastName, _ => _.MapFrom(_ => _.Etternavn))
-            .ForMember(_ => _.DateOfBirth, _ => _.MapFrom(_ => _.FodselsDato))
-            .ForMember(_ => _.Address, _ => _.MapFrom(_ => _.Adresse))
-            .ForMember(_ => _.City, _ => _.MapFrom(_ => _.By))
-            .ForMember(_ => _.Country, _ => _.MapFrom(_ => _.Land));
+            .MapRecordMember(_ => _.FirstName, _ => _.Fornavn)
+            .MapRecordMember(_ => _.LastName, _ => _.Etternavn)
+            .MapRecordMember(_ => _.DateOfBirth, _ => _.FodselsDato)
+            .MapRecordMember(_ => _.SocialSecurityNumber, _ => _.Fnr)
+            .MapRecordMember(_ => _.Address, _ => _.Adresse)
+            .MapRecordMember(_ => _.City, _ => _.By)
+            .MapRecordMember(_ => _.PostalCode, _ => _.PostNr)
+            .MapRecordMember(_ => _.Country, _ => _.Land);
     }
 }

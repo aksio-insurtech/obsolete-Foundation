@@ -58,7 +58,6 @@ namespace Aksio.Integration
                 changeset.Add(new PropertiesChanged<TModel>(mappedInstance, differences.Select(_ => new PropertyDifference<TModel>(initial, mappedInstance, _))));
             }
 
-            // Map external instance and then perform comparison
             var context = new ImportContext<TModel, TExternalModel>(changeset, new EventsToAppend());
             _importContexts.OnNext(context);
 

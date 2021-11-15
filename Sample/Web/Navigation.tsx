@@ -33,7 +33,13 @@ const groups: INavLinkGroup[] = [
                         route: '/accounts/debit'
                     }
                 ]
-            }
+            },
+            {
+                name: 'Integration',
+                url: '',
+                route: '/integration'
+            },
+
         ]
     }
 ];
