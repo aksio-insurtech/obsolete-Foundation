@@ -1,3 +1,9 @@
+# [v1.8.1] - 2021-11-15 [PR: #35](https://github.com/aksio-system/Foundation/pull/35)
+
+### Fixed
+
+- Fixing AutoMapper bugs so that we can map back to `record` types. Reflecting this in docs and samples.
+
 # [v1.8.0] - 2021-11-12 [PR: #34](https://github.com/aksio-system/Foundation/pull/34)
 
 ### Added
