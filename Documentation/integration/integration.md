@@ -99,7 +99,12 @@ public class AccountHolderDetailsAdapter : AdapterFor<AccountHolder, KontoEier>
 Since the shape of the external model is likely to be different from our representation, we need
 to be able to map properties across to get the external model represented in the same shape
 as our model is. This is done by overriding the `DefineImportMapping` method of the adapter.
-The mapping engine that is used is [Automapper](https://automapper.org).
+The mapping engine that is used is [AutoMapper](https://automapper.org).
+
+Out of the box there is a convenience extension method called `.MapMember()`, this allows for a
+simpler mapping where you basically map a destination property to a source property. While if you
+want to have more complex mapping, you use the out of the box `.ForMember()` giving you the
+ability to do more conversion - both type and value conversion and more.
 
 ```csharp
 public class AccountHolderDetailsAdapter : AdapterFor<AccountHolder, KontoEier>
@@ -107,13 +112,35 @@ public class AccountHolderDetailsAdapter : AdapterFor<AccountHolder, KontoEier>
     public override Func<KontoEier, EventSourceId> KeyResolver => _ => _.Fnr;
 
     public override void DefineImportMapping(IMappingExpression<KontoEier, AccountHolder> builder) => builder
-        .ForMember(_ => _.SocialSecurityNumber, _ => _.MapFrom(_ => _.Fnr))
-        .ForMember(_ => _.FirstName, _ => _.MapFrom(_ => _.Fornavn))
-        .ForMember(_ => _.LastName, _ => _.MapFrom(_ => _.Etternavn))
-        .ForMember(_ => _.DateOfBirth, _ => _.MapFrom(_ => _.FodselsDato))
-        .ForMember(_ => _.Address, _ => _.MapFrom(_ => _.Adresse))
-        .ForMember(_ => _.City, _ => _.MapFrom(_ => _.By))
-        .ForMember(_ => _.Country, _ => _.MapFrom(_ => _.Land));
+        .MapMember(_ => _.SocialSecurityNumber, _ => _.Fnr)
+        .MapMember(_ => _.FirstName, _ => _.Fornavn)
+        .MapMember(_ => _.LastName, _ => _.Etternavn)
+        .MapMember(_ => _.DateOfBirth, _ => _.FodselsDato)
+        .MapMember(_ => _.Address, _ => _.Adresse)
+        .MapMember(_ => _.City, _ => _.By)
+        .MapMember(_ => _.Country, _ => _.Land);
+}
+```
+
+If your destination type is a `record` type - AutoMapper needs to know about it. The reason for this
+is that `records` are typically used for immutable types; having their properties as part of its constructor with
+read-only properties. The above mapping wouldn't work for the `record` type used in this sample.
+You would need to use the extension method we provide called `.MapRecordMember()`, the mapping would then
+be like the following:
+
+```csharp
+public class AccountHolderDetailsAdapter : AdapterFor<AccountHolder, KontoEier>
+{
+    public override Func<KontoEier, EventSourceId> KeyResolver => _ => _.Fnr;
+
+    public override void DefineImportMapping(IMappingExpression<KontoEier, AccountHolder> builder) => builder
+        .MapRecordMember(_ => _.SocialSecurityNumber, _ => _.Fnr)
+        .MapRecordMember(_ => _.FirstName, _ => _.Fornavn)
+        .MapRecordMember(_ => _.LastName, _ => _.Etternavn)
+        .MapRecordMember(_ => _.DateOfBirth, _ => _.FodselsDato)
+        .MapRecordMember(_ => _.Address, _ => _.Adresse)
+        .MapRecordMember(_ => _.City, _ => _.By)
+        .MapRecordMember(_ => _.Country, _ => _.Land);
 }
 ```
 
@@ -170,13 +197,13 @@ public class AccountHolderDetailsAdapter : AdapterFor<AccountHolder, KontoEier>
             .Set(m => m.Country).To(ev => ev.Country));
 
     public override void DefineImportMapping(IMappingExpression<KontoEier, AccountHolder> builder) => builder
-        .ForMember(_ => _.SocialSecurityNumber, _ => _.MapFrom(_ => _.Fnr))
-        .ForMember(_ => _.FirstName, _ => _.MapFrom(_ => _.Fornavn))
-        .ForMember(_ => _.LastName, _ => _.MapFrom(_ => _.Etternavn))
-        .ForMember(_ => _.DateOfBirth, _ => _.MapFrom(_ => _.FodselsDato))
-        .ForMember(_ => _.Address, _ => _.MapFrom(_ => _.Adresse))
-        .ForMember(_ => _.City, _ => _.MapFrom(_ => _.By))
-        .ForMember(_ => _.Country, _ => _.MapFrom(_ => _.Land));
+            .MapRecordMember(_ => _.SocialSecurityNumber, _ => _.Fnr)
+            .MapRecordMember(_ => _.FirstName, _ => _.Fornavn)
+            .MapRecordMember(_ => _.LastName, _ => _.Etternavn)
+            .MapRecordMember(_ => _.DateOfBirth, _ => _.FodselsDato)
+            .MapRecordMember(_ => _.Address, _ => _.Adresse)
+            .MapRecordMember(_ => _.City, _ => _.By)
+            .MapRecordMember(_ => _.Country, _ => _.Land);
 
     public override void DefineImport(IImportBuilderFor<AccountHolder, KontoEier> builder)
     {
