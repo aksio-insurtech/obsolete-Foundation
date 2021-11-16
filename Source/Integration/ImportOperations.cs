@@ -13,9 +13,6 @@ namespace Aksio.Integration
     /// <typeparam name="TExternalModel">Type of external model the operations are for.</typeparam>
     public class ImportOperations<TModel, TExternalModel> : IImportOperations<TModel, TExternalModel>
     {
-        readonly IAdapterFor<TModel, TExternalModel> _adapter;
-        readonly IAdapterProjectionFor<TModel> _adapterProjection;
-        readonly IMapper _mapper;
         readonly Subject<ImportContext<TModel, TExternalModel>> _importContexts;
         readonly IEventLog _eventLog;
 
@@ -32,22 +29,31 @@ namespace Aksio.Integration
             IMapper mapper,
             IEventLog eventLog)
         {
-            _adapter = adapter;
-            _adapterProjection = adapterProjection;
-            _mapper = mapper;
+            Adapter = adapter;
+            Projection = adapterProjection;
+            Mapper = mapper;
             _importContexts = new();
-            _adapter.DefineImport(new ImportBuilderFor<TModel, TExternalModel>(_importContexts));
+            Adapter.DefineImport(new ImportBuilderFor<TModel, TExternalModel>(_importContexts));
             _eventLog = eventLog;
         }
 
         /// <inheritdoc/>
+        public IAdapterFor<TModel, TExternalModel> Adapter { get; }
+
+        /// <inheritdoc/>
+        public IAdapterProjectionFor<TModel> Projection { get; }
+
+        /// <inheritdoc/>
+        public IMapper Mapper { get; }
+
+        /// <inheritdoc/>
         public async Task Apply(TExternalModel instance)
         {
-            var keyValue = _adapter.KeyResolver(instance)!;
+            var keyValue = Adapter.KeyResolver(instance)!;
             var eventSourceId = keyValue;
             eventSourceId ??= new() { Value = keyValue.ToString() };
-            var initial = _adapterProjection.GetById(eventSourceId!);
-            var mappedInstance = _mapper.Map<TModel>(instance)!;
+            var initial = Projection.GetById(eventSourceId!);
+            var mappedInstance = Mapper.Map<TModel>(instance)!;
             var changeset = new Changeset<TModel, TModel>(mappedInstance, initial);
 
             var modelProperties = typeof(TModel).GetProperties(BindingFlags.Instance | BindingFlags.Public);
