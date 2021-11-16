@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reflection;
+using AutoMapper;
 using Cratis.Changes;
 using Cratis.Reflection;
 
@@ -42,34 +43,10 @@ namespace Aksio.Integration
         {
             context.Subscribe(_ =>
             {
-                var constructors = typeof(TEvent).GetConstructors(BindingFlags.Instance | BindingFlags.Public).OrderByDescending(_ => _.GetParameters().Length).ToArray();
-                var constructor = constructors[0];
-                var parameters = constructor.GetParameters();
-                var sourceProperties = typeof(TModel).GetProperties();
-
                 foreach (var change in _.Changeset.Changes.Where(_ => _ is PropertiesChanged<TModel>).Select(_ => _ as PropertiesChanged<TModel>))
                 {
-                    var values = new List<object>();
-                    foreach (var parameter in parameters)
-                    {
-                        var added = false;
-                        var difference = change!.Differences.FirstOrDefault(_ => _.MemberPath.Equals(parameter.Name, StringComparison.InvariantCultureIgnoreCase));
-                        if (difference is not null)
-                        {
-                            var property = Array.Find(sourceProperties, _ => _.Name == difference.MemberPath);
-                            if (property is not null)
-                            {
-                                values.Add(property!.GetValue(change.State)!);
-                                added = true;
-                            }
-                        }
-
-                        if (!added)
-                        {
-                            values.Add(null!);
-                        }
-                    }
-                    _.Events.Add(constructor.Invoke(values.ToArray()));
+                    var mapper = ModelToEventMapperFor<TModel, TEvent>.Mapper;
+                    _.Events.Add(mapper.Map<TEvent>(((TModel)change!.State)!)!);
                 }
             });
 
@@ -89,6 +66,33 @@ namespace Aksio.Integration
         {
             context.Subscribe(_ => _.Events.Add(creationCallback(_)!));
             return context;
+        }
+
+        static class ModelToEventMapperFor<TModel, TEvent>
+        {
+            public static IMapper Mapper;
+
+            static ModelToEventMapperFor()
+            {
+                var eventProperties = typeof(TEvent).GetProperties(BindingFlags.Instance | BindingFlags.Public);
+                var modelProperties = typeof(TModel).GetProperties(BindingFlags.Instance | BindingFlags.Public);
+                var configuration = new MapperConfiguration(cfg =>
+                {
+                    var map = cfg.CreateMap<TModel, TEvent>();
+                    foreach (var eventProperty in eventProperties)
+                    {
+                        if (!modelProperties.Any(_ => _.Name == eventProperty.Name))
+                        {
+                            throw new MissingExpectedEventPropertyOnModel(typeof(TEvent), typeof(TModel), eventProperty.Name);
+                        }
+
+                        map.ForMember(eventProperty.Name, _ => _.MapFrom(eventProperty.Name));
+                        map.ForCtorParam(eventProperty.Name, _ => _.MapFrom(eventProperty.Name));
+                    }
+                });
+
+                Mapper = configuration.CreateMapper();
+            }
         }
     }
 }
