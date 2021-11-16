@@ -45,8 +45,15 @@ namespace Aksio.Integration
             {
                 foreach (var change in _.Changeset.Changes.Where(_ => _ is PropertiesChanged<TModel>).Select(_ => _ as PropertiesChanged<TModel>))
                 {
-                    var mapper = ModelToEventMapperFor<TModel, TEvent>.Mapper;
-                    _.Events.Add(mapper.Map<TEvent>(((TModel)change!.State)!)!);
+                    try
+                    {
+                        var mapper = ModelToEventMapperFor<TModel, TEvent>.Mapper;
+                        _.Events.Add(mapper.Map<TEvent>(((TModel)change!.State)!)!);
+                    }
+                    catch (TypeInitializationException ex)
+                    {
+                        throw ex.InnerException!;
+                    }
                 }
             });
 
