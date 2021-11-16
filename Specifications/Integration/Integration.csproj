@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Aksio.Integration.Specs</AssemblyName>
+        <RootNamespace>Aksio.Integration</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../../Source/Integration/Integration.csproj"/>
+    </ItemGroup>
+
+</Project>
