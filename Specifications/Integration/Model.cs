@@ -1,4 +1,4 @@
 namespace Aksio.Integration
 {
-    public record Model();
+    public record Model(int SomeInteger, string SomeString);
 }
