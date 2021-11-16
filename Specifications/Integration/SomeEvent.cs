@@ -1,4 +1,4 @@
-namespace Aksio.Integration.for_ImportBuilderExtensions
+namespace Aksio.Integration
 {
     public record SomeEvent(int SomeInteger, string SomeString);
 }

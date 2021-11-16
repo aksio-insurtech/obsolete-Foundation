@@ -1,4 +1,4 @@
 namespace Aksio.Integration
 {
-    public record ExternalModel();
+    public record ExternalModel(int SomeInteger, string SomeString);
 }
