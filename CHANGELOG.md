@@ -1,3 +1,11 @@
+# [v1.8.2] - 2021-11-17 [PR: #36](https://github.com/aksio-system/Foundation/pull/36)
+
+### Fixed
+
+- Adding automated tests for all of integration.
+- Refactoring as a consequence of adding tests.
+- Fixing minor issues as tests failed.
+
 # [v1.8.1] - 2021-11-15 [PR: #35](https://github.com/aksio-system/Foundation/pull/35)
 
 ### Fixed
