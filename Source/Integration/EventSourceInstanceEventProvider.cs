@@ -68,6 +68,7 @@ namespace Aksio.Integration
 
                     offset = OnNext(projection, subject, cursor.Current);
                 }
+                if (!cursor.Current.Any()) exhausted = true;
             }
         }
 
