@@ -1,3 +1,5 @@
+using AutoMapper;
+
 namespace Aksio.Integration
 {
     /// <summary>
@@ -7,6 +9,21 @@ namespace Aksio.Integration
     /// <typeparam name="TExternalModel">Type of external model the operations are for.</typeparam>
     public interface IImportOperations<TModel, TExternalModel> : IDisposable
     {
+        /// <summary>
+        /// Gets the adapter for the operations.
+        /// </summary>
+        IAdapterFor<TModel, TExternalModel> Adapter { get; }
+
+        /// <summary>
+        /// Gets the projection used for the operations.
+        /// </summary>
+        IAdapterProjectionFor<TModel> Projection { get; }
+
+        /// <summary>
+        /// Gets the mapper used for the operations.
+        /// </summary>
+        IMapper Mapper { get; }
+
         /// <summary>
         /// Apply an instance of the external model.
         /// </summary>

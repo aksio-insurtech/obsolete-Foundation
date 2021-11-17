@@ -3,7 +3,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <IsTestProject>true</IsTestProject>
         <Nullable>disable</Nullable>
-        <NoWarn>$(NoWarn),CS8019</NoWarn>
+        <NoWarn>$(NoWarn),CS8019,CA1001;CA2007</NoWarn>
 
         <IsPackable>false</IsPackable>
 
