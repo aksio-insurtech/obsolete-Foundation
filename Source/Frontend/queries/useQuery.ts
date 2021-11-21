@@ -1,6 +1,6 @@
 import { QueryResult } from './QueryResult';
 import { IQueryFor } from './IQueryFor';
-import { Constructor } from '@cratis/fundamentals';
+import { Constructor } from '@cratis/fundamentals';
 import { useState, useEffect } from 'react';
 
 /**
@@ -10,16 +10,20 @@ export type PerformQuery<TArguments = {}> = (args?: TArguments) => Promise<void>
 
 /**
  * React hook for working with {@link IQueryFor} within the state management of React.
- * @template TModel Type of model the query is for.
+ * @template TDataType Type of model the query is for.
  * @template TQuery Type of query to use.
  * @template TArguments Optional: Arguments for the query, if any 
  * @param query Query type constructor.
  * @returns Tuple of {@link QueryResult} and a {@link PerformQuery} delegate.
  */
-export function useQuery<TModel, TQuery extends IQueryFor<TModel>, TArguments = {}>(query: Constructor<TQuery>, args?: TArguments): [QueryResult<TModel>, PerformQuery<TArguments>] {   
-    const [result, setResult] = useState<QueryResult<TModel>>(new QueryResult([], true));
+export function useQuery<TDataType, TQuery extends IQueryFor<TDataType>, TArguments = {}>(query: Constructor<TQuery>, args?: TArguments): [QueryResult<TDataType>, PerformQuery<TArguments>] {
+    const queryInstance = new query() as TQuery;
+    const [result, setResult] = useState<QueryResult<TDataType>>(new QueryResult(queryInstance.defaultValue, true));
     const queryExecutor = (async (args?: TArguments) => {
-        const queryInstance = new query() as TQuery;
+        if (queryInstance.requiresArguments && !args) {
+            console.log(`Warning: Query '${query.name}' requires arguments. Will not perform the query.`);
+            return;
+        }
         const response = await queryInstance.perform(args);
         setResult(response);
     });
@@ -27,6 +31,6 @@ export function useQuery<TModel, TQuery extends IQueryFor<TModel>, TArguments = 
     useEffect(() => {
         queryExecutor(args);
     }, []);
-    
+
     return [result, queryExecutor];
 }

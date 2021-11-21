@@ -74,7 +74,7 @@ export const AccountHolders = () => {
         }
     ];
 
-    const items = searching ? accountHoldersStartingWith.items : accountHolders.items;
+    const items = searching ? accountHoldersStartingWith.data : accountHolders.data;
 
     return (
         <div>

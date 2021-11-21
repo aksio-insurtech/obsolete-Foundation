@@ -4,7 +4,6 @@ import { CommandResult } from "./CommandResult";
 /**
  * Represents an implementation of {@link ICommand} that works with HTTP fetch.
  */
-
 export abstract class Command implements ICommand {
     abstract readonly route: string;
 

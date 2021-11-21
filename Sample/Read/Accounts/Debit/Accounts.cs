@@ -5,12 +5,19 @@ namespace Read.Accounts.Debit
     [Route("/api/accounts/debit")]
     public class Accounts : Controller
     {
-        readonly IMongoCollection<DebitAccount> _collection;
+        readonly IMongoCollection<DebitAccount> _accountsCollection;
+        readonly IMongoCollection<DebitAccountLatestTransactions> _latestTransactionsCollection;
 
-        public Accounts(IMongoCollection<DebitAccount> collection) => _collection = collection;
+        public Accounts(
+            IMongoCollection<DebitAccount> accountsCollection,
+            IMongoCollection<DebitAccountLatestTransactions> latestTransactionsCollections)
+        {
+            _accountsCollection = accountsCollection;
+            _latestTransactionsCollection = latestTransactionsCollections;
+        }
 
         [HttpGet]
-        public IEnumerable<DebitAccount> AllAccounts() => _collection.Find(_ => true).ToList();
+        public IEnumerable<DebitAccount> AllAccounts() => _accountsCollection.Find(_ => true).ToList();
 
         [HttpGet("starting-with")]
         public async Task<IEnumerable<DebitAccount>> StartingWith([FromQuery] string? filter)
@@ -19,8 +26,16 @@ namespace Read.Accounts.Debit
                 .Filter
                 .Regex("name", $"^{filter ?? string.Empty}.*");
 
-            var result = await _collection.FindAsync(filterDocument);
+            var result = await _accountsCollection.FindAsync(filterDocument);
             return result.ToList();
+        }
+
+        [HttpGet("latest-transactions/{accountId}")]
+        public DebitAccountLatestTransactions LatestTransactions([FromRoute] Guid accountId)
+        {
+            var items = _latestTransactionsCollection.Find(_ => _.Id == accountId).ToList();
+            if (items.Count == 0) return null!;
+            return items[0];
         }
     }
 }

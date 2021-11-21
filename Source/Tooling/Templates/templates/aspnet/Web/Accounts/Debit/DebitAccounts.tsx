@@ -139,10 +139,10 @@ export const DebitAccounts = () => {
                     setSelectedItem(selected[0]);
                 }
             },
-            items: accounts.items as any
-        }), [accounts.items]);
+            items: accounts.data as any
+        }), [accounts.data]);
 
-    const items = searching ? accountsStartingWith.items : accounts.items;
+    const items = searching ? accountsStartingWith.data : accounts.data;
 
     return (
         <>

@@ -1,4 +1,3 @@
-using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -15,9 +14,9 @@ namespace Aksio.Queries
             var result = await next();
             if (context.HttpContext.Request.Method == HttpMethod.Get.Method &&
                 result.Result is ObjectResult objectResult &&
-                objectResult.Value is IEnumerable items)
+                objectResult.Value is not QueryResult)
             {
-                result.Result = new ObjectResult(new QueryResult(items, true));
+                result.Result = new ObjectResult(new QueryResult(objectResult.Value!, true));
             }
         }
     }
