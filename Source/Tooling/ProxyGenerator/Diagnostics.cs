@@ -23,19 +23,6 @@ namespace Aksio.ProxyGenerator
         /// <summary>
         /// The <see cref="Diagnostic"/> to report when the output path is missing.
         /// </summary>
-        public static readonly Func<string, Diagnostic> QueryIsNotEnumerable = (string queryName) => Diagnostic.Create(
-            new DiagnosticDescriptor(
-                "AKSIO0002",
-                "Query is not enumerable",
-                $"Query '{queryName}' is not enumerable.",
-                "Generation",
-                DiagnosticSeverity.Error,
-                true),
-            default);
-
-        /// <summary>
-        /// The <see cref="Diagnostic"/> to report when the output path is missing.
-        /// </summary>
         public static readonly Func<string, Diagnostic> UnableToResolveModelType = (string queryName) => Diagnostic.Create(
             new DiagnosticDescriptor(
                 "AKSIO0003",

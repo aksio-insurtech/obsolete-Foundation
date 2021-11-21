@@ -92,23 +92,25 @@ namespace Aksio.ProxyGenerator
                     }
                     var route = GetRoute(baseApiRoute, queryMethod);
                     var importStatements = new HashSet<ImportStatement>();
-                    if (!modelTypeAsNamedType.IsEnumerable())
+                    ITypeSymbol actualType = modelTypeAsNamedType;
+                    var isEnumerable = false;
+                    if (modelTypeAsNamedType.IsEnumerable())
                     {
-                        context.ReportDiagnostic(Diagnostics.QueryIsNotEnumerable($"{type.ToDisplayString()}:{queryMethod.Name}"));
-                        return;
-                    }
-                    if (!modelTypeAsNamedType.IsGenericType)
-                    {
-                        context.ReportDiagnostic(Diagnostics.UnableToResolveModelType($"{type.ToDisplayString()}:{queryMethod.Name}"));
-                        return;
+                        if (!modelTypeAsNamedType.IsGenericType)
+                        {
+                            context.ReportDiagnostic(Diagnostics.UnableToResolveModelType($"{type.ToDisplayString()}:{queryMethod.Name}"));
+                            return;
+                        }
+
+                        actualType = modelTypeAsNamedType.TypeArguments[0];
+                        isEnumerable = true;
                     }
 
-                    var actualType = modelTypeAsNamedType.TypeArguments[0];
                     var targetFile = Path.Combine(targetFolder, $"{queryMethod.Name}.ts");
                     OutputType(actualType, rootNamespace, outputFolder, targetFile, importStatements);
 
                     var queryArguments = GetQueryArgumentsFrom(queryMethod, ref route, importStatements);
-                    var queryDescriptor = new QueryDescriptor(route, queryMethod.Name, actualType.Name, importStatements, queryArguments);
+                    var queryDescriptor = new QueryDescriptor(route, queryMethod.Name, actualType.Name, isEnumerable, importStatements, queryArguments);
                     var renderedTemplate = TemplateTypes.Query(queryDescriptor);
                     if (renderedTemplate != default)
                     {

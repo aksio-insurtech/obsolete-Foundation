@@ -4,14 +4,17 @@ import Handlebars from 'handlebars';
 
 /**
  * Represents an implementation of {@link IQueryFor}.
- * @template TModel Type of model.
+ * @template TDataType Type of model.
  */
-export abstract class QueryFor<TModel, TArguments = {}> implements IQueryFor<TModel, TArguments> {
+export abstract class QueryFor<TDataType, TArguments = {}> implements IQueryFor<TDataType, TArguments> {
     abstract readonly route: string;
     abstract readonly routeTemplate: Handlebars.TemplateDelegate;
 
+    abstract defaultValue: TDataType;
+    abstract requiresArguments: boolean;   
+
     /** @inheritdoc */
-    async perform(args?: TArguments): Promise<QueryResult<TModel>> {
+    async perform(args?: TArguments): Promise<QueryResult<TDataType>> {
         let actualRoute = this.route;
         if (args && Object.keys(args).length > 0) {
             actualRoute = this.routeTemplate(args);
@@ -25,6 +28,6 @@ export abstract class QueryFor<TModel, TArguments = {}> implements IQueryFor<TMo
             }
         });
 
-        return await QueryResult.fromResponse<TModel>(response);
+        return await QueryResult.fromResponse<TDataType>(response);
     }
 }
