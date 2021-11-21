@@ -1,3 +1,13 @@
+# [v1.9.0] - 2021-11-21 [PR: #37](https://github.com/aksio-system/Foundation/pull/37)
+
+### Added
+
+- Query actions (HttpGet) can now have return a single item. Proxies are generated accordingly and `IQueryFor` in the frontend supports this fully.
+
+### Fixed
+
+- When arguments for queries are not given but the query requires it, it will not execute the query.
+
 # [v1.8.2] - 2021-11-17 [PR: #36](https://github.com/aksio-system/Foundation/pull/36)
 
 ### Fixed
