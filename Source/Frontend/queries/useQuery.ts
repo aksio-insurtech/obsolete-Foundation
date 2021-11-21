@@ -21,7 +21,7 @@ export function useQuery<TDataType, TQuery extends IQueryFor<TDataType>, TArgume
     const [result, setResult] = useState<QueryResult<TDataType>>(new QueryResult(queryInstance.defaultValue, true));
     const queryExecutor = (async (args?: TArguments) => {
         if (queryInstance.requiresArguments && !args) {
-            console.log(`Warning: Query '${query.name}' requires arguments. Will not perform the query.`)
+            console.log(`Warning: Query '${query.name}' requires arguments. Will not perform the query.`);
             return;
         }
         const response = await queryInstance.perform(args);
