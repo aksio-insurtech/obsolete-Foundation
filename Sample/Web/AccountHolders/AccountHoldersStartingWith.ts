@@ -11,11 +11,13 @@ const routeTemplate = Handlebars.compile('/api/accountholders/starting-with?filt
 export interface AccountHoldersStartingWithArguments {
     filter?: string;
 }
-export class AccountHoldersStartingWith extends QueryFor<AccountHolder, AccountHoldersStartingWithArguments> {
+export class AccountHoldersStartingWith extends QueryFor<AccountHolder[], AccountHoldersStartingWithArguments> {
     readonly route: string = '/api/accountholders/starting-with?filter={{filter}}';
     readonly routeTemplate: Handlebars.TemplateDelegate = routeTemplate;
+    readonly defaultValue: AccountHolder[] = [];
+    readonly requiresArguments: boolean = true;
 
-    static use(args: AccountHoldersStartingWithArguments): [QueryResult<AccountHolder>, PerformQuery<AccountHoldersStartingWithArguments>] {
-        return useQuery<AccountHolder, AccountHoldersStartingWith, AccountHoldersStartingWithArguments>(AccountHoldersStartingWith, args);
+    static use(args?: AccountHoldersStartingWithArguments): [QueryResult<AccountHolder[]>, PerformQuery<AccountHoldersStartingWithArguments>] {
+        return useQuery<AccountHolder[], AccountHoldersStartingWith, AccountHoldersStartingWithArguments>(AccountHoldersStartingWith, args);
     }
 }

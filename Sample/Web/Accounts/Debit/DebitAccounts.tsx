@@ -19,6 +19,8 @@ import { DepositToAccount } from './DepositToAccount';
 import { WithdrawFromAccount } from './WithdrawFromAccount';
 import { AllAccounts } from './AllAccounts';
 import { StartingWith } from './StartingWith';
+import { LatestTransactions } from './LatestTransactions';
+import { DebitAccount } from './DebitAccount';
 
 const columns: IColumn[] = [
     {
@@ -37,6 +39,7 @@ const columns: IColumn[] = [
 
 export const DebitAccounts = () => {
     const [accounts, queryAccounts] = AllAccounts.use();
+    const [latestTransactionsForAccount, queryLatestTransactionsForAccount] = LatestTransactions.use();
     const [accountsStartingWith, queryAccountsStartingWith] = StartingWith.use({ filter: '' });
     const [searching, setSearching] = useState<boolean>(false);
     const [selectedItem, setSelectedItem] = useState<any>(undefined);
@@ -136,13 +139,15 @@ export const DebitAccounts = () => {
             onSelectionChanged: () => {
                 const selected = selection.getSelection();
                 if (selected.length === 1) {
-                    setSelectedItem(selected[0]);
+                    const account = selected[0] as DebitAccount;
+                    setSelectedItem(account);
+                    queryLatestTransactionsForAccount({accountId: account.id});
                 }
             },
-            items: accounts.items as any
-        }), [accounts.items]);
+            items: accounts.data as any
+        }), [accounts.data]);
 
-    const items = searching ? accountsStartingWith.items : accounts.items;
+    const items = searching ? accountsStartingWith.data : accounts.data;
 
     return (
         <>

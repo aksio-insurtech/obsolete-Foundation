@@ -8,11 +8,13 @@ import Handlebars from 'handlebars';
 
 const routeTemplate = Handlebars.compile('/api/accountholders');
 
-export class AllAccountHolders extends QueryFor<AccountHolder> {
+export class AllAccountHolders extends QueryFor<AccountHolder[]> {
     readonly route: string = '/api/accountholders';
     readonly routeTemplate: Handlebars.TemplateDelegate = routeTemplate;
+    readonly defaultValue: AccountHolder[] = [];
+    readonly requiresArguments: boolean = false;
 
-    static use(): [QueryResult<AccountHolder>, PerformQuery] {
-        return useQuery<AccountHolder, AllAccountHolders>(AllAccountHolders);
+    static use(): [QueryResult<AccountHolder[]>, PerformQuery] {
+        return useQuery<AccountHolder[], AllAccountHolders>(AllAccountHolders);
     }
 }
