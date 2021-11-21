@@ -11,8 +11,7 @@ In addition to this, the controller can have authorization policies associated w
 With the [proxy generator](./proxy-generation.md) you'll get the queries generated directly to use in the frontend.
 This means you don't have to look at the Swagger API even to know what you have available, the code sits there directly
 in the form of a generated proxy object. The generator will look at all HTTP Post actions during compile time and
-look for actions marked with `[HttpGet]` and the return type being an enumerable of any object argument and assume that
-this is your query representation / payload.
+look for actions marked with `[HttpGet]` and query representation / payload.
 
 Take the following controller action in C#:
 
@@ -20,6 +19,10 @@ Take the following controller action in C#:
 [HttpGet]
 public IEnumerable<DebitAccount> AllAccounts() => _collection.Find(_ => true).ToList();
 ```
+
+> Note: Return types does not have to be an enumerable, it can also be a single item. However, when returning a collection
+> of items - the return type should have a generic parameter of what the actual item type is. This is leveraged during
+> the proxy generation.
 
 And the read model in this case looking like:
 

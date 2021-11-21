@@ -12,8 +12,8 @@ include the route information into the generated object.
 
 ## Queries
 
-Queries are the data coming out. These are represents as **HttpGet** operations on controllers and returns an enumerable
-of a specific type. These can have arguments which will also be part of the proxy objects. The generator will use the
+Queries are the data coming out. These are represents as **HttpGet** operations on controllers and returns either an enumerable
+of a specific type or a single item of a type. These can have arguments which will also be part of the proxy objects. The generator will use the
 method name as the query name, so remember to name these properly to get meaningful query objects for the frontend.
 
 You can provide parameters to the queries as well. These can either be part of the route or as part of the query string.
