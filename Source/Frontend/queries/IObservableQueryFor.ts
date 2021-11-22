@@ -19,10 +19,10 @@ export interface IObservableQueryFor<TDataType, TArguments = {}> {
     readonly requiresArguments: boolean;
 
     /**
-     * Perform the query.
+     * Subscribe to the query. This will create a subscription onto the server.
      * @param {OnNextResult} callback The callback that will receive result from the server.
      * @param [args] Optional arguments for the query - depends on whether or not the query needs arguments.
      * @returns {QueryResult} for the model
      */
-    onNext(callback: OnNextResult, args?: TArguments): void;
+    subscribe(callback: OnNextResult, args?: TArguments): void;
 }
