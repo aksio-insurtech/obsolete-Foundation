@@ -19,11 +19,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns><see cref="IServiceCollection"/> for continuation.</returns>
         public static IServiceCollection AddControllersFromProjectReferencedAssembles(this IServiceCollection services, ITypes types)
         {
+            var builder = services.AddControllers(_ => _.AddCQRS());
             foreach (var assembly in types.ProjectReferencedAssemblies.Where(_ => _.DefinedTypes.Any(type => type.Implements(typeof(Controller)))))
             {
-                services.AddControllers(_ => _.AddCQRS())
-                        .AddJsonOptions(_ => _.JsonSerializerOptions.Converters.Add(new ConceptAsJsonConverterFactory()))
-                        .PartManager.ApplicationParts.Add(new AssemblyPart(assembly));
+                builder.AddJsonOptions(_ => _.JsonSerializerOptions.Converters.Add(new ConceptAsJsonConverterFactory()))
+                       .PartManager.ApplicationParts.Add(new AssemblyPart(assembly));
             }
 
             return services;
