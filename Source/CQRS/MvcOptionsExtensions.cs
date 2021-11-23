@@ -16,8 +16,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns><see cref="MvcOptions"/> for building continuation.</returns>
         public static MvcOptions AddCQRS(this MvcOptions options)
         {
-            options.Filters.Add(new CommandActionFilter());
-            options.Filters.Add(new QueryActionFilter());
+            options.Filters.Add<CommandActionFilter>();
+            options.Filters.Add<QueryActionFilter>();
             return options;
         }
     }
