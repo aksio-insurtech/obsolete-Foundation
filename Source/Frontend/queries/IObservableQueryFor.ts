@@ -4,7 +4,7 @@ import Handlebars from 'handlebars';
 /**
  * The delegate type representing the callback of result from the server.
  */
-export type OnNextResult = <TDataType>(data: QueryResult<TDataType>) => void;
+export type OnNextResult = <TDataType>(data: TDataType) => void;
 
 /**
  * Defines the base of a query.
