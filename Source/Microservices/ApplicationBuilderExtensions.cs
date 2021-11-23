@@ -17,6 +17,8 @@ namespace Microsoft.AspNetCore.Builder
         {
             Internals.ServiceProvider = app.ApplicationServices;
 
+            app.UseWebSockets();
+
             if (RuntimeEnvironment.IsDevelopment)
             {
                 app.UseDeveloperExceptionPage();
