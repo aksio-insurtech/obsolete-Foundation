@@ -38,7 +38,7 @@ const columns: IColumn[] = [
 ];
 
 export const DebitAccounts = () => {
-    const [accounts, queryAccounts] = AllAccounts.use();
+    const [accounts] = AllAccounts.use();
     const [latestTransactionsForAccount, queryLatestTransactionsForAccount] = LatestTransactions.use();
     const [accountsStartingWith, queryAccountsStartingWith] = StartingWith.use({ filter: '' });
     const [searching, setSearching] = useState<boolean>(false);
@@ -50,7 +50,6 @@ export const DebitAccounts = () => {
                 command.name = output.name;
             command.owner = 'edd60145-a6df-493f-b48d-35ffdaaefc4c';
             await command.execute();
-            setTimeout(queryAccounts, 20);
         }
     });
 
@@ -61,7 +60,6 @@ export const DebitAccounts = () => {
             command.accountId = selectedItem.id;
             command.amount = output.amount;
             await command.execute();
-            setTimeout(queryAccounts, 20);
         }
     });
 
@@ -71,7 +69,6 @@ export const DebitAccounts = () => {
             command.accountId = selectedItem.id;
             command.amount = output.amount;
             await command.execute();
-            setTimeout(queryAccounts, 20);
         }
     });
 
@@ -92,12 +89,6 @@ export const DebitAccounts = () => {
             onClick: showCreateAccount
         },
         {
-            key: 'refresh',
-            name: 'Refresh',
-            iconProps: { iconName: 'Refresh' },
-            onClick: () => queryAccounts()
-        },
-        {
             key: 'search',
             onRender: (props, defaultRenderer) => {
                 return (
@@ -105,13 +96,13 @@ export const DebitAccounts = () => {
                         <SearchBox
                             placeholder="Accounts starting with"
                             onClear={() => searchFor('')}
-                            onChange={(ev, newValue) => searchFor(newValue || '')} />
+                            onChange={(ev, newValue) => searchFor(newValue || '')} />
                     </div>
                 );
             }
         }
     ];
-    
+
 
     if (selectedItem) {
         commandBarItems.push(
@@ -141,7 +132,7 @@ export const DebitAccounts = () => {
                 if (selected.length === 1) {
                     const account = selected[0] as DebitAccount;
                     setSelectedItem(account);
-                    queryLatestTransactionsForAccount({accountId: account.id});
+                    queryLatestTransactionsForAccount({ accountId: account.id });
                 }
             },
             items: accounts.data as any

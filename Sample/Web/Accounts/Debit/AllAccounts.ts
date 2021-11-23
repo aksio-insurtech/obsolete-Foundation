@@ -2,19 +2,19 @@
  *  **DO NOT EDIT** - This file is an automatically generated file.
  *--------------------------------------------------------------------------------------------*/
 
-import { QueryFor, QueryResult, useQuery, PerformQuery } from '@aksio/frontend/queries';
+import { ObservableQueryFor, QueryResult, useObservableQuery } from '@aksio/frontend/queries';
 import { DebitAccount } from './DebitAccount';
 import Handlebars from 'handlebars';
 
 const routeTemplate = Handlebars.compile('/api/accounts/debit');
 
-export class AllAccounts extends QueryFor<DebitAccount[]> {
+export class AllAccounts extends ObservableQueryFor<DebitAccount[]> {
     readonly route: string = '/api/accounts/debit';
     readonly routeTemplate: Handlebars.TemplateDelegate = routeTemplate;
     readonly defaultValue: DebitAccount[] = [];
     readonly requiresArguments: boolean = false;
 
-    static use(): [QueryResult<DebitAccount[]>, PerformQuery] {
-        return useQuery<DebitAccount[], AllAccounts>(AllAccounts);
+    static use(): [QueryResult<DebitAccount[]>] {
+        return useObservableQuery<DebitAccount[], AllAccounts>(AllAccounts);
     }
 }
