@@ -92,17 +92,23 @@ namespace Aksio.ProxyGenerator
                     }
                     var route = GetRoute(baseApiRoute, queryMethod);
                     var importStatements = new HashSet<ImportStatement>();
-                    ITypeSymbol actualType = modelTypeAsNamedType;
+
+                    var actualType = modelTypeAsNamedType;
                     var isEnumerable = false;
-                    if (modelTypeAsNamedType.IsEnumerable())
+                    if (actualType.IsObservableClient())
                     {
-                        if (!modelTypeAsNamedType.IsGenericType)
+                        actualType = (actualType.TypeArguments[0] as INamedTypeSymbol)!;
+                    }
+
+                    if (actualType.IsEnumerable())
+                    {
+                        if (!actualType.IsGenericType)
                         {
                             context.ReportDiagnostic(Diagnostics.UnableToResolveModelType($"{type.ToDisplayString()}:{queryMethod.Name}"));
                             return;
                         }
 
-                        actualType = modelTypeAsNamedType.TypeArguments[0];
+                        actualType = (actualType.TypeArguments[0] as INamedTypeSymbol)!;
                         isEnumerable = true;
                     }
 
@@ -111,7 +117,9 @@ namespace Aksio.ProxyGenerator
 
                     var queryArguments = GetQueryArgumentsFrom(queryMethod, ref route, importStatements);
                     var queryDescriptor = new QueryDescriptor(route, queryMethod.Name, actualType.Name, isEnumerable, importStatements, queryArguments);
-                    var renderedTemplate = TemplateTypes.Query(queryDescriptor);
+                    var renderedTemplate = modelTypeAsNamedType.IsObservableClient() ?
+                        TemplateTypes.ObservableQuery(queryDescriptor) :
+                        TemplateTypes.Query(queryDescriptor);
                     if (renderedTemplate != default)
                     {
                         Directory.CreateDirectory(targetFolder);
