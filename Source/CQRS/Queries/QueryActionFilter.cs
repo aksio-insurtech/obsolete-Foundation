@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Options;
 
 namespace Aksio.Queries
 {
@@ -9,35 +10,49 @@ namespace Aksio.Queries
     /// </summary>
     public class QueryActionFilter : IAsyncActionFilter
     {
+        readonly JsonOptions _options;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QueryActionFilter"/> class.
+        /// </summary>
+        /// <param name="options"><see cref="JsonOptions"/>.</param>
+        public QueryActionFilter(IOptions<JsonOptions> options)
+        {
+            _options = options.Value;
+        }
+
         /// <inheritdoc/>
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if (context.HttpContext.WebSockets.IsWebSocketRequest &&
-            context.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor &&
-            context.HttpContext.Request.Method == HttpMethod.Get.Method)
+            if (context.HttpContext.Request.Method == HttpMethod.Get.Method
+                && context.ActionDescriptor is ControllerActionDescriptor)
             {
                 var result = await next();
-                if (result.Result is ObjectResult objectResult &&
-                objectResult.Value is not null &&
-                controllerActionDescriptor.MethodInfo.ReturnType.GenericTypeArguments.Length == 1)
+                if (result.Result is ObjectResult objectResult)
                 {
-                    if (context.HttpContext.Items.ContainsKey("WebSocket")) return;
-                    context.HttpContext.Items["WebSocket"] = true;
-                    var observableSocketType = typeof(ObservableSocket<>).MakeGenericType(objectResult.Value.GetType().GetGenericArguments());
-                    var observableSocket = Activator.CreateInstance(observableSocketType) as IObservableSocket;
-                    await observableSocket!.Handle(context, objectResult.Value);
-                    result.Result = null;
+                    switch (objectResult.Value)
+                    {
+                        case IClientObservable clientObservable:
+                            {
+                                if (context.HttpContext.WebSockets.IsWebSocketRequest)
+                                {
+                                    await clientObservable.HandleConnection(context, _options);
+                                    result.Result = null;
+                                }
+                            }
+                            break;
+
+                        default:
+                            {
+                                result.Result = new ObjectResult(new QueryResult(objectResult.Value!, true));
+                            }
+                            break;
+                    }
                 }
             }
             else
             {
-                var result = await next();
-                if (context.HttpContext.Request.Method == HttpMethod.Get.Method &&
-                    result.Result is ObjectResult objectResult &&
-                    objectResult.Value is not QueryResult)
-                {
-                    result.Result = new ObjectResult(new QueryResult(objectResult.Value!, true));
-                }
+                await next();
             }
         }
     }
