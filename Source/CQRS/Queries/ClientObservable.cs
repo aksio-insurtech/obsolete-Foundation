@@ -41,7 +41,8 @@ namespace Aksio.Queries
             using var webSocket = await context.HttpContext.WebSockets.AcceptWebSocketAsync();
             var subscription = _subject.Subscribe(_ =>
             {
-                var json = JsonSerializer.Serialize(_, jsonOptions.JsonSerializerOptions);
+                var queryResult = new QueryResult(_!, true);
+                var json = JsonSerializer.Serialize(queryResult, jsonOptions.JsonSerializerOptions);
                 var message = Encoding.UTF8.GetBytes(json);
 
                 webSocket.SendAsync(new ArraySegment<byte>(message, 0, message.Length), WebSocketMessageType.Text, true, CancellationToken.None);
