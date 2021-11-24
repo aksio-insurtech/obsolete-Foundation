@@ -22,6 +22,11 @@ namespace Aksio.ProxyGenerator.Templates
         /// </summary>
         public static readonly HandlebarsTemplate<object, object> Query = Handlebars.Compile(GetTemplate("Query"));
 
+        /// <summary>
+        /// The template for an observable query.
+        /// </summary>
+        public static readonly HandlebarsTemplate<object, object> ObservableQuery = Handlebars.Compile(GetTemplate("ObservableQuery"));
+
         static TemplateTypes()
         {
             Handlebars.RegisterHelper("camelcase", (writer, _, parameters) => writer.WriteSafeString(parameters[0].ToString()!.ToCamelCase()));

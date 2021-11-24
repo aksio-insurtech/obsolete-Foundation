@@ -112,6 +112,16 @@ namespace Aksio.ProxyGenerator.Syntax
             return symbol.AllInterfaces.Any(_ => _.ToDisplayString() == "System.Collections.IEnumerable");
         }
 
+        /// <summary>
+        /// Check whether or not a <see cref="ITypeSymbol"/> is an observable client.
+        /// </summary>
+        /// <param name="symbol"><see cref="ITypeSymbol"/> to check.</param>
+        /// <returns>True if it is an observable client, false if not.</returns>
+        public static bool IsObservableClient(this ITypeSymbol symbol)
+        {
+            return symbol.ToDisplayString().StartsWith("Aksio.Queries.ClientObservable<", StringComparison.InvariantCulture);
+        }
+
         static string GetTypeName(ITypeSymbol symbol)
         {
             return $"{symbol.ContainingNamespace.ToDisplayString()}.{symbol.Name}";

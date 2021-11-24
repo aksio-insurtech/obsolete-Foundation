@@ -4,7 +4,7 @@ import Handlebars from 'handlebars';
 
 /**
  * Represents an implementation of {@link IQueryFor}.
- * @template TDataType Type of model.
+ * @template TDataType Type of data returned by the query.
  */
 export abstract class QueryFor<TDataType, TArguments = {}> implements IQueryFor<TDataType, TArguments> {
     abstract readonly route: string;

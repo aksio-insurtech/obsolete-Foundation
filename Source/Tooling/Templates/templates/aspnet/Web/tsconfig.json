@@ -35,6 +35,11 @@
         "preserveConstEnums": true,
         "newLine": "lf"
     },
+    "paths": {
+        "api/*": [
+            "./api/*"
+        ]
+    },
     "exclude": [
         "**/dist"
     ],

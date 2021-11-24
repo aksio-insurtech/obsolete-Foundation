@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>Aksio.CQRS</AssemblyName>
+        <RootNamespace>Aksio</RootNamespace>
+        <NoWarn>$(NoWarn);CS0012;RCS1090;CA2007</NoWarn>    <!-- ConfigureAwait requirement, https://devblogs.microsoft.com/dotnet/configureawait-faq/#when-should-i-use-configureawaitfalse -->
+    </PropertyGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="System.Reactive" Version="5.0.0" />
+    </ItemGroup>
+</Project>

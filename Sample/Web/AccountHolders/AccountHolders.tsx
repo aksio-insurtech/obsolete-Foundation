@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CommandBar, DetailsList, IColumn, ICommandBarItemProps, PrimaryButton, SearchBox, Stack } from '@fluentui/react';
-import { AllAccountHolders } from './AllAccountHolders';
-import { AccountHoldersStartingWith } from './AccountHoldersStartingWith';
+import { AllAccountHolders } from 'API/AccountHolders/AllAccountHolders';
+import { AccountHoldersStartingWith } from 'API/AccountHolders/AccountHoldersStartingWith';
 
 const columns: IColumn[] = [
     {

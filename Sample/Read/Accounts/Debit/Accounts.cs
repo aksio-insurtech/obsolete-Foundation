@@ -1,4 +1,4 @@
-using MongoDB.Bson;
+using System.Reactive.Subjects;
 
 namespace Read.Accounts.Debit
 {
@@ -17,7 +17,10 @@ namespace Read.Accounts.Debit
         }
 
         [HttpGet]
-        public IEnumerable<DebitAccount> AllAccounts() => _accountsCollection.Find(_ => true).ToList();
+        public Task<ClientObservable<IEnumerable<DebitAccount>>> AllAccounts()
+        {
+            return _accountsCollection.Observe();
+        }
 
         [HttpGet("starting-with")]
         public async Task<IEnumerable<DebitAccount>> StartingWith([FromQuery] string? filter)

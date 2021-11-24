@@ -6,7 +6,7 @@
         <NoWarn>$(NoWarn);CS8019;SA1600;SA1601;CS1591;</NoWarn>
         <NoWarn>$(NoWarn);CS0012;RCS1090;CA2007</NoWarn>    <!-- ConfigureAwait requirement, https://devblogs.microsoft.com/dotnet/configureawait-faq/#when-should-i-use-configureawaitfalse -->
 
-        <AksioProxyOutput>$(MSBuildThisFileDirectory)/Web</AksioProxyOutput>
+        <AksioProxyOutput>$(MSBuildThisFileDirectory)/Web/API</AksioProxyOutput>
     </PropertyGroup>
 
     <ItemGroup>

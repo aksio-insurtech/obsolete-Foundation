@@ -4,6 +4,7 @@
         "Autofac",
         "Bson",
         "Cratis",
+        "cref",
         "expando",
         "fluentui",
         "Templating",
