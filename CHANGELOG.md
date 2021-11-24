@@ -1,3 +1,32 @@
+# [v1.10.0] - 2021-11-24 [PR: #38](https://github.com/aksio-system/Foundation/pull/38)
+
+## Summary
+
+Introducing reactive APIs. Observable from the client. This is a full pipeline support with proxygeneration, frontend support and all. 
+
+Basically, add a controller action that leverages the new MongoCollection extension method:
+
+```csharp
+[HttpGet]
+public Task<ClientObservable<IEnumerable<DebitAccount>>> AllAccounts()
+{
+      return _accountsCollection.Observe();
+}
+```
+
+In the frontend, the generated proxy will now leverage the `ObservableQueryFor` as base class and adds the static convenience method on the query itself letting you do this:
+
+```typescript
+const [accounts] = AllAccounts.use();
+```
+
+Any changes will cause a rerender.
+
+### Added
+
+- Reactive/Observable APIs.
+
+
 # [v1.9.0] - 2021-11-21 [PR: #37](https://github.com/aksio-system/Foundation/pull/37)
 
 ### Added
