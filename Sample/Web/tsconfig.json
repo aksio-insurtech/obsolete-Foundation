@@ -38,6 +38,11 @@
     "exclude": [
         "**/dist"
     ],
+    "paths": {
+        "api/*": [
+            "./api/*"
+        ]
+    },
     "references": [
         {
             "path": "../../Source/Frontend/tsconfig.json"

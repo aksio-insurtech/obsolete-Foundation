@@ -14,13 +14,13 @@ import {
     SearchBox
 } from '@fluentui/react';
 import { AmountDialog, AmountDialogInput, AmountDialogResult } from './AmountDialog';
-import { CreateDebitAccount } from './CreateDebitAccount';
-import { DepositToAccount } from './DepositToAccount';
-import { WithdrawFromAccount } from './WithdrawFromAccount';
-import { AllAccounts } from './AllAccounts';
-import { StartingWith } from './StartingWith';
-import { LatestTransactions } from './LatestTransactions';
-import { DebitAccount } from './DebitAccount';
+import { CreateDebitAccount } from 'API/Accounts/Debit/CreateDebitAccount';
+import { DepositToAccount } from 'API/Accounts/Debit/DepositToAccount';
+import { WithdrawFromAccount } from 'API/Accounts/Debit/WithdrawFromAccount';
+import { AllAccounts } from 'API/Accounts/Debit/AllAccounts';
+import { StartingWith } from 'API/Accounts/Debit/StartingWith';
+import { LatestTransactions } from 'API/Accounts/Debit/LatestTransactions';
+import { DebitAccount } from 'API/Accounts/Debit/DebitAccount';
 
 const columns: IColumn[] = [
     {
