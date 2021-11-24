@@ -33,16 +33,15 @@
         "assumeChangesOnlyAffectDirectDependencies": true,
         "alwaysStrict": true,
         "preserveConstEnums": true,
-        "newLine": "lf"
-    },
-    "paths": {
-        "API/*": [
-            "./API/*"
-        ]
+        "newLine": "lf",
+        "paths": {
+            "API/*": [
+                "./API/*"
+            ]
+        },
     },
     "exclude": [
         "**/dist"
     ],
-    "references": [
-    ]
+    "references": []
 }
