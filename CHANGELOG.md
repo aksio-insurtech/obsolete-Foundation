@@ -1,3 +1,10 @@
+# [v1.10.1] - 2021-11-24 [PR: #39](https://github.com/aksio-system/Foundation/pull/39)
+
+### Fixed
+
+- Fixed API alias configuration for TypeScript for Sample + Template - moved into the compiler options + fixed casing.
+
+
 # [v1.10.0] - 2021-11-24 [PR: #38](https://github.com/aksio-system/Foundation/pull/38)
 
 ## Summary
