@@ -35,14 +35,14 @@
         "preserveConstEnums": true,
         "newLine": "lf"
     },
+    "paths": {
+        "API/*": [
+            "./API/*"
+        ]
+    },
     "exclude": [
         "**/dist"
     ],
-    "paths": {
-        "api/*": [
-            "./api/*"
-        ]
-    },
     "references": [
         {
             "path": "../../Source/Frontend/tsconfig.json"
