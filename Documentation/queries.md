@@ -120,7 +120,6 @@ The pattern of getting data and respond to changes is a very common one, instead
 do the boilerplate above all over the place - there are extension methods that allow you do this
 in one line:
 
-
 ```csharp
 public class Accounts : Controller
 {
