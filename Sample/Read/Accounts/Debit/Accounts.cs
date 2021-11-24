@@ -1,6 +1,4 @@
 using System.Reactive.Subjects;
-using MongoDB.Bson;
-using Timer = System.Timers.Timer;
 
 namespace Read.Accounts.Debit
 {
@@ -19,19 +17,9 @@ namespace Read.Accounts.Debit
         }
 
         [HttpGet]
-        public ClientObservable<IEnumerable<DebitAccount>> AllAccounts()
+        public Task<ClientObservable<IEnumerable<DebitAccount>>> AllAccounts()
         {
-            var observable = new ClientObservable<IEnumerable<DebitAccount>>();
-            var accounts = _accountsCollection.Find(_ => true).ToList();
-
-#pragma warning disable CA2000
-            var timer = new Timer(1000);
-            timer.Elapsed += (sender, e) => observable.OnNext(accounts);
-            timer.Start();
-
-            observable.ClientDisconnected = () => timer.Dispose();
-
-            return observable;
+            return _accountsCollection.Observe();
         }
 
         [HttpGet("starting-with")]

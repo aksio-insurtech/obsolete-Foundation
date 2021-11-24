@@ -3,6 +3,7 @@ global using Aksio.Events.EventLogs;
 global using Aksio.Events.Handling;
 global using Aksio.Integration;
 global using Aksio.Queries;
+global using Aksio.Queries.MongoDB;
 global using AutoMapper;
 global using Cratis.Concepts;
 global using Cratis.Events.Projections;
