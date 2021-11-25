@@ -1,3 +1,11 @@
+# [v1.10.2] - 2021-11-25 [PR: #40](https://github.com/aksio-system/Foundation/pull/40)
+
+### Fixed
+
+- WebSockets will now retry with a backoff strategy if connection is either errored or closed unexpectedly.
+- Cleaning up query subscriptions when a query gets out of React rendering scope.
+
+
 # [v1.10.1] - 2021-11-24 [PR: #39](https://github.com/aksio-system/Foundation/pull/39)
 
 ### Fixed
