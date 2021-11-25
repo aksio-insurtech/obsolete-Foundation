@@ -1,5 +1,5 @@
-import { QueryResult } from './QueryResult';
 import Handlebars from 'handlebars';
+import { ObservableQuerySubscription } from './ObservableQuerySubscription';
 
 /**
  * The delegate type representing the callback of result from the server.
@@ -22,7 +22,7 @@ export interface IObservableQueryFor<TDataType, TArguments = {}> {
      * Subscribe to the query. This will create a subscription onto the server.
      * @param {OnNextResult} callback The callback that will receive result from the server.
      * @param [args] Optional arguments for the query - depends on whether or not the query needs arguments.
-     * @returns {QueryResult} for the model
+     * @returns {ObservableQuerySubscription<TDataType>}.
      */
-    subscribe(callback: OnNextResult, args?: TArguments): void;
+    subscribe(callback: OnNextResult, args?: TArguments): ObservableQuerySubscription<TDataType>;
 }

@@ -1,5 +1,8 @@
 import { IObservableQueryFor, OnNextResult } from './IObservableQueryFor';
-import Handlebars from 'handlebars';
+import Handlebars from 'handlebars';    
+import { ObservableQueryConnection } from './ObservableQueryConnection';
+import { ObservableQuerySubscription } from './ObservableQuerySubscription';
+
 
 /**
  * Represents an implementation of {@link IQueryFor}.
@@ -12,23 +15,16 @@ export abstract class ObservableQueryFor<TDataType, TArguments = {}> implements 
     abstract readonly defaultValue: TDataType;
     abstract readonly requiresArguments: boolean;
 
-    subscribe(callback: OnNextResult, args?: TArguments): void {
+    /** @inheritdoc */
+    subscribe(callback: OnNextResult, args?: TArguments): ObservableQuerySubscription<TDataType> {
         let actualRoute = this.route;
         if (args && Object.keys(args).length > 0) {
             actualRoute = this.routeTemplate(args);
         }
 
-        const secure = document.location.protocol.indexOf('https') === 0;
-        const url = `${secure ? 'wss' : 'ws'}://${document.location.host}${actualRoute}`;
-        const socket = new WebSocket(url);
-        socket.onopen = (ev) => {
-            console.log(`Connection for '${actualRoute}' established`);
-        };
-        socket.onerror = (error) => {
-            console.log(`Error with connection for '${actualRoute} - ${error}`);
-        };
-        socket.onmessage = (ev) => {
-            callback(JSON.parse(ev.data));
-        };
+        const connection = new ObservableQueryConnection<TDataType>(actualRoute);
+        const subscriber = new ObservableQuerySubscription(connection);
+        connection.connect(callback);
+        return subscriber;
     }
 }
