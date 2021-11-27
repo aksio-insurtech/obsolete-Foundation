@@ -96,3 +96,12 @@ files for the **Domain** and **Read** you would then add a dependency to the NuG
 ```
 
 The generator will maintain the folder structure from the source files while generating based on the namespaces of the files.
+
+If you want to not let the type and namespace be the convention for the target folder, you can use the route of the controller
+as the folder instead by adding the following property:
+
+```xml
+<PropertyGroup>
+    <AksioUseRouteAsPath>true</AksioUseRouteAsPath>
+</PropertyGroup>
+```

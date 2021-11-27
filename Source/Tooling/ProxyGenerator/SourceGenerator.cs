@@ -27,6 +27,9 @@ namespace Aksio.ProxyGenerator
                 context.ReportDiagnostic(Diagnostics.MissingOutputPath);
                 return;
             }
+            context.AnalyzerConfigOptions.GlobalOptions.TryGetValue("build_property.aksiouserouteaspath", out var useRouteAsPathAsString);
+
+            var useRouteAsPath = !string.IsNullOrEmpty(useRouteAsPathAsString);
 
             foreach (var classDeclaration in receiver!.Candidates)
             {
@@ -45,14 +48,14 @@ namespace Aksio.ProxyGenerator
 
                 var publicInstanceMethods = type.GetPublicInstanceMethodsFrom();
 
-                OutputCommands(type, publicInstanceMethods, baseApiRoute, rootNamespace!, outputFolder);
-                OutputQueries(context, type, publicInstanceMethods, baseApiRoute, rootNamespace!, outputFolder);
+                OutputCommands(type, publicInstanceMethods, baseApiRoute, rootNamespace!, outputFolder, useRouteAsPath);
+                OutputQueries(context, type, publicInstanceMethods, baseApiRoute, rootNamespace!, outputFolder, useRouteAsPath);
             }
         }
 
-        static void OutputCommands(ITypeSymbol type, IEnumerable<IMethodSymbol> methods, string baseApiRoute, string rootNamespace, string outputFolder)
+        static void OutputCommands(ITypeSymbol type, IEnumerable<IMethodSymbol> methods, string baseApiRoute, string rootNamespace, string outputFolder, bool useRouteAsPath)
         {
-            var targetFolder = GetTargetFolder(type, rootNamespace, outputFolder);
+            var targetFolder = GetTargetFolder(type, rootNamespace, outputFolder, useRouteAsPath, baseApiRoute);
             foreach (var commandMethod in methods.Where(_ => _.GetAttributes().Any(_ => _.IsHttpPostAttribute())))
             {
                 var route = GetRoute(baseApiRoute, commandMethod);
@@ -65,16 +68,15 @@ namespace Aksio.ProxyGenerator
                 var renderedTemplate = TemplateTypes.Command(commandDescriptor);
                 if (renderedTemplate != default)
                 {
-                    Directory.CreateDirectory(targetFolder);
                     var file = Path.Combine(targetFolder, $"{commandType.Name}.ts");
                     File.WriteAllText(file, renderedTemplate);
                 }
             }
         }
 
-        static void OutputQueries(GeneratorExecutionContext context, ITypeSymbol type, IEnumerable<IMethodSymbol> methods, string baseApiRoute, string rootNamespace, string outputFolder)
+        static void OutputQueries(GeneratorExecutionContext context, ITypeSymbol type, IEnumerable<IMethodSymbol> methods, string baseApiRoute, string rootNamespace, string outputFolder, bool useRouteAsPath)
         {
-            var targetFolder = GetTargetFolder(type, rootNamespace, outputFolder);
+            var targetFolder = GetTargetFolder(type, rootNamespace, outputFolder, useRouteAsPath, baseApiRoute);
             foreach (var queryMethod in methods.Where(_ => _.GetAttributes().Any(_ => _.IsHttpGetAttribute())))
             {
                 var modelType = queryMethod.ReturnType;
@@ -113,7 +115,7 @@ namespace Aksio.ProxyGenerator
                     }
 
                     var targetFile = Path.Combine(targetFolder, $"{queryMethod.Name}.ts");
-                    OutputType(actualType, rootNamespace, outputFolder, targetFile, importStatements);
+                    OutputType(actualType, rootNamespace, outputFolder, targetFile, importStatements, useRouteAsPath, baseApiRoute);
 
                     var queryArguments = GetQueryArgumentsFrom(queryMethod, ref route, importStatements);
                     var queryDescriptor = new QueryDescriptor(route, queryMethod.Name, actualType.Name, isEnumerable, importStatements, queryArguments);
@@ -122,7 +124,6 @@ namespace Aksio.ProxyGenerator
                         TemplateTypes.Query(queryDescriptor);
                     if (renderedTemplate != default)
                     {
-                        Directory.CreateDirectory(targetFolder);
                         File.WriteAllText(targetFile, renderedTemplate);
                     }
                 }
@@ -175,9 +176,9 @@ namespace Aksio.ProxyGenerator
             return queryArguments;
         }
 
-        static void OutputType(ITypeSymbol type, string rootNamespace, string outputFolder, string parentFile, HashSet<ImportStatement> parentImportStatements)
+        static void OutputType(ITypeSymbol type, string rootNamespace, string outputFolder, string parentFile, HashSet<ImportStatement> parentImportStatements, bool useRouteAsPath, string baseApiRoute)
         {
-            var targetFolder = GetTargetFolder(type, rootNamespace, outputFolder);
+            var targetFolder = GetTargetFolder(type, rootNamespace, outputFolder, useRouteAsPath, baseApiRoute);
             var targetFile = Path.Combine(targetFolder, $"{type.Name}.ts");
             var relativeImport = new Uri(parentFile).MakeRelativeUri(new Uri(targetFile));
             var importPath = Path.GetFileNameWithoutExtension(relativeImport.ToString());
@@ -203,7 +204,7 @@ namespace Aksio.ProxyGenerator
                     {
                         actualType = ((INamedTypeSymbol)property.Type).TypeArguments[0];
                     }
-                    OutputType(actualType, rootNamespace, outputFolder, targetFile, typeImportStatements);
+                    OutputType(actualType, rootNamespace, outputFolder, targetFile, typeImportStatements, useRouteAsPath, baseApiRoute);
 
                     propertyDescriptors.Add(new PropertyDescriptor(property.Name, actualType.Name, isEnumerable));
                 }
@@ -234,14 +235,38 @@ namespace Aksio.ProxyGenerator
             return fullRoute;
         }
 
-        static string GetTargetFolder(ITypeSymbol type, string rootNamespace, string outputFolder)
+        static string GetTargetFolder(ITypeSymbol type, string rootNamespace, string outputFolder, bool useRouteAsPath, string baseApiRoute)
         {
-            var segments = type.ContainingNamespace.ToDisplayString().Replace(rootNamespace, string.Empty)
-                                                            .Split('.')
-                                                            .Where(_ => _.Length > 0);
+            var relativePath = string.Empty;
 
-            var relativePath = string.Join(Path.DirectorySeparatorChar.ToString(), segments);
-            return Path.Combine(outputFolder, relativePath);
+            if (useRouteAsPath)
+            {
+                const string apiPrefix = "/api";
+                if (baseApiRoute.StartsWith(apiPrefix, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    baseApiRoute = baseApiRoute.Substring(apiPrefix.Length);
+                }
+                if (baseApiRoute.StartsWith("/", StringComparison.InvariantCulture)) baseApiRoute = baseApiRoute.Substring(1);
+
+                relativePath = baseApiRoute.Replace('/', Path.DirectorySeparatorChar);
+            }
+            else
+            {
+                var segments = type.ContainingNamespace.ToDisplayString().Replace(rootNamespace, string.Empty)
+                                                                .Split('.')
+                                                                .Where(_ => _.Length > 0);
+
+                relativePath = string.Join(Path.DirectorySeparatorChar.ToString(), segments);
+            }
+
+            var folder = Path.Combine(outputFolder, relativePath);
+
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
+            return folder;
         }
     }
 }

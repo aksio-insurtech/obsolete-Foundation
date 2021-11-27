@@ -8,9 +8,7 @@
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
    </PropertyGroup>    
 
-    <ItemGroup>
-        <CompilerVisibleProperty Include="AksioProxyOutput" />
-    </ItemGroup>
+   <Import Project="./build/Aksio.ProxyGenerator.props"/>
 
     <ItemGroup>
         <PackageReference Include="handlebars.net" Version="2.0.9" GeneratePathProperty="true" PrivateAssets="all" />
