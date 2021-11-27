@@ -208,11 +208,11 @@ namespace Aksio.ProxyGenerator
                     }
                     OutputType(actualType, rootNamespace, outputFolder, targetFile, typeImportStatements, useRouteAsPath, baseApiRoute);
 
-                    propertyDescriptors.Add(new PropertyDescriptor(property.Name, actualType.Name, isEnumerable));
+                    propertyDescriptors.Add(new PropertyDescriptor(property.Name, GetTypeName(actualType.Name), isEnumerable));
                 }
                 else
                 {
-                    propertyDescriptors.Add(new PropertyDescriptor(property.Name, targetType, isEnumerable));
+                    propertyDescriptors.Add(new PropertyDescriptor(property.Name, GetTypeName(targetType), isEnumerable));
                 }
             }
 
