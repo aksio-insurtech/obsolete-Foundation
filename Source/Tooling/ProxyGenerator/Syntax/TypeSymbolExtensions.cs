@@ -16,6 +16,7 @@ namespace Aksio.ProxyGenerator.Syntax
         static readonly Dictionary<string, TargetType> _primitiveTypeMap = new()
         {
             { typeof(string).FullName!, new("string") },
+            { "System.String"", new("string") },
             { typeof(short).FullName!, new("number") },
             { typeof(int).FullName!, new("number") },
             { typeof(long).FullName!, new("number") },
