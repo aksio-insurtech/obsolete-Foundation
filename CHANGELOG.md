@@ -1,3 +1,9 @@
+# [v1.12.0] - 2021-11-27 [PR: #42](https://github.com/aksio-system/Foundation/pull/42)
+
+### Added
+
+- ProxyGenerator now recognizes some well known "system" types and does not create new types for these but maps them to known JavaScript types.
+
 # [v1.10.2] - 2021-11-25 [PR: #40](https://github.com/aksio-system/Foundation/pull/40)
 
 ### Fixed
