@@ -64,7 +64,7 @@ namespace Aksio.ProxyGenerator
                 var importStatements = new HashSet<ImportStatement>();
                 var properties = commandType.GetPropertyDescriptorsFrom(out var additionalImportStatements);
                 additionalImportStatements.ForEach(_ => importStatements.Add(_));
-                var commandDescriptor = new CommandDescriptor(route, commandType.Name, properties, importStatements);
+                var commandDescriptor = new CommandDescriptor(route, GetTypeName(commandType.Name), properties, importStatements);
                 var renderedTemplate = TemplateTypes.Command(commandDescriptor);
                 if (renderedTemplate != default)
                 {
@@ -118,7 +118,7 @@ namespace Aksio.ProxyGenerator
                     OutputType(actualType, rootNamespace, outputFolder, targetFile, importStatements, useRouteAsPath, baseApiRoute);
 
                     var queryArguments = GetQueryArgumentsFrom(queryMethod, ref route, importStatements);
-                    var queryDescriptor = new QueryDescriptor(route, queryMethod.Name, actualType.Name, isEnumerable, importStatements, queryArguments);
+                    var queryDescriptor = new QueryDescriptor(route, queryMethod.Name, GetTypeName(actualType.Name), isEnumerable, importStatements, queryArguments);
                     var renderedTemplate = modelTypeAsNamedType.IsObservableClient() ?
                         TemplateTypes.ObservableQuery(queryDescriptor) :
                         TemplateTypes.Query(queryDescriptor);
@@ -178,6 +178,8 @@ namespace Aksio.ProxyGenerator
 
         static void OutputType(ITypeSymbol type, string rootNamespace, string outputFolder, string parentFile, HashSet<ImportStatement> parentImportStatements, bool useRouteAsPath, string baseApiRoute)
         {
+            if (!ShouldOutput(type.Name)) return;
+
             var targetFolder = GetTargetFolder(type, rootNamespace, outputFolder, useRouteAsPath, baseApiRoute);
             var targetFile = Path.Combine(targetFolder, $"{type.Name}.ts");
             var relativeImport = new Uri(parentFile).MakeRelativeUri(new Uri(targetFile));
@@ -267,6 +269,53 @@ namespace Aksio.ProxyGenerator
             }
 
             return folder;
+        }
+
+        static bool ShouldOutput(string name)
+        {
+            var types = new string[]
+            {
+                "single",
+                "float",
+                "double",
+                "decimal",
+                "Int16",
+                "Int32",
+                "Int64",
+                "UInt16",
+                "UInt32",
+                "UInt64",
+                "bool",
+                "DateTime",
+                "DateTimeOffset",
+                "JsonDocument"
+            };
+
+            return !types.Contains(name);
+        }
+
+        static string GetTypeName(string name)
+        {
+            var typeMap = new Dictionary<string, string>
+            {
+                { "single", "number" },
+                { "float", "number" },
+                { "double", "number" },
+                { "decimal", "number" },
+                { "Int16", "number" },
+                { "Int32", "number" },
+                { "Int64", "number" },
+                { "UInt16", "number" },
+                { "UInt32", "number" },
+                { "UInt64", "number" },
+                { "bool", "Boolean" },
+                { "DateTime", "Date" },
+                { "DateTimeOffset", "Date" },
+                { "JsonDocument", "string" }
+            };
+
+            if (typeMap.ContainsKey(name)) return typeMap[name];
+            return name;
         }
     }
 }
