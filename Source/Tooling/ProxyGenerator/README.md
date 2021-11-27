@@ -17,7 +17,7 @@ more details [here](https://www.mytechramblings.com/posts/configure-roslyn-analy
 The way we have opted in to do this is to leverage the build properties from MsBuild, the values are prefixed with **build_property** and
 then the name of the property. The propertyname is lower cased.
 
-The following property specified in a .csproj: 
+The following property specified in a .csproj:
 
 ```xml
 <PropertyGroup>
