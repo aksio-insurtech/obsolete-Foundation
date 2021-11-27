@@ -105,3 +105,5 @@ as the folder instead by adding the following property:
     <AksioUseRouteAsPath>true</AksioUseRouteAsPath>
 </PropertyGroup>
 ```
+
+The path from the route will be appended to the value of `<AksioProxyOutput/>`. It will strip away any prefix of `/api` in the route.
