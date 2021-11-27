@@ -64,11 +64,13 @@ namespace Aksio.ProxyGenerator
                 var importStatements = new HashSet<ImportStatement>();
                 var properties = commandType.GetPropertyDescriptorsFrom(out var additionalImportStatements);
                 additionalImportStatements.ForEach(_ => importStatements.Add(_));
-                var commandDescriptor = new CommandDescriptor(route, GetTypeName(commandType.Name), properties, importStatements);
+
+                var typeName = commandType.IsKnownType() ? commandMethod.Name : commandType.Name;
+                var commandDescriptor = new CommandDescriptor(route, typeName, properties, importStatements);
                 var renderedTemplate = TemplateTypes.Command(commandDescriptor);
                 if (renderedTemplate != default)
                 {
-                    var file = Path.Combine(targetFolder, $"{commandType.Name}.ts");
+                    var file = Path.Combine(targetFolder, $"{typeName}.ts");
                     File.WriteAllText(file, renderedTemplate);
                 }
             }
@@ -118,7 +120,9 @@ namespace Aksio.ProxyGenerator
                     OutputType(actualType, rootNamespace, outputFolder, targetFile, importStatements, useRouteAsPath, baseApiRoute);
 
                     var queryArguments = GetQueryArgumentsFrom(queryMethod, ref route, importStatements);
-                    var queryDescriptor = new QueryDescriptor(route, queryMethod.Name, GetTypeName(actualType.Name), isEnumerable, importStatements, queryArguments);
+
+                    var typeName = actualType.IsKnownType() ? actualType.GetTypeScriptType(out _) : actualType.Name;
+                    var queryDescriptor = new QueryDescriptor(route, queryMethod.Name, typeName, isEnumerable, importStatements, queryArguments);
                     var renderedTemplate = modelTypeAsNamedType.IsObservableClient() ?
                         TemplateTypes.ObservableQuery(queryDescriptor) :
                         TemplateTypes.Query(queryDescriptor);
@@ -178,7 +182,7 @@ namespace Aksio.ProxyGenerator
 
         static void OutputType(ITypeSymbol type, string rootNamespace, string outputFolder, string parentFile, HashSet<ImportStatement> parentImportStatements, bool useRouteAsPath, string baseApiRoute)
         {
-            if (!ShouldOutput(type.Name)) return;
+            if (type.IsKnownType()) return;
 
             var targetFolder = GetTargetFolder(type, rootNamespace, outputFolder, useRouteAsPath, baseApiRoute);
             var targetFile = Path.Combine(targetFolder, $"{type.Name}.ts");
@@ -208,11 +212,11 @@ namespace Aksio.ProxyGenerator
                     }
                     OutputType(actualType, rootNamespace, outputFolder, targetFile, typeImportStatements, useRouteAsPath, baseApiRoute);
 
-                    propertyDescriptors.Add(new PropertyDescriptor(property.Name, GetTypeName(actualType.Name), isEnumerable));
+                    propertyDescriptors.Add(new PropertyDescriptor(property.Name, actualType.Name, isEnumerable));
                 }
                 else
                 {
-                    propertyDescriptors.Add(new PropertyDescriptor(property.Name, GetTypeName(targetType), isEnumerable));
+                    propertyDescriptors.Add(new PropertyDescriptor(property.Name, targetType, isEnumerable));
                 }
             }
 
@@ -269,53 +273,6 @@ namespace Aksio.ProxyGenerator
             }
 
             return folder;
-        }
-
-        static bool ShouldOutput(string name)
-        {
-            var types = new string[]
-            {
-                "single",
-                "float",
-                "double",
-                "decimal",
-                "Int16",
-                "Int32",
-                "Int64",
-                "UInt16",
-                "UInt32",
-                "UInt64",
-                "bool",
-                "DateTime",
-                "DateTimeOffset",
-                "JsonDocument"
-            };
-
-            return !types.Contains(name);
-        }
-
-        static string GetTypeName(string name)
-        {
-            var typeMap = new Dictionary<string, string>
-            {
-                { "single", "number" },
-                { "float", "number" },
-                { "double", "number" },
-                { "decimal", "number" },
-                { "Int16", "number" },
-                { "Int32", "number" },
-                { "Int64", "number" },
-                { "UInt16", "number" },
-                { "UInt32", "number" },
-                { "UInt64", "number" },
-                { "bool", "Boolean" },
-                { "DateTime", "Date" },
-                { "DateTimeOffset", "Date" },
-                { "JsonDocument", "string" }
-            };
-
-            if (typeMap.ContainsKey(name)) return typeMap[name];
-            return name;
         }
     }
 }

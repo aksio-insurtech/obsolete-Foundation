@@ -27,6 +27,7 @@ namespace Aksio.ProxyGenerator.Syntax
             { typeof(DateTime).FullName!, new("string") },
             { typeof(DateTimeOffset).FullName!, new("string") },
             { typeof(Guid).FullName!, new("string") },
+            { "System.Text.Json.JsonDocument", new("string") }
         };
 
         /// <summary>
@@ -80,13 +81,7 @@ namespace Aksio.ProxyGenerator.Syntax
             var imports = new List<ImportStatement>();
             additionalImportStatements = imports;
 
-            var baseType = symbol.BaseType;
-            if (baseType?.IsGenericType == true &&
-                baseType?.ContainingNamespace.ToDisplayString() == "Cratis.Concepts" &&
-                baseType?.Name == "ConceptAs")
-            {
-                symbol = baseType!.TypeArguments[0];
-            }
+            symbol = symbol.GetValueType();
 
             var typeName = GetTypeName(symbol);
             if (_primitiveTypeMap.ContainsKey(typeName))
@@ -100,6 +95,36 @@ namespace Aksio.ProxyGenerator.Syntax
                 return targetType.Type;
             }
             return AnyType;
+        }
+
+        /// <summary>
+        /// Get the value type. If the <see cref="ITypeSymbol"/> is of a concept type, it will look for the underlying value type.
+        /// </summary>
+        /// <param name="symbol"><see cref="ITypeSymbol"/> to get for.</param>
+        /// <returns>Resolved <see cref="ITypeSymbol"/>.</returns>
+        public static ITypeSymbol GetValueType(this ITypeSymbol symbol)
+        {
+            var baseType = symbol.BaseType;
+            if (baseType?.IsGenericType == true &&
+                baseType?.ContainingNamespace.ToDisplayString() == "Cratis.Concepts" &&
+                baseType?.Name == "ConceptAs")
+            {
+                symbol = baseType!.TypeArguments[0];
+            }
+
+            return symbol;
+        }
+
+        /// <summary>
+        /// Check whether or not a <see cref="ITypeSymbol"/> is a known type in TypeScript.
+        /// </summary>
+        /// <param name="symbol"><see cref="ITypeSymbol"/> to check.</param>
+        /// <returns>True if it is known, false if not.</returns>
+        public static bool IsKnownType(this ITypeSymbol symbol)
+        {
+            symbol = symbol.GetValueType();
+            var typeName = GetTypeName(symbol);
+            return _primitiveTypeMap.ContainsKey(typeName);
         }
 
         /// <summary>
