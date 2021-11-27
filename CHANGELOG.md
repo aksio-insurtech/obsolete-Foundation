@@ -1,3 +1,9 @@
+# [v1.12.1] - 2021-11-27 [PR: #43](https://github.com/aksio-system/Foundation/pull/43)
+
+### Fixed
+
+- Output correct property type for known types when generating types.
+
 # [v1.12.0] - 2021-11-27 [PR: #42](https://github.com/aksio-system/Foundation/pull/42)
 
 ### Added
