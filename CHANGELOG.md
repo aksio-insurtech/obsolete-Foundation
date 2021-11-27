@@ -1,3 +1,9 @@
+# [v1.12.2] - 2021-11-27 [PR: #44](https://github.com/aksio-system/Foundation/pull/44)
+
+### Fixed
+
+- Cleaning up the known types support for the proxy generator - leverage existing code for discovering, remove the custom code.
+
 # [v1.12.1] - 2021-11-27 [PR: #43](https://github.com/aksio-system/Foundation/pull/43)
 
 ### Fixed
