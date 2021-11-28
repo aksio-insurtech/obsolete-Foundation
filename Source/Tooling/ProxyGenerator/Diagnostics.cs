@@ -16,7 +16,7 @@ namespace Aksio.ProxyGenerator
                 "Missing output path",
                 "Missing output path for generating proxies to. Add <AksioProxyOutput/> to your .csproj file. Will not output proxies.",
                 "Generation",
-                DiagnosticSeverity.Warning,
+                DiagnosticSeverity.Info,
                 true),
             default);
 
