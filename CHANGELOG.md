@@ -1,3 +1,11 @@
+# [v1.12.4] - 2021-11-28 [PR: #47](https://github.com/aksio-system/Foundation/pull/47)
+
+### Fixed
+
+- Fixing what classes gets marked as candidates for proxy generation. Should in fact speed up the whole generator as well, plus remove errors.
+- Added exception handling for possible errored generators - to avoid not getting things out.
+
+
 # [v1.12.3] - 2021-11-28 [PR: #46](https://github.com/aksio-system/Foundation/pull/46)
 
 ### Fixed
