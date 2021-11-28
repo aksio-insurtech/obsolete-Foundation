@@ -16,7 +16,6 @@ namespace Aksio.ProxyGenerator.Syntax
         static readonly Dictionary<string, TargetType> _primitiveTypeMap = new()
         {
             { typeof(string).FullName!, new("string") },
-            { "System.String"", new("string") },
             { typeof(short).FullName!, new("number") },
             { typeof(int).FullName!, new("number") },
             { typeof(long).FullName!, new("number") },
@@ -135,6 +134,8 @@ namespace Aksio.ProxyGenerator.Syntax
         /// <returns>True if it is enumerable, false if not.</returns>
         public static bool IsEnumerable(this ITypeSymbol symbol)
         {
+            if (symbol is IArrayTypeSymbol) return true;
+            if (symbol.IsKnownType()) return false;
             return symbol.AllInterfaces.Any(_ => _.ToDisplayString() == "System.Collections.IEnumerable");
         }
 
@@ -150,6 +151,11 @@ namespace Aksio.ProxyGenerator.Syntax
 
         static string GetTypeName(ITypeSymbol symbol)
         {
+            if (symbol is IArrayTypeSymbol arrayTypeSymbol)
+            {
+                symbol = arrayTypeSymbol.ElementType;
+            }
+
             return $"{symbol.ContainingNamespace.ToDisplayString()}.{symbol.Name}";
         }
     }
