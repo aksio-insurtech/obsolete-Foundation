@@ -20,7 +20,7 @@ namespace Aksio.ProxyGenerator
         public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
         {
             if (syntaxNode is not ClassDeclarationSyntax classSyntax) return;
-            if (!classSyntax.BaseList?.Types.Any(_ => _.Type.GetName() == "Controller") ?? false) return;
+            if (!classSyntax.IsController()) return;
             _candidates.Add(classSyntax);
         }
     }
