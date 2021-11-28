@@ -1,3 +1,11 @@
+# [v1.12.3] - 2021-11-28 [PR: #46](https://github.com/aksio-system/Foundation/pull/46)
+
+### Fixed
+
+- String properties does not become `string[]` in the proxy generated TypeScript files.
+- Adding support for arrays and leveraging the element type in the Roslyn API.
+
+
 # [v1.12.2] - 2021-11-27 [PR: #44](https://github.com/aksio-system/Foundation/pull/44)
 
 ### Fixed
