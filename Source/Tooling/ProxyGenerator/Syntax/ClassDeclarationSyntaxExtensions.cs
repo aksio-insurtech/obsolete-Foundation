@@ -43,5 +43,12 @@ namespace Aksio.ProxyGenerator.Syntax
 
             return stringBuilder.ToString();
         }
+
+        /// <summary>
+        /// Check whether or not a class is an ASP.NET Core Controller.
+        /// </summary>
+        /// <param name="syntax"><see cref="ClassDeclarationSyntax"/> to check.</param>
+        /// <returns>True if it is a controller, false if not.</returns>
+        public static bool IsController(this ClassDeclarationSyntax syntax) => syntax.BaseList?.Types.Any(_ => _.Type.GetName() == "Controller") ?? false;
     }
 }

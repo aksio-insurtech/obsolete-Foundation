@@ -33,23 +33,30 @@ namespace Aksio.ProxyGenerator
 
             foreach (var classDeclaration in receiver!.Candidates)
             {
-                var model = context.Compilation.GetSemanticModel(classDeclaration.SyntaxTree, true);
-                if (!(model.GetDeclaredSymbol(classDeclaration) is ITypeSymbol type)) continue;
-
-                if (string.IsNullOrEmpty(rootNamespace))
+                try
                 {
-                    rootNamespace = type.ContainingAssembly.Name!;
+                    var model = context.Compilation.GetSemanticModel(classDeclaration.SyntaxTree, true);
+                    if (!(model.GetDeclaredSymbol(classDeclaration) is ITypeSymbol type)) continue;
+
+                    if (string.IsNullOrEmpty(rootNamespace))
+                    {
+                        rootNamespace = type.ContainingAssembly.Name!;
+                    }
+
+                    var routeAttribute = type.GetRouteAttribute();
+                    if (routeAttribute == default) return;
+
+                    var baseApiRoute = routeAttribute.ConstructorArguments[0].Value?.ToString() ?? string.Empty;
+
+                    var publicInstanceMethods = type.GetPublicInstanceMethodsFrom();
+
+                    OutputCommands(type, publicInstanceMethods, baseApiRoute, rootNamespace!, outputFolder, useRouteAsPath);
+                    OutputQueries(context, type, publicInstanceMethods, baseApiRoute, rootNamespace!, outputFolder, useRouteAsPath);
                 }
-
-                var routeAttribute = type.GetRouteAttribute();
-                if (routeAttribute == default) return;
-
-                var baseApiRoute = routeAttribute.ConstructorArguments[0].Value?.ToString() ?? string.Empty;
-
-                var publicInstanceMethods = type.GetPublicInstanceMethodsFrom();
-
-                OutputCommands(type, publicInstanceMethods, baseApiRoute, rootNamespace!, outputFolder, useRouteAsPath);
-                OutputQueries(context, type, publicInstanceMethods, baseApiRoute, rootNamespace!, outputFolder, useRouteAsPath);
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Errors {ex}");
+                }
             }
         }
 
