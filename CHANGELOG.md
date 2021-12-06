@@ -1,3 +1,12 @@
+# [v1.12.5] - 2021-12-6 [PR: #48](https://github.com/aksio-system/Foundation/pull/48)
+
+### Fixed
+
+- Integration project is now part of the solution file in the template.
+- If creating a project without Web, it does not crash anymore during creation if package.json is not there.
+- Adding Aksio.Integration as reference in the template.
+
+
 # [v1.12.4] - 2021-11-28 [PR: #47](https://github.com/aksio-system/Foundation/pull/47)
 
 ### Fixed
