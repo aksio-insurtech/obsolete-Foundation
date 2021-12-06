@@ -26,16 +26,19 @@ try {
             req.end();
         });
     }
-  
+
     async function handleNuGetPackages() {
         const file = path.join(__dirname, 'Directory.Build.props');
-    
+
         console.log(`Working on file ${file}`);
-    
+
         const content = fs.readFileSync(file).toString();
         const nugetPackages = [
             'Aksio.Defaults',
             'Aksio.Microservices',
+            'Aksio.CQRS',
+            'Aksio.CQRS.MongoDB',
+            'Aksio.Integration',
             'Aksio.ProxyGenerator'
         ];
 
@@ -57,6 +60,7 @@ try {
 
     async function handleNpmPackages() {
         const file = path.join(__dirname, 'Web', 'package.json');
+        if (!fs.existsSync(file)) return;
 
         console.log(`Working on file ${file}`);
 
@@ -64,7 +68,7 @@ try {
         const npmPackages = [
             '@aksio/frontend'
         ];
-        
+
         let result = content;
 
         for (const package of npmPackages) {
