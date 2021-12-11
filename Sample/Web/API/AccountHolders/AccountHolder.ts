@@ -4,11 +4,11 @@
 
 
 export type AccountHolder = {
-    firstName: string[];
-    lastName: string[];
-    socialSecurityNumber: string[];
-    address: string[];
-    city: string[];
-    postalCode: string[];
-    country: string[];
+    firstName: string;
+    lastName: string;
+    socialSecurityNumber: string;
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
 };
