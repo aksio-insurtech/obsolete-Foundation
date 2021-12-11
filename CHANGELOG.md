@@ -1,3 +1,15 @@
+# [v1.12.6] - 2021-12-11 [PR: #49](https://github.com/aksio-system/Foundation/pull/49)
+
+## Summary
+
+One of the optimizations done in .NET Core 3 and forward was that the compiler processes where kept around as a build server (`dotnet build-server`). The Roslyn compiler can then be incremental in memory. With a source generator running, this can become very eager as it is actually running as part of the whole infrastructure continuously as you type in the editor. To avoid generating files when the code isn't really compiling, we needed to make sure we're not in errored state.
+
+### Fixed
+
+- Exit the source generator if there are any diagnostics with error in severity.
+- If a filename without extension is empty - do not write the file.
+
+
 # [v1.12.5] - 2021-12-6 [PR: #48](https://github.com/aksio-system/Foundation/pull/48)
 
 ### Fixed
