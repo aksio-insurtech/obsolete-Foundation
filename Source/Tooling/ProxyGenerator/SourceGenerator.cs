@@ -20,6 +20,8 @@ namespace Aksio.ProxyGenerator
         /// <inheritdoc/>
         public void Execute(GeneratorExecutionContext context)
         {
+            if (context.Compilation.GetDiagnostics().Any(_ => _.Severity == DiagnosticSeverity.Error)) return;
+
             var receiver = context.SyntaxReceiver as SyntaxReceiver;
             context.AnalyzerConfigOptions.GlobalOptions.TryGetValue("build_property.rootnamespace", out var rootNamespace);
             if (!context.AnalyzerConfigOptions.GlobalOptions.TryGetValue("build_property.aksioproxyoutput", out var outputFolder))
@@ -78,7 +80,7 @@ namespace Aksio.ProxyGenerator
                 if (renderedTemplate != default)
                 {
                     var file = Path.Combine(targetFolder, $"{typeName}.ts");
-                    File.WriteAllText(file, renderedTemplate);
+                    WriteFile(file, renderedTemplate);
                 }
             }
         }
@@ -135,7 +137,7 @@ namespace Aksio.ProxyGenerator
                         TemplateTypes.Query(queryDescriptor);
                     if (renderedTemplate != default)
                     {
-                        File.WriteAllText(targetFile, renderedTemplate);
+                        WriteFile(targetFile, renderedTemplate);
                     }
                 }
             }
@@ -232,7 +234,7 @@ namespace Aksio.ProxyGenerator
             if (renderedTemplate != default)
             {
                 Directory.CreateDirectory(targetFolder);
-                File.WriteAllText(targetFile, renderedTemplate);
+                WriteFile(targetFile, renderedTemplate);
             }
         }
 
@@ -280,6 +282,12 @@ namespace Aksio.ProxyGenerator
             }
 
             return folder;
+        }
+
+        static void WriteFile(string file, string content)
+        {
+            if (string.IsNullOrEmpty(Path.GetFileNameWithoutExtension(file))) return;
+            File.WriteAllText(file, content);
         }
     }
 }
