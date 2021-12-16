@@ -24,7 +24,7 @@ namespace Microsoft.AspNetCore.Builder
 
                 if (context.Request.Headers.ContainsKey(TenantIdHeaderKey))
                 {
-                    tenantId = context.Request.Headers[TenantIdHeaderKey].First();
+                    tenantId = context.Request.Headers[TenantIdHeaderKey][0];
                 }
 
                 var executionContextManager = app.ApplicationServices.GetService<IExecutionContextManager>();
