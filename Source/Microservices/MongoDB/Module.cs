@@ -15,7 +15,7 @@ namespace Aksio.MongoDB
     /// </summary>
     public class Module : Autofac.Module
     {
-        static readonly MethodInfo GetCollectionMethod = typeof(IMongoDatabase).GetMethod(nameof(IMongoDatabase.GetCollection), BindingFlags.Public | BindingFlags.Instance)!;
+        static readonly MethodInfo _getCollectionMethod = typeof(IMongoDatabase).GetMethod(nameof(IMongoDatabase.GetCollection), BindingFlags.Public | BindingFlags.Instance)!;
 
         static readonly Dictionary<TenantId, IMongoDatabase> _mongoDatabaseByTenant = new();
 
@@ -53,7 +53,7 @@ namespace Aksio.MongoDB
 
                 var name = documentType.Name.Pluralize();
                 var camelCaseName = name.ToCamelCase();
-                var genericMethod = GetCollectionMethod.MakeGenericMethod(documentType);
+                var genericMethod = _getCollectionMethod.MakeGenericMethod(documentType);
                 return genericMethod.Invoke(database, new object[] { camelCaseName, null! })!;
             }).As(typeof(IMongoCollection<>));
         }
