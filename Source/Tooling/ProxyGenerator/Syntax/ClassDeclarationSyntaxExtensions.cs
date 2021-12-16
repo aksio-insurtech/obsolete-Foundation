@@ -11,8 +11,8 @@ namespace Aksio.ProxyGenerator.Syntax
     /// </summary>
     public static class ClassDeclarationSyntaxExtensions
     {
-        const string _nestedClassDelimiter = "+";
-        const string _namespaceClassDelimiter = ".";
+        const char NestedClassDelimiter = '+';
+        const char NamespaceClassDelimiter = '.';
 
         /// <summary>
         /// Get the fully qualified name of a <see cref="ClassDeclarationSyntax"/>.
@@ -36,9 +36,9 @@ namespace Aksio.ProxyGenerator.Syntax
 
             var nameSpace = parent as NamespaceDeclarationSyntax;
             Contract.Assert(nameSpace != null);
-            var stringBuilder = new StringBuilder().Append(nameSpace!.Name).Append(_namespaceClassDelimiter);
+            var stringBuilder = new StringBuilder().Append(nameSpace!.Name).Append(NamespaceClassDelimiter);
             items.Reverse();
-            items.ForEach(i => stringBuilder.Append(i).Append(_nestedClassDelimiter));
+            items.ForEach(i => stringBuilder.Append(i).Append(NestedClassDelimiter));
             stringBuilder.Append(source.Identifier.Text);
 
             return stringBuilder.ToString();
