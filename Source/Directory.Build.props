@@ -1,7 +1,6 @@
 <Project>  
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         
         <Nullable>enable</Nullable>
@@ -29,6 +28,6 @@
     </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Aksio.Defaults" Version="1.1.18" PrivateAssets="All" />
+		<PackageReference Include="Aksio.Defaults" Version="1.4.12" PrivateAssets="All" />
 	</ItemGroup>
 </Project>
