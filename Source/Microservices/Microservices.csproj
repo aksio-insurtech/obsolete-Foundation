@@ -2,7 +2,6 @@
     <PropertyGroup>
         <AssemblyName>Aksio.Microservices</AssemblyName>
         <RootNamespace>Aksio</RootNamespace>
-        <NoWarn>$(NoWarn);CS0012;RCS1090;CA2007</NoWarn>    <!-- ConfigureAwait requirement, https://devblogs.microsoft.com/dotnet/configureawait-faq/#when-should-i-use-configureawaitfalse -->
     </PropertyGroup>
 
     <ItemGroup>
