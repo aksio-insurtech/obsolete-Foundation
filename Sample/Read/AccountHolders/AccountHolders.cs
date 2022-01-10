@@ -2,6 +2,7 @@ using MongoDB.Bson;
 
 namespace Read.AccountHolders
 {
+    #pragma warning disable MA0049
     [Route("/api/accountholders")]
     public class AccountHolders : Controller
     {
