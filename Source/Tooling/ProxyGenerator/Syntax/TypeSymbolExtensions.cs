@@ -105,11 +105,21 @@ namespace Aksio.ProxyGenerator.Syntax
         public static ITypeSymbol GetValueType(this ITypeSymbol symbol)
         {
             var baseType = symbol.BaseType;
-            if (baseType?.IsGenericType == true &&
-                baseType?.ContainingNamespace.ToDisplayString() == "Cratis.Concepts" &&
-                baseType?.Name == "ConceptAs")
+            while (baseType != default)
             {
-                symbol = baseType!.TypeArguments[0];
+                if (baseType.ContainingNamespace.ToDisplayString() == "System" &&
+                    baseType.Name == "Object")
+                {
+                    break;
+                }
+
+                if (baseType.IsGenericType &&
+                    baseType.ContainingNamespace.ToDisplayString() == "Cratis.Concepts" &&
+                    baseType.Name == "ConceptAs")
+                {
+                    return baseType!.TypeArguments[0];
+                }
+                baseType = baseType.BaseType;
             }
 
             return symbol;
