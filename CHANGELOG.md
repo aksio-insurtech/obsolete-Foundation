@@ -1,3 +1,10 @@
+# [v1.12.7] - 2022-1-10 [PR: #50](https://github.com/aksio-system/Foundation/pull/50)
+
+### Fixed
+
+- Proxy generator now supports `ConceptAs<>` inheritance chains. Making it generate the underlying primitive type, rather than generating a type in between.
+
+
 # [v1.12.6] - 2021-12-11 [PR: #49](https://github.com/aksio-system/Foundation/pull/49)
 
 ## Summary
