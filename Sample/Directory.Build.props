@@ -6,7 +6,7 @@
         <NoWarn>$(NoWarn);CS8019;SA1600;SA1601;CS1591;</NoWarn>
 
         <AksioProxyOutput>$(MSBuildThisFileDirectory)/Web/API</AksioProxyOutput>
-        <AksioUseRouteAsPath>false</AksioUseRouteAsPath>
+        <AksioUseRouteAsPath>true</AksioUseRouteAsPath>
     </PropertyGroup>
 
     <Import Project="$(MSBuildThisFileDirectory)../Source/Tooling/ProxyGenerator/build/Aksio.ProxyGenerator.props"/>
