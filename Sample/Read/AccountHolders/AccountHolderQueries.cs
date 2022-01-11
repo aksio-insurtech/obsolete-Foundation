@@ -2,13 +2,12 @@ using MongoDB.Bson;
 
 namespace Read.AccountHolders
 {
-    #pragma warning disable MA0049
     [Route("/api/accountholders")]
-    public class AccountHolders : Controller
+    public class AccountHolderQueries : Controller
     {
         readonly IMongoCollection<AccountHolder> _collection;
 
-        public AccountHolders(IMongoCollection<AccountHolder> collection) => _collection = collection;
+        public AccountHolderQueries(IMongoCollection<AccountHolder> collection) => _collection = collection;
 
         [HttpGet]
         public IEnumerable<AccountHolder> AllAccountHolders() => _collection.Find(_ => true).ToList();
