@@ -1,3 +1,10 @@
+# [v1.12.10] - 2022-2-4 [PR: #53](https://github.com/aksio-insurtech/Foundation/pull/53)
+
+### Fixed
+
+- v2.13.8 of Cratis - hoping we have the fix for PropertyDifference now - this is beginning to become a bit weird.
+
+
 # [v1.12.9] - 2022-2-4 [PR: #52](https://github.com/aksio-insurtech/Foundation/pull/52)
 
 ### Fixed
