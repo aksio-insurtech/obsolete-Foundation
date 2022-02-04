@@ -1,3 +1,10 @@
+# [v1.12.9] - 2022-2-4 [PR: #52](https://github.com/aksio-insurtech/Foundation/pull/52)
+
+### Fixed
+
+- Looks like the change in v2.13.6 of Cratis actually wasn't published - going for v2.13.7 for the PropertyDifference fix for concepts.
+
+
 # [v1.12.8] - 2022-2-4 [PR: #51](https://github.com/aksio-insurtech/Foundation/pull/51)
 
 ### Fixed
