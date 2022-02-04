@@ -1,3 +1,10 @@
+# [v1.12.8] - 2022-2-4 [PR: #51](https://github.com/aksio-insurtech/Foundation/pull/51)
+
+### Fixed
+
+- Pulling in version 2.13.6 of Cratis with support for concepts in the change comparer.
+
+
 # [v1.12.7] - 2022-1-10 [PR: #50](https://github.com/aksio-system/Foundation/pull/50)
 
 ### Fixed
