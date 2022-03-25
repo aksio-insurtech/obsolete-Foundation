@@ -1,3 +1,5 @@
+# This repo is merged and replaced by [Cratis](https://github.com/aksio-insurtech/Cratis].
+
 # Introduction
 
 [![Build](https://github.com/aksio-system/Foundation/actions/workflows/build.yml/badge.svg)](https://github.com/aksio-system/Foundation/actions/workflows/build.yml)
