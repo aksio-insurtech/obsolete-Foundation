@@ -1,4 +1,4 @@
-# This repo is merged and replaced by [Cratis](https://github.com/aksio-insurtech/Cratis].
+# This repo is merged and replaced by [Cratis](https://github.com/aksio-insurtech/Cratis).
 
 # Introduction
 
